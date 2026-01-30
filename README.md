@@ -39,7 +39,7 @@ Clone the repository and install dependencies:
 
 ```bash
 git clone https://github.com/saftaclaudia/meditrack-app.git
-cd meditrack
+cd meditrack-app
 npm install
 ```
 
