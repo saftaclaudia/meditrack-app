@@ -1,73 +1,69 @@
-# React + TypeScript + Vite
+# MediTrack 🩷
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-18-blue?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-4.9-blue?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-4.3-purple?logo=vite&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-Currently, two official plugins are available:
+**MediTrack** is a responsive web application to help users track and manage their medical exams efficiently.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Add, edit, and remove medical exams.
+- Track past, upcoming, and soon-to-expire exams with status badges.
+- Upload and manage related documents (PDFs, images, etc.).
+- Receive notifications for important exam events.
+- Dark & Light theme toggle.
+- Persistent data storage using **localStorage**.
+- Fully responsive for desktop and mobile devices.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 💻 Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **React 18** + **TypeScript**
+- **Vite** as the build tool
+- **Redux Toolkit** for state management
+- **TailwindCSS** for styling
+- **React Router v6** for routing
+- **Lucide React** for icons
+- Mock backend using **Redux Thunks**
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📦 Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/saftaclaudia/meditrack-app.git
+cd meditrack
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Run the development server:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+Open http://localhost:5173
+in your browser.
+
+📝 Usage
+
+Navigate to Home to see upcoming exams.
+
+Add new exams via the Add button.
+
+Track status: Completed, Soon, or Upcoming.
+
+Receive notifications about exams.
+
+Access Settings or Logout from the profile menu.
+
+🔧 Contributing
+
+Contributions are welcome! Please fork the repo and create a pull request for any improvements.
