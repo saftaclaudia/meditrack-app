@@ -8,7 +8,9 @@ import { Button } from "../../../components/ui/Button";
 
 import { examToFormData } from "../utils/examMappers";
 import type { ExamFormData } from "../../../types/examForm";
+
 import { Input, Textarea } from "../../../components/ui/FormFields";
+import { FileUploadField } from "../../../components/ui/FileUploadField";
 
 interface ExamFormProps {
   editingExam: Exam | null; // Exam ->Edit mode  null ->Add mode
@@ -25,13 +27,19 @@ const emptyForm = {
   result: "",
   treatment: "",
   notes: "",
+  documents: [],
 };
 
 export function ExamForm({ editingExam, onFinish }: ExamFormProps) {
   const dispatch = useAppDispatch();
 
   const [form, setForm] = useState<ExamFormData>(() =>
-    editingExam ? examToFormData(editingExam) : emptyForm,
+    editingExam
+      ? {
+          ...examToFormData(editingExam),
+          documents: editingExam.documents ?? [],
+        }
+      : emptyForm,
   );
 
   const handleChange = (
@@ -110,6 +118,13 @@ export function ExamForm({ editingExam, onFinish }: ExamFormProps) {
           value={form.notes}
           onChange={handleChange}
         />
+
+        <FileUploadField
+          label="Documents (PDF)"
+          value={form.documents}
+          onChange={(docs) => setForm((prev) => ({ ...prev, documents: docs }))}
+        />
+
         {/* ACTIONS */}
 
         <div className="flex flex-col-reverse md:flex-row justify-end gap-2 md:col-span-2">

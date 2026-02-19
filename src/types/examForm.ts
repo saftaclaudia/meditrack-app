@@ -1,3 +1,5 @@
+import type { MedicalDocumemt } from "./medicalDocument";
+
 export interface ExamFormData {
   name: string;
   doctor: string;
@@ -8,4 +10,5 @@ export interface ExamFormData {
   result: string;
   treatment: string;
   notes: string;
+  documents: MedicalDocumemt[];
 }

@@ -1,3 +1,5 @@
+import type { MedicalDocumemt } from "./medicalDocument";
+
 export interface Exam {
   id: string;
   name: string;
@@ -9,5 +11,5 @@ export interface Exam {
   result?: string;
   treatment?: string;
   notes?: string;
-  documents?: string[];
+  documents?: MedicalDocumemt[];
 }

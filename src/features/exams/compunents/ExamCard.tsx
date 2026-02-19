@@ -4,6 +4,7 @@ import { ConfirmModal } from "../../../components/ui/ConfirmModal";
 import type { Exam } from "../../../types/exam";
 import { getExamStatus } from "../utils/getExamStatus";
 import { ExamStatusBage } from "./ExamStatusBage";
+import { downloadPdf, viewPdf } from "../../../utils/documentActions";
 
 interface ExamCardProps {
   exam: Exam;
@@ -57,17 +58,41 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
               </p>
             )}
             {exam.documents && exam.documents.length > 0 && (
-              <p>
-                <span className="font-medium">Documents:</span>{" "}
-                {exam.documents.map((doc, idx) => (
-                  <span
-                    key={idx}
-                    className="inline-block mr-2 underline text-pink-600 dark:text-pink-400 cursor-pointer"
-                  >
-                    {doc}
-                  </span>
-                ))}
-              </p>
+              <div>
+                <span className="font-medium">Documents:</span>
+                <div className="flex flex-col gap-2 mt-2">
+                  {exam.documents.map((doc) => (
+                    <div
+                      key={doc.id}
+                      className="flex items-center justify-between bg-pink-50 dark:bg-pink-800 px-3 py-2 rounded-lg"
+                    >
+                      <span className="text-sm truncate max-w-[60%]">
+                        📄 {doc.name}
+                      </span>
+
+                      <div className="flex gap-2">
+                        {/* View */}
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => viewPdf(doc.file)}
+                        >
+                          View
+                        </Button>
+
+                        {/* Download */}
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => downloadPdf(doc.file, doc.name)}
+                        >
+                          Download
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
         )}
