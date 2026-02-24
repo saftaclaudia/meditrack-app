@@ -43,7 +43,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-stone-100 dark:bg-stone-900 px-4 transition-colors duration-300">
+    <div className="min-h-screen flex items-center justify-center bg-stone-100 px-4 transition-colors duration-300">
       <div className="w-full max-w-md bg-white dark:bg-stone-900 rounded-3xl shadow-xl p-8 space-y-8">
         {/* Header */}
         <div className="text-center space-y-3">
