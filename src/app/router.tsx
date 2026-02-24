@@ -9,13 +9,21 @@ import { AddExamPage } from "../features/exams/pages/AddExamPage";
 import { EditExamPage } from "../features/exams/pages/EditExamPage";
 import { SettingsPage } from "../features/settings/pages/SettingsPage";
 import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
+import { PublicRoute } from "../routes/PublicRoute";
+
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<LoginPage key="login-page" />} />
+        <Route element={<PublicRoute />}>
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage key="login-page" />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        </Route>
 
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>

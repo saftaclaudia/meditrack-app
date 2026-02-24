@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "../components/ui/Button";
 import { loginMock } from "../features/auth/authThunks";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {
   selectAuthError,
   selectAuthLoading,
-  selectIsAuthenticated,
 } from "../features/auth/authSelectors";
 import { useNavigate } from "react-router-dom";
+import { clearError } from "../features/auth/authSlice";
 
 export default function LoginPage() {
   const dispatch = useAppDispatch();
@@ -15,81 +15,133 @@ export default function LoginPage() {
 
   const loading = useAppSelector(selectAuthLoading);
   const error = useAppSelector(selectAuthError);
-  const isAuthenticated = useAppSelector(selectIsAuthenticated);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/", { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
+    return () => {
+      dispatch(clearError());
+    };
+  }, [dispatch]);
+
+  const isEmailValid = useMemo(() => {
+    return /\S+@\S+\.\S+/.test(email);
+  }, [email]);
+
+  const isPasswordValid = password.length >= 6;
+  const isFormValid = isEmailValid && isPasswordValid;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(loginMock(email, password));
+    if (!isFormValid) return;
+
+    dispatch(loginMock(email, password, rememberMe));
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-pink-50 dark:bg-gray-900 px-4">
-      <div className="w-full max-w-sm bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 space-y-6">
+    <div className="min-h-screen flex items-center justify-center bg-stone-100 px-4">
+      <div className="w-full max-w-md bg-white dark:bg-stone-900 rounded-3xl shadow-xl p-8 space-y-8">
         {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold text-pink-600 dark:text-pink-300">
-            Welcome back 💖
+        <div className="text-center space-y-3">
+          <h1 className="text-2xl font-semibold tracking-wide text-stone-800 dark:text-stone-100">
+            Welcome back
           </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Log in to manage your medical exams
+          <p className="text-sm text-stone-500">
+            Access your personal health space.
           </p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {/* Email */}
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Email
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+              Email address
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500"
+              className={`w-full rounded-2xl border px-4 py-3 text-sm focus:outline-none focus:ring-2 transition ${
+                isEmailValid || email.length === 0
+                  ? "border-stone-300 focus:ring-amber-300"
+                  : "border-red-400 focus:ring-red-300"
+              }`}
               required
             />
           </div>
 
           {/* Password */}
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-stone-700 dark:text-stone-300">
               Password
             </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500"
-              required
-            />
+
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Minimum 6 characters"
+                className={`w-full rounded-2xl border px-4 py-3 text-sm focus:outline-none focus:ring-2 transition ${
+                  isPasswordValid || password.length === 0
+                    ? "border-stone-300 focus:ring-amber-300"
+                    : "border-red-400 focus:ring-red-300"
+                }`}
+                required
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-stone-500"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+          </div>
+
+          {/* Remember Me */}
+          <div className="flex items-center justify-between text-sm">
+            <label className="flex items-center gap-2 text-stone-600 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={() => setRememberMe((prev) => !prev)}
+                className="rounded border-stone-300 text-amber-600 focus:ring-amber-400"
+              />
+              Remember me
+            </label>
+
+            <span
+              onClick={() => navigate("/forgot-password")}
+              className="text-amber-600 hover:underline cursor-pointer"
+            >
+              Forgot password?
+            </span>
           </div>
 
           {/* Error */}
           {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
           {/* Submit */}
-          <Button type="submit" fullWidth disabled={loading}>
-            {loading ? "Logging in..." : "Log in"}
+          <Button type="submit" fullWidth disabled={!isFormValid || loading}>
+            {loading ? "Signing in..." : "Sign in"}
           </Button>
         </form>
 
         {/* Footer */}
-        <p className="text-center text-xs text-gray-400">
-          Don't have an account yet?{" "}
-          <span className="text-pink-500 font-medium cursor-pointer hover:underline">
-            Sign up
+        <p className="text-center text-xs text-stone-500">
+          New here?{" "}
+          <span
+            onClick={() => navigate("/register")}
+            className="text-amber-600 font-medium cursor-pointer hover:underline"
+          >
+            Create your account
           </span>
         </p>
       </div>
