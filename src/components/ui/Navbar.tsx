@@ -6,19 +6,23 @@ import { useAppDispatch } from "../../app/hooks";
 import { logout } from "../../features/auth/authSlice";
 import { NotificationDropdown } from "../../features/notifications/NotificationDropdown";
 
-/* ---------- helpers ---------- */
+/* ---------- styles ---------- */
 
-const navItemBase = "flex items-center gap-2 text-sm transition relative px-1";
+const navItemBase =
+  "flex items-center gap-2 text-sm font-medium transition px-3 py-2 rounded-lg";
 
 const navItemActive =
-  "text-pink-600 font-semibold after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:bg-pink-500 after:rounded-full";
+  "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300";
 
-const navItemInactive = "text-gray-700 dark:text-gray-200 hover:text-pink-600";
+const navItemInactive =
+  "text-stone-600 dark:text-stone-300 hover:bg-amber-50 dark:hover:bg-stone-800";
+
+/* ---------- helper ---------- */
 
 function getPageTitle(pathname: string) {
-  if (pathname === "/") return "Home";
-  if (pathname.startsWith("/exams/new")) return "Add exam";
-  if (pathname.startsWith("/exams")) return "Exams";
+  if (pathname === "/") return "Dashboard";
+  if (pathname.startsWith("/exams/new")) return "Add Exam";
+  if (pathname.startsWith("/exams")) return "Medical Exams";
   if (pathname.startsWith("/settings")) return "Settings";
   return "";
 }
@@ -26,10 +30,10 @@ function getPageTitle(pathname: string) {
 export default function Navbar() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { pathname } = useLocation();
   const pageTitle = getPageTitle(pathname);
+
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -37,20 +41,20 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-pink-100 dark:border-gray-800">
-      <div className="relative mx-auto max-w-5xl px-4 py-3">
+    <nav className="sticky top-0 z-50 bg-white/80 dark:bg-stone-900/80 backdrop-blur border-b border-stone-200 dark:border-stone-700">
+      <div className="max-w-5xl mx-auto px-5 py-4">
         {/* ================= DESKTOP ================= */}
         <div className="hidden md:flex items-center justify-between">
           {/* Logo */}
           <Link
             to="/"
-            className="text-lg font-bold text-pink-600 dark:text-pink-300"
+            className="text-lg font-semibold tracking-wide text-stone-800 dark:text-stone-100"
           >
-            🩷 MediTrack
+            MediTrack
           </Link>
 
           {/* Navigation */}
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-6">
             <NavLink
               to="/"
               className={({ isActive }) =>
@@ -74,12 +78,7 @@ export default function Navbar() {
             <NavLink
               to="/exams/new"
               className={({ isActive }) =>
-                clsx(
-                  navItemBase,
-                  isActive
-                    ? navItemActive
-                    : "text-pink-500 hover:text-pink-600",
-                )
+                clsx(navItemBase, isActive ? navItemActive : navItemInactive)
               }
             >
               <Plus size={18} />
@@ -88,47 +87,40 @@ export default function Navbar() {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4 relative">
             <NotificationDropdown />
 
             <button
-              onClick={() => setIsUserMenuOpen((v) => !v)}
-              className="p-2 rounded-full hover:bg-pink-100 dark:hover:bg-gray-800 transition"
+              onClick={() => setIsUserMenuOpen((prev) => !prev)}
+              className="p-2 rounded-full hover:bg-amber-50 dark:hover:bg-stone-800 transition"
             >
-              <User size={20} className="text-pink-500" />
+              <User size={20} className="text-stone-600 dark:text-stone-300" />
             </button>
           </div>
         </div>
 
         {/* ================= MOBILE ================= */}
-        <div className="md:hidden space-y-2">
-          {/* Top bar */}
-          <div className="flex items-center justify-between">
-            <NotificationDropdown />
+        <div className="md:hidden flex items-center justify-between">
+          {/* Left - Notifications */}
+          <NotificationDropdown />
 
-            <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">
-              {pageTitle}
-            </span>
+          {/* Center - Page Title */}
+          <span className="text-sm font-semibold text-stone-700 dark:text-stone-200">
+            {pageTitle}
+          </span>
 
-            <button
-              onClick={() => setIsUserMenuOpen((v) => !v)}
-              className="p-2 rounded-full hover:bg-pink-100 dark:hover:bg-gray-800 transition"
-            >
-              <User size={20} className="text-pink-500" />
-            </button>
-          </div>
-
-          {/* Branding */}
-          <div className="flex justify-center">
-            <span className="text-base font-bold text-pink-600 dark:text-pink-300">
-              🩷 MediTrack
-            </span>
-          </div>
+          {/* Right - User */}
+          <button
+            onClick={() => setIsUserMenuOpen((prev) => !prev)}
+            className="p-2 rounded-full hover:bg-amber-50 dark:hover:bg-stone-800 transition"
+          >
+            <User size={20} className="text-stone-600 dark:text-stone-300" />
+          </button>
         </div>
 
         {/* ================= USER DROPDOWN (shared) ================= */}
         {isUserMenuOpen && (
-          <div className="absolute right-4 top-14 w-44 rounded-xl bg-white dark:bg-gray-900 border border-pink-100 dark:border-gray-700 shadow-lg p-1 z-50">
+          <div className="absolute right-5 top-16 w-48 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl shadow-lg p-2">
             <NavLink
               to="/settings"
               onClick={() => setIsUserMenuOpen(false)}
@@ -136,8 +128,8 @@ export default function Navbar() {
                 clsx(
                   "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition",
                   isActive
-                    ? "bg-pink-50 dark:bg-gray-800 text-pink-600"
-                    : "text-gray-700 dark:text-gray-200 hover:bg-pink-50 dark:hover:bg-gray-800",
+                    ? "bg-amber-50 text-amber-600"
+                    : "hover:bg-stone-100 dark:hover:bg-stone-700",
                 )
               }
             >
@@ -150,7 +142,7 @@ export default function Navbar() {
                 setIsUserMenuOpen(false);
                 handleLogout();
               }}
-              className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-200 hover:bg-pink-50 dark:hover:bg-gray-800"
+              className="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-stone-100 dark:hover:bg-stone-700 transition"
             >
               Logout
             </button>
