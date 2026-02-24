@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Button } from "./Button";
 import type { MedicalDocumemt } from "../../types/medicalDocument";
 import { v4 as uuidv4 } from "uuid";
-import { downloadPdf, viewPdf } from "../../utils/documentActions";
+import { viewPdf } from "../../utils/documentActions";
 
 interface FileUploadFieldProps {
   label: string;
