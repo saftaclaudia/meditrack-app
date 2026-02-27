@@ -30,13 +30,15 @@ export function ConfirmModal({
       />
 
       {/* Modal */}
-      <div className="relative z-10 w-[90%] max-w-sm rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-xl border border-pink-200 dark:border-gray-700">
+      <div className="relative z-10 w-[90%] max-w-sm rounded-2xl bg-surface-cardLight dark:bg-surface-cardDark p-6 shadow-xl border border-border-light dark:border-border-dark">
         <div className="space-y-3 text-center">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <h3 className="text-lg font-semibold text-text-primary dark:text-text-darkPrimary">
             {title}
           </h3>
 
-          <p className="text-sm text-gray-600 dark:text-gray-300">{message}</p>
+          <p className="text-sm text-text-muted dark:text-text-darkMuted">
+            {message}
+          </p>
         </div>
 
         <div className="mt-6 flex gap-3">

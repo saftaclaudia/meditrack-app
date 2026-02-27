@@ -55,7 +55,7 @@ export default function AppLayout() {
   }, [language, i18n]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50 dark:bg-stone-900 text-stone-800 dark:text-stone-100 transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-background-light dark:bg-background-dark transition-colors duration-300">
       {/* Top Navigation */}
       <Navbar />
 

@@ -1,4 +1,4 @@
-import type { MedicalDocumemt } from "./medicalDocument";
+import type { MedicalDocument } from "./medicalDocument";
 
 export interface ExamFormData {
   name: string;
@@ -10,5 +10,5 @@ export interface ExamFormData {
   result: string;
   treatment: string;
   notes: string;
-  documents: MedicalDocumemt[];
+  documents: MedicalDocument[];
 }

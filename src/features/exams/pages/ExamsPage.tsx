@@ -19,7 +19,7 @@ export function ExamsPage() {
     <div className="relative min-h-screen p-4 md:p-8 space-y-6 ">
       {/* HEADER */}
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-pink-500 dark:text-pink-300">
+        <h1 className="text-xl font-semibold text-primary dark:text-darkPrimary">
           My medical exams
         </h1>
 
