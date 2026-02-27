@@ -30,15 +30,19 @@ export function Button({
 
   const variantStyles: Record<ButtonVariant, string> = {
     primary:
-      "bg-pink-400 text-white hover:bg-pink-500 dark:bg-pink-600 dark:hover:bg-pink-700 focus:ring-pink-300 dark:focus:ring-pink-500 ",
+      "bg-primary text-white hover:bg-primary-hover focus:ring-primary/40",
+
     secondary:
-      "bg-grey-50 text-gray-900 border border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700 focus:ring-gray-300 dark:focus:ring-gray-500 ",
-    edit: "bg-indigo-400 text-white hover:bg-indigo-500 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:ring-indigo-300 dark:focus:ring-indigo-500 ",
-    danger:
-      "bg-red-500 text-white hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800 focus:ring-red-300 dark:focus:ring-red-500 ",
+      "bg-soft-light dark:bg-soft-dark text-text-lightAccent dark:text-text-darkAccent border border-border-accentLight dark:border-border-accentDark hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark focus:ring-primary/30",
+
+    edit: "bg-edit text-white hover:bg-edit-hover focus:ring-edit/40",
+
+    danger: "bg-danger text-white hover:bg-danger-hover focus:ring-danger/40",
+
     outline:
-      "border border-pink-400 text-pink-500 bg-transparent hover:bg-pink-50 dark:border-pink-500 dark:text-pink-300 dark:hover:bg-pink-900 focus:ring-pink-300 dark:focus:ring-pink-500",
+      "border border-primary text-primary bg-transparent hover:bg-soft-light dark:hover:bg-soft-dark focus:ring-primary/30",
   };
+
   return (
     <button
       className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${fullWidth ? "w-full" : ""} ${className}`}

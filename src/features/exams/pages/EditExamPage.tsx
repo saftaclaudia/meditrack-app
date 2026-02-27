@@ -11,12 +11,16 @@ export function EditExamPage() {
   );
 
   if (!exam) {
-    return <p className="text-center text-gray-500 mt-10">Exam not found 🥺</p>;
+    return (
+      <p className="text-center text-text-muted dark:text-text-darkMuted mt-10">
+        Exam not found 🥺
+      </p>
+    );
   }
 
   return (
     <div className="p-4 md:p-6 space-y-4">
-      <h1 className="text-lg font-semibold text-pink-600 dark:text-pink-300">
+      <h1 className="text-lg font-semibold text-primary dark:text-darkPrimary">
         Edit Exam
       </h1>
       <ExamForm editingExam={exam} onFinish={() => navigate("/exams")} />

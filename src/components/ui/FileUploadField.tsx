@@ -1,13 +1,13 @@
 import { useRef } from "react";
 import { Button } from "./Button";
-import type { MedicalDocumemt } from "../../types/medicalDocument";
+import type { MedicalDocument } from "../../types/medicalDocument";
 import { v4 as uuidv4 } from "uuid";
 import { viewPdf } from "../../utils/documentActions";
 
 interface FileUploadFieldProps {
   label: string;
-  value: MedicalDocumemt[];
-  onChange: (files: MedicalDocumemt[]) => void;
+  value: MedicalDocument[];
+  onChange: (files: MedicalDocument[]) => void;
 }
 
 export function FileUploadField({
@@ -25,7 +25,7 @@ export function FileUploadField({
     const newDocuments = await Promise.all(
       fileArray.map(
         (file) =>
-          new Promise<MedicalDocumemt>((resolve) => {
+          new Promise<MedicalDocument>((resolve) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () =>
@@ -49,7 +49,9 @@ export function FileUploadField({
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-sm text-pink-600 dark:text-pink-300">{label}</span>
+      <span className="text-sm text-primary  dark:text-darkPrimary">
+        {label}
+      </span>
 
       {/* Hidden input */}
       <input
@@ -73,16 +75,15 @@ export function FileUploadField({
             <div
               key={doc.id}
               className="flex flex-col 
-              
-               gap-3 bg-pink-100 dark:bg-pink-700  p-3 rounded-lg shadow-sm"
+               gap-3 bg-soft-light dark:bg-soft-dark dorder border-border-light dark:border-border-dark p-3 rounded-lg shadow-sm"
             >
               {/* Left side */}
               <div className="flex-1 min-w-0">
-                <p className="text-sm, font-medium text-gray-800 dark:text-white truncate">
+                <p className="text-sm, font-medium text-text-primary dark:text-text-darkPrimary truncate">
                   {" "}
                   {doc.name}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-300">
+                <p className="text-xs text-text-muted dark:text-text-darkMuted">
                   Uploaded {new Date(doc.uploadedAt).toLocaleDateString()}
                 </p>
               </div>
