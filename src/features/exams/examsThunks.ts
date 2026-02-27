@@ -19,7 +19,15 @@ export const fetchExams = createAsyncThunk<Exam[], void>(
         result: "Normal",
         treatment: "None",
         notes: "Patient in good health",
-        documents: ["blood-test-report.pdf"],
+        documents: [
+          {
+            id: "doc-1",
+            name: "blood-test-report.pdf",
+            file: "/mock-documents/blood-text-report.pdf",
+            uploadedAt: "2024-01-01",
+            type: "pdf",
+          },
+        ],
       },
       {
         id: "2",
@@ -32,7 +40,22 @@ export const fetchExams = createAsyncThunk<Exam[], void>(
         result: "Minor anomaly detected",
         treatment: "Follow-up recommended",
         notes: "Check progress in 6 months",
-        documents: ["mri-scan-image.jpg", "mri-report.pdf"],
+        documents: [
+          {
+            id: "doc-2",
+            name: "mri-scan-image.jpg",
+            file: "/mock-documents/mri-scan-image.jpg",
+            uploadedAt: "2023-12-15",
+            type: "image",
+          },
+          {
+            id: "doc-33",
+            name: "mri-report.pdf",
+            file: "/mock/documents/mrt-report.pdf",
+            uploadedAt: "2023-12-15",
+            type: "pdf",
+          },
+        ],
       },
       {
         id: "3",

@@ -1,4 +1,4 @@
-export interface MedicalDocumemt {
+export interface MedicalDocument {
   id: string;
   name: string;
   file: string;

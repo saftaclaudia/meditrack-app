@@ -17,14 +17,19 @@ interface TextareaProps extends BaseFieldProps {
 export function Input({ label, type = "text", ...props }: InputProps) {
   return (
     <label className="flex flex-col gap-1 text-sm">
-      <span className="text-gray-600 dark:text-gray-300">{label}</span>
+      <span className="text-text-accentLight dark:text-text-accentDark">
+        {label}
+      </span>
+
       <input
         type={type}
         className={clsx(
-          "rounded-lg border border-gray-300 dark:border-gray-600",
-          "bg-white dark:bg-gray-900 py-2 px-2",
-          "text-gray-900 dark:text-gray-100",
-          "focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-600",
+          "rounded-lg border",
+          "border-border-light dark:border-border-dark",
+          "bg-surface-cardLight dark:bg-surface-cardDark",
+          "py-2 px-3",
+          "text-text-primary dark:text-text-darkPrimary",
+          "focus:outline-none focus:ring-2 focus:ring-primary/40",
           type === "date" && "cursor-pointer",
           "[color-scheme:light] dark:[color-scheme:dark]",
         )}
@@ -37,9 +42,26 @@ export function Input({ label, type = "text", ...props }: InputProps) {
 export function Textarea(props: TextareaProps) {
   return (
     <label className="flex flex-col gap-1 text-sm">
-      <span className="text-gray-600 dark:text-gray-300">{props.label}</span>
+      <span className="text-text-accentLight dark:text-text-accentDark">
+        {props.label}
+      </span>
+
       <textarea
-        className="min-h-[80px] rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-600"
+        className="
+          min-h-[80px]
+          rounded-lg
+          border
+          border-border-light
+          dark:border-border-dark
+          bg-surface-cardLight
+          dark:bg-surface-cardDark
+          px-3 py-2
+          text-text-primary
+          dark:text-text-darkPrimary
+          focus:outline-none
+          focus:ring-2
+          focus:ring-primary/40
+        "
         {...props}
       />
     </label>
