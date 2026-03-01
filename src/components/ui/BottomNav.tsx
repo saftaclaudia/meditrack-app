@@ -5,15 +5,15 @@ import clsx from "clsx";
 const itemBase =
   "flex flex-col items-center justify-center gap-1 text-xs transition";
 
-const itemActive = "text-pink-600 dark:text-pink-400 scale-110";
+const itemActive = "text-primary scale-110";
 
 const itemInactive =
-  "text-gray-400 hover:text-pink-500 dark:hover:text-pink-400";
+  "text-text-secondary dark:hover:text-text-darkSecondary hover:text-primary ";
 
 export function BottomNav() {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
-      <div className="mx-auto max-w-md bg-white/90 dark:bg-gray-900/90 backdrop-blur border-t border-pink-100 dark:border-gray-800 px-2 py-2">
+      <div className="mx-auto max-w-md bg-surface-cardLight/90 dark:bg-surface-cardDark/90 backdrop-blur border-t border-light dark:border-dark px-2 py-2">
         <div className="grid grid-cols-5 items-center">
           {/* Home */}
           <NavLink
@@ -44,7 +44,7 @@ export function BottomNav() {
               clsx("flex items-center justify-center", isActive && "scale-110")
             }
           >
-            <div className="h-12 w-12 rounded-full bg-pink-500 text-white flex items-center justify-center shadow-lg hover:bg-pink-600 active:scale-95 transition">
+            <div className="h-12 w-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg hover:bg-pprimary-hover active:scale-95 transition">
               <Plus size={24} />
             </div>
           </NavLink>
