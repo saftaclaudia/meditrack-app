@@ -1,31 +1,27 @@
 import { useState } from "react";
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import { User, Plus, Home, ClipboardList, Settings } from "lucide-react";
+import getPageTitle from "../../utils/getPageTitle";
 import clsx from "clsx";
 import { useAppDispatch } from "../../app/hooks";
 import { logout } from "../../features/auth/authSlice";
 import { NotificationDropdown } from "../../features/notifications/NotificationDropdown";
 
-/* ---------- styles ---------- */
-
+// Styles
 const navItemBase =
   "flex items-center gap-2 text-sm font-medium transition px-3 py-2 rounded-lg";
 
-const navItemActive =
-  "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300";
+const navItemActive = "bg-soft-light dark:bg-soft-dark text-primary";
 
 const navItemInactive =
-  "text-stone-600 dark:text-stone-300 hover:bg-amber-50 dark:hover:bg-stone-800";
+  "text-text-secondary dark:text-text-darkSecondary hover:bg-soft-hoverLight dark:hover:bg--softhoverDark";
 
-/* ---------- helper ---------- */
-
-function getPageTitle(pathname: string) {
-  if (pathname === "/") return "Dashboard";
-  if (pathname.startsWith("/exams/new")) return "Add Exam";
-  if (pathname.startsWith("/exams")) return "Medical Exams";
-  if (pathname.startsWith("/settings")) return "Settings";
-  return "";
-}
+// Navigation
+const navItem = [
+  { to: "/", label: "Home", icon: Home },
+  { to: "/exams", label: "Exams", icon: ClipboardList },
+  { to: "/exams/new", label: "Add", icon: Plus },
+];
 
 export default function Navbar() {
   const dispatch = useAppDispatch();
@@ -41,86 +37,90 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 dark:bg-stone-900/80 backdrop-blur border-b border-stone-200 dark:border-stone-700">
+    <nav
+      className={clsx(
+        "sticky top-0 z-50 backdrop-blur border-b",
+        "bg-surface-cardLight/80 dark:bg-surface-cardDark/80",
+        "border-border-light dark:border-border-dark",
+      )}
+    >
       <div className="max-w-5xl mx-auto px-5 py-4">
-        {/* ================= DESKTOP ================= */}
+        {/* Desktop Navbar */}
         <div className="hidden md:flex items-center justify-between">
           {/* Logo */}
           <Link
             to="/"
-            className="text-lg font-semibold tracking-wide text-stone-800 dark:text-stone-100"
+            className="text-lg font-bold tracking-wide text-text-accentLight dark:text-text-accentDark"
           >
             MediTrack
           </Link>
 
           {/* Navigation */}
-          <div className="flex items-center gap-6">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                clsx(navItemBase, isActive ? navItemActive : navItemInactive)
-              }
-            >
-              <Home size={18} />
-              Home
-            </NavLink>
-
-            <NavLink
-              to="/exams"
-              className={({ isActive }) =>
-                clsx(navItemBase, isActive ? navItemActive : navItemInactive)
-              }
-            >
-              <ClipboardList size={18} />
-              Exams
-            </NavLink>
-
-            <NavLink
-              to="/exams/new"
-              className={({ isActive }) =>
-                clsx(navItemBase, isActive ? navItemActive : navItemInactive)
-              }
-            >
-              <Plus size={18} />
-              Add
-            </NavLink>
+          <div className="flex items-center gap-4">
+            {navItem.map(({ to, label, icon: Icon }) => (
+              <NavLink
+                key={to}
+                to={to}
+                className={({ isActive }) =>
+                  clsx(navItemBase, isActive ? navItemActive : navItemInactive)
+                }
+              >
+                <Icon size={18} />
+                {label}
+              </NavLink>
+            ))}
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-4 relative">
+          <div className="flex items-center gap-3 relative">
             <NotificationDropdown />
 
             <button
               onClick={() => setIsUserMenuOpen((prev) => !prev)}
-              className="p-2 rounded-full hover:bg-amber-50 dark:hover:bg-stone-800 transition"
+              className={clsx(
+                "p-2 rounded-full transition",
+                "hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark",
+              )}
             >
-              <User size={20} className="text-stone-600 dark:text-stone-300" />
+              <User
+                size={20}
+                className="text-text-icon dark:text-text-iconDark"
+              />
             </button>
           </div>
         </div>
 
-        {/* ================= MOBILE ================= */}
+        {/* Mobile Navbat */}
         <div className="md:hidden flex items-center justify-between">
-          {/* Left - Notifications */}
+          {/* Left */}
           <NotificationDropdown />
 
-          {/* Center - Page Title */}
-          <span className="text-sm font-semibold text-stone-700 dark:text-stone-200">
+          {/* Center  */}
+          <span className="text-sm font-semibold text-text-primary dark:text-text-darkPrimary">
             {pageTitle}
           </span>
 
-          {/* Right - User */}
+          {/* Right */}
           <button
             onClick={() => setIsUserMenuOpen((prev) => !prev)}
-            className="p-2 rounded-full hover:bg-amber-50 dark:hover:bg-stone-800 transition"
+            className="p-2 rounded-full hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark transition"
           >
-            <User size={20} className="text-stone-600 dark:text-stone-300" />
+            <User
+              size={20}
+              className="text-text-icon dark:text-text-iconDark"
+            />
           </button>
         </div>
 
-        {/* ================= USER DROPDOWN (shared) ================= */}
+        {/* User Dropdown */}
         {isUserMenuOpen && (
-          <div className="absolute right-5 top-16 w-48 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl shadow-lg p-2">
+          <div
+            className={clsx(
+              "absolute right-5 top-16 w-48 rounded-xl shadow-lg p-2",
+              "bg-surface-cardLight dark:bg-surface-cardDark",
+              "border border-border-light dark:border-border-dark",
+            )}
+          >
             <NavLink
               to="/settings"
               onClick={() => setIsUserMenuOpen(false)}
@@ -128,8 +128,8 @@ export default function Navbar() {
                 clsx(
                   "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition",
                   isActive
-                    ? "bg-amber-50 text-amber-600"
-                    : "hover:bg-stone-100 dark:hover:bg-stone-700",
+                    ? "bg-soft-light dark:bg-soft-dark text-primary"
+                    : "hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark",
                 )
               }
             >
@@ -142,7 +142,10 @@ export default function Navbar() {
                 setIsUserMenuOpen(false);
                 handleLogout();
               }}
-              className="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-stone-100 dark:hover:bg-stone-700 transition"
+              className={clsx(
+                "w-full text-left px-3 py-2 rounded-lg text-sm transition",
+                "text-danger hover:bg-danger-soft",
+              )}
             >
               Logout
             </button>
