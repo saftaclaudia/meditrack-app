@@ -7,15 +7,7 @@ import { useAppDispatch } from "../../app/hooks";
 import { logout } from "../../features/auth/authSlice";
 import { NotificationDropdown } from "../../features/notifications/NotificationDropdown";
 import { useClickOutside } from "../../hooks/useClickOutside";
-
-// Styles
-const navItemBase =
-  "flex items-center gap-2 text-sm font-medium transition px-3 py-2 rounded-lg";
-
-const navItemActive = "bg-soft-light dark:bg-soft-dark text-primary";
-
-const navItemInactive =
-  "text-text-secondary dark:text-text-darkSecondary hover:bg-soft-hoverLight dark:hover:bg--soft-hoverDark";
+import NavItem from "./NavItem";
 
 // Navigation
 const navItem = [
@@ -61,17 +53,13 @@ export default function Navbar() {
 
           {/* Navigation */}
           <div className="flex items-center gap-4">
-            {navItem.map(({ to, label, icon: Icon }) => (
-              <NavLink
-                key={to}
-                to={to}
-                className={({ isActive }) =>
-                  clsx(navItemBase, isActive ? navItemActive : navItemInactive)
-                }
-              >
-                <Icon size={18} />
-                {label}
-              </NavLink>
+            {navItem.map((item) => (
+              <NavItem
+                key={item.to}
+                to={item.to}
+                label={item.label}
+                icon={item.icon}
+              />
             ))}
           </div>
 
