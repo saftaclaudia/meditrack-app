@@ -2,8 +2,9 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setLanguage } from "../../features/settings/settingsSlice";
 import type { Language } from "../../types/language";
 import { Globe } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ToggleButton from "./ToggleButton";
+import { useClickOutside } from "../../hooks/useClickOutside";
 
 export function LanguageSelect() {
   const dispatch = useAppDispatch();
@@ -12,6 +13,9 @@ export function LanguageSelect() {
   const [isOpen, setIsOpen] = useState(false);
 
   const languages: Language[] = ["en", "ro", "de"];
+
+  const selectLangRef = useRef(null);
+  useClickOutside(selectLangRef, () => setIsOpen(false));
 
   return (
     <div className="relative w-full">
@@ -27,7 +31,10 @@ export function LanguageSelect() {
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute left-0 right-0 mt-2  bg-surface-cardLight dark:bg-surface-cardDark rounded-xl  border border-border-light dark:border-border-dark  shadow-lg z-50">
+        <div
+          ref={selectLangRef}
+          className="absolute left-0 right-0 mt-2  bg-surface-cardLight dark:bg-surface-cardDark rounded-xl  border border-border-light dark:border-border-dark  shadow-lg z-50"
+        >
           {languages.map((lang) => (
             <button
               key={lang}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import { User, Plus, Home, ClipboardList, Settings } from "lucide-react";
 import getPageTitle from "../../utils/getPageTitle";
@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { useAppDispatch } from "../../app/hooks";
 import { logout } from "../../features/auth/authSlice";
 import { NotificationDropdown } from "../../features/notifications/NotificationDropdown";
+import { useClickOutside } from "../../hooks/useClickOutside";
 
 // Styles
 const navItemBase =
@@ -14,7 +15,7 @@ const navItemBase =
 const navItemActive = "bg-soft-light dark:bg-soft-dark text-primary";
 
 const navItemInactive =
-  "text-text-secondary dark:text-text-darkSecondary hover:bg-soft-hoverLight dark:hover:bg--softhoverDark";
+  "text-text-secondary dark:text-text-darkSecondary hover:bg-soft-hoverLight dark:hover:bg--soft-hoverDark";
 
 // Navigation
 const navItem = [
@@ -30,6 +31,9 @@ export default function Navbar() {
   const pageTitle = getPageTitle(pathname);
 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  const menuRef = useRef<HTMLDivElement>(null);
+  useClickOutside(menuRef, () => setIsUserMenuOpen(false));
 
   const handleLogout = () => {
     dispatch(logout());
@@ -90,7 +94,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Navbat */}
+        {/* Mobile Navbar */}
         <div className="md:hidden flex items-center justify-between">
           {/* Left */}
           <NotificationDropdown />
@@ -115,6 +119,7 @@ export default function Navbar() {
         {/* User Dropdown */}
         {isUserMenuOpen && (
           <div
+            ref={menuRef}
             className={clsx(
               "absolute right-5 top-16 w-48 rounded-xl shadow-lg p-2",
               "bg-surface-cardLight dark:bg-surface-cardDark",
