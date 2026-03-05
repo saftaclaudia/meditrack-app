@@ -1,86 +1,76 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Bell } from "lucide-react";
+
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { fetchNotifications } from "./notificationsThunks";
-import { Bell } from "lucide-react";
-import { markAllAsRead, markAsRead } from "./notificationsSlice";
-import clsx from "clsx";
+import { markAsRead, markAllAsRead } from "./notificationsSlice";
+
+import NotificationItem from "./NotificationItem";
+
+import Dropdown from "../../components/ui/Dropdown";
 
 export function NotificationDropdown() {
   const dispatch = useAppDispatch();
+
   const notifications = useAppSelector((state) => state.notifications.items);
   const loading = useAppSelector((state) => state.notifications.loading);
   const error = useAppSelector((state) => state.notifications.error);
-
-  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchNotifications());
   }, [dispatch]);
 
+  const hasUnread = notifications.some((n) => !n.read);
+
   return (
-    <div className="relative">
-      <button
-        onClick={() => setIsOpen((v) => !v)}
-        className="relative p-2 rounded-full hover:bg-pink-100 dark:hover:bg-gray-800 transition"
-      >
-        <Bell size={20} className="text-pink-500" />
-        {notifications.some((n) => !n.read) && (
-          <span className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full" />
-        )}
-      </button>
+    <Dropdown
+      trigger={
+        <button className="relative p-2 rounded-full hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark transition">
+          <Bell size={20} className="text-text-icon dark:text-text-iconDark" />
 
-      {isOpen && (
-        <div
-          className={clsx(
-            "absolute mt-2 w-72 rounded-xl bg-white dark:bg-gray-900 border border-pink-100 dark:border-gray-700 shadow-lg z-50",
-            "left-0 md:right-0 md:left-auto", // 🔹 asta face dropdown-ul să fie în stânga pe mobil, dreapta pe desktop
+          {hasUnread && (
+            <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-danger" />
           )}
-          style={{ minWidth: "16rem", maxWidth: "calc(100vw - 1rem)" }} // 🔹 nu depășește ecranul
-        >
-          <div className="flex justify-between items-center px-4 py-2 border-b border-pink-100 dark:border-gray-700">
-            <span className="font-semibold text-gray-700 dark:text-gray-200">
-              Notifications
-            </span>
-            <button
-              className="text-sm text-pink-500 hover:underline"
-              onClick={() => dispatch(markAllAsRead())}
-            >
-              Mark all as read
-            </button>
-          </div>
+        </button>
+      }
+      className="w-72 left-0 md:right-0 md:left-auto"
+    >
+      {/* HEADER */}
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border-light dark:border-border-dark">
+        <span className="text-sm font-semibold text-text-primary dark:text-text-darkPrimary">
+          Notifications
+        </span>
 
-          <div className="max-h-64 overflow-y-auto">
-            {loading ? (
-              <p className="text-center py-4 text-gray-500">Loading...</p>
-            ) : error ? (
-              <p className="text-center py-4 text-red-500">{error}</p>
-            ) : notifications.length === 0 ? (
-              <p className="text-center py-4 text-gray-500">No notifications</p>
-            ) : (
-              notifications.map((n) => (
-                <div
-                  key={n.id}
-                  onClick={() => dispatch(markAsRead(n.id))}
-                  className={clsx(
-                    "px-4 py-3 border-b border-pink-100 dark:border-gray-700 cursor-pointer hover:bg-pink-50 dark:hover:bg-gray-800",
-                    !n.read && "bg-pink-50 dark:bg-gray-800 font-medium",
-                  )}
-                >
-                  <p className="text-sm text-gray-700 dark:text-gray-200">
-                    {n.title}
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    {n.message}
-                  </p>
-                  <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">
-                    {new Date(n.timestamp).toLocaleString()}
-                  </p>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-      )}
-    </div>
+        {notifications.length > 0 && (
+          <button
+            onClick={() => dispatch(markAllAsRead())}
+            className="text-xs text-primary hover:underline"
+          >
+            Mark all
+          </button>
+        )}
+      </div>
+
+      {/* CONTENT */}
+      <div className="max-h-64 overflow-y-auto">
+        {loading ? (
+          <p className="text-center py-4 text-text-secondary">Loading...</p>
+        ) : error ? (
+          <p className="text-center py-4 text-danger">{error}</p>
+        ) : notifications.length === 0 ? (
+          <p className="text-center py-4 text-text-secondary">
+            No notifications
+          </p>
+        ) : (
+          notifications.map((n) => (
+            <NotificationItem
+              key={n.id}
+              {...n}
+              onRead={(id) => dispatch(markAsRead(id))}
+            />
+          ))
+        )}
+      </div>
+    </Dropdown>
   );
 }
