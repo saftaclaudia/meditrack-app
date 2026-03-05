@@ -18,14 +18,14 @@ export function SettingsPage() {
   return (
     <div className="flex justify-center px-4 py-6">
       <div className="w-full max-w-md space-y-6">
-        <h1 className="text-2xl font-semibold text-pink-600 dark:text-pink-300">
+        <h3 className="text-xl font-semibold text-text-primary dark:text-text-darkPrimary">
           Settings
-        </h1>
+        </h3>
 
         {/* Settings list */}
         <div className="space-y-3">
-          <ThemeToggle fullWidth />
-          <LanguageSelect fullWidth />
+          <ThemeToggle />
+          <LanguageSelect />
 
           <Button
             variant="danger"
