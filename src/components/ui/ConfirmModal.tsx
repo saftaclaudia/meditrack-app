@@ -1,5 +1,4 @@
 import { Button } from "./Button";
-
 interface ConfirmModalProps {
   open: boolean;
   title?: string;
@@ -25,7 +24,7 @@ export function ConfirmModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Overlay */}
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/25 dark:bg-black/30 backdrop-blur-sm"
         onClick={onCancel}
       />
 
@@ -36,12 +35,12 @@ export function ConfirmModal({
             {title}
           </h3>
 
-          <p className="text-sm text-text-muted dark:text-text-darkMuted">
+          <p className="text-sm text-accent.pink dark:text-accent.lavender">
             {message}
           </p>
         </div>
 
-        <div className="mt-6 flex gap-3">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:gap-3">
           <Button variant="secondary" onClick={onCancel} fullWidth>
             {cancelText}
           </Button>

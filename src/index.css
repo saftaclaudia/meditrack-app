@@ -5,3 +5,6 @@
 html {
   color-scheme: light;
 }
+body {
+  @apply bg-background-light text-text-body;
+}

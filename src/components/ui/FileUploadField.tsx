@@ -49,7 +49,7 @@ export function FileUploadField({
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-sm text-primary  dark:text-darkPrimary">
+      <span className="text-sm font-medium text-text-primary dark:text-text-darkPrimary">
         {label}
       </span>
 
@@ -68,19 +68,17 @@ export function FileUploadField({
         Upload PDF
       </Button>
 
-      {/* Documnets list */}
+      {/* Documents list */}
       {value?.length > 0 && (
-        <div className="flex flex-col gap-1 text-sm">
+        <div className="flex flex-col gap-2 text-sm">
           {value.map((doc) => (
             <div
               key={doc.id}
-              className="flex flex-col 
-               gap-3 bg-soft-light dark:bg-soft-dark dorder border-border-light dark:border-border-dark p-3 rounded-lg shadow-sm"
+              className="flex flex-col gap-3 bg-soft-light dark:bg-soft-dark border border-border-light dark:border-border-dark p-3 rounded-lg shadow-md transition-colors duration-200"
             >
               {/* Left side */}
               <div className="flex-1 min-w-0">
-                <p className="text-sm, font-medium text-text-primary dark:text-text-darkPrimary truncate">
-                  {" "}
+                <p className="text-sm font-medium text-text-primary dark:text-text-darkPrimary truncate">
                   {doc.name}
                 </p>
                 <p className="text-xs text-text-muted dark:text-text-darkMuted">

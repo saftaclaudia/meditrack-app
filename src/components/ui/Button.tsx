@@ -1,7 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 type ButtonVariant = "primary" | "secondary" | "edit" | "danger" | "outline";
-
 type ButtonSize = "sm" | "md" | "lg";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -20,7 +19,7 @@ export function Button({
   ...rest
 }: ButtonProps) {
   const baseStyles =
-    "rounded-lg font-medium transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition-transform  ";
+    "rounded-lg font-medium transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition-transform";
 
   const sizeStyles: Record<ButtonSize, string> = {
     sm: "px-3 py-1 text-xs",
@@ -33,9 +32,9 @@ export function Button({
       "bg-primary text-white hover:bg-primary-hover focus:ring-primary/40",
 
     secondary:
-      "bg-soft-light dark:bg-soft-dark text-text-lightAccent dark:text-text-darkAccent border border-border-accentLight dark:border-border-accentDark hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark focus:ring-primary/30",
+      "bg-soft-light dark:bg-soft-dark text-text-primary dark:text-text-darkPrimary border border-border-accentLight dark:border-border-accentDark hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark focus:ring-primary/30",
 
-    edit: "bg-edit text-white hover:bg-edit-hover focus:ring-edit/40",
+    edit: "bg-edit DEFAULT text-white hover:bg-edit-hover focus:ring-edit/40",
 
     danger: "bg-danger text-white hover:bg-danger-hover focus:ring-danger/40",
 
@@ -45,7 +44,9 @@ export function Button({
 
   return (
     <button
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${fullWidth ? "w-full" : ""} ${className}`}
+      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${
+        fullWidth ? "w-full" : ""
+      } ${className}`}
       {...rest}
     >
       {children}

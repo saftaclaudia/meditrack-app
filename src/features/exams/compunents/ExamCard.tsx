@@ -20,7 +20,6 @@ interface ExamCardProps {
 
 export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
   const status = getExamStatus(exam.nextDate, exam.lastDate) as StatusKey;
-
   const cfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.soon;
 
   const [openConfirm, setOpenConfirm] = useState(false);
@@ -30,21 +29,7 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
 
   return (
     <>
-      <article
-        className="
-          relative       
-          overflow-hidden 
-          rounded-2xl  
-          bg-surface-light
-          dark:bg-surface-dark
-          border border-border-light
-          dark:border-border-dark   
-          shadow-sm       
-          transition-all duration-200   
-          active:scale-[0.985]          
-          w-full         
-        "
-      >
+      <article className="relative overflow-hidden rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm transition-all duration-200 active:scale-[0.985] w-full">
         <div
           className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl ${cfg.dot}`}
         />
@@ -54,23 +39,18 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
             <ExamStatusBadge status={status} />
 
             <div className="flex items-center gap-1">
-              {/* VIEW */}
               <button
                 onClick={() => setShowDetails((p) => !p)}
-                className={`
-                  p-2 rounded-xl transition-colors duration-150
-                  ${
-                    showDetails
-                      ? "bg-primary text-white"
-                      : "bg-soft-light dark:bg-soft-dark text-text-icon dark:text-text-iconDark hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark"
-                  }
-                `}
+                className={`p-2 rounded-xl transition-colors duration-150 ${
+                  showDetails
+                    ? "bg-primary text-white"
+                    : "bg-soft-light dark:bg-soft-dark text-text-icon dark:text-text-iconDark hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark"
+                }`}
                 aria-label="Toggle details"
               >
                 <ChevronIcon open={showDetails} />
               </button>
 
-              {/* EDIT*/}
               <button
                 onClick={() => onEdit(exam)}
                 className="p-2 rounded-xl bg-soft-light dark:bg-soft-dark text-icon dark:text-iconDark hover:bg-soft-hoverLight transition-colors duration-150"
@@ -79,7 +59,6 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
                 <EditIcon />
               </button>
 
-              {/* DELETE */}
               <button
                 onClick={() => setOpenConfirm(true)}
                 className="p-2 rounded-xl bg-soft-light dark:bg-soft-dark text-danger hover:bg-danger-soft transition-colors duration-150"
@@ -124,10 +103,7 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
         </div>
 
         <div
-          className={`
-            overflow-hidden transition-all duration-300 ease-in-out
-            ${showDetails ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"}
-          `}
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${showDetails ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"}`}
         >
           <div className="border-t border-border-subtleLight dark:border-border-dark mx-4" />
 
@@ -156,7 +132,7 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
 
             {exam.notes && (
               <div>
-                <p className="text-xs font-semibold text-text-secondary] dark:text-text-darkMuted uppercase tracking-wider mb-1">
+                <p className="text-xs font-semibold text-text-secondary dark:text-text-darkMuted uppercase tracking-wider mb-1">
                   Notes
                 </p>
                 <p className="text-sm text-text-body dark:text-text-bodyDark">

@@ -15,13 +15,13 @@ export default function UserMenu() {
   return (
     <Dropdown
       trigger={
-        <button className="p-2 rounded-full hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark transition">
+        <button className="p-2 rounded-full hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark focus:ring-2 focus:ring-primary-soft transition">
           <User size={20} className="text-text-icon dark:text-text-iconDark" />
         </button>
       }
       className="right-0 w-48"
     >
-      <div className="p-2">
+      <div className="p-2 flex flex-col gap-1">
         {/* Settings */}
         <NavLink
           to="/settings"
@@ -29,8 +29,8 @@ export default function UserMenu() {
             clsx(
               "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition",
               isActive
-                ? "bg-soft-light dark:bg-soft-dark text-primary"
-                : "hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark",
+                ? "bg-soft-light dark:bg-soft-dark text-primary font-medium"
+                : "text-text-secondary dark:text-text-darkSecondary hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark",
             )
           }
         >
@@ -41,7 +41,7 @@ export default function UserMenu() {
         {/* Logout */}
         <button
           onClick={handleLogout}
-          className="w-full text-left px-3 py-2 rounded-lg text-sm transition text-danger hover:bg-danger-soft"
+          className="w-full text-left px-3 py-2 rounded-lg text-sm text-danger-soft hover:bg-danger-soft transition"
         >
           Logout
         </button>

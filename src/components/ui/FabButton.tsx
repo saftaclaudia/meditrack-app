@@ -8,6 +8,7 @@ interface FabButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: FabVariant;
   size?: FabSize;
 }
+
 export function FabButton({
   icon = "+",
   variant = "primary",
@@ -15,12 +16,12 @@ export function FabButton({
   className = "",
   ...rest
 }: FabButtonProps) {
-  const variantStyles = {
-    primary: `bg-primary hover:bg-primary-hover focus:ring-primary-soft`,
-    danger: `bg-danger hover:bg-danger-hover focus:ring-danger-soft`,
+  const variantStyles: Record<FabVariant, string> = {
+    primary: "bg-primary hover:brightness-105 focus:ring-primary-soft",
+    danger: "bg-danger hover:brightness-105 focus:ring-danger-soft",
   };
 
-  const sizeStyle = {
+  const sizeStyles: Record<FabSize, string> = {
     md: "h-12 w-12 text-xl",
     lg: "h-14 w-14 text-2xl",
   };
@@ -31,19 +32,14 @@ export function FabButton({
         fixed bottom-20 right-6
         z-[60]
         flex items-center justify-center rounded-full
-      text-white shadow-lg
-        transition
-        active:scale-95
-
-        focus:outline-none 
-        focus:ring-2
-        focus:ring-offset-2
-        focus:ring-offset-surface-light
-        dark:focus:ring-offset-surface-dark
-
+        text-white shadow-lg
+        transition transform
+        active:scale-95 hover:scale-105
+        focus:outline-none
+        focus:ring-2 focus:ring-offset-2
+        focus:ring-offset-surface-light dark:focus:ring-offset-surface-dark
         ${variantStyles[variant]}
-        ${sizeStyle[size]} 
-      
+        ${sizeStyles[size]}
         md:hidden
         ${className}
       `}
