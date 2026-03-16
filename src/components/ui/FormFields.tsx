@@ -17,19 +17,20 @@ interface TextareaProps extends BaseFieldProps {
 export function Input({ label, type = "text", ...props }: InputProps) {
   return (
     <label className="flex flex-col gap-1 text-sm">
-      <span className="text-text-accentLight dark:text-text-accentDark">
+      <span className="text-accent-pink dark:text-accent-lavender font-medium">
         {label}
       </span>
 
       <input
         type={type}
         className={clsx(
-          "rounded-lg border",
+          "rounded-xl border transition-colors duration-200",
           "border-border-light dark:border-border-dark",
           "bg-surface-cardLight dark:bg-surface-cardDark",
-          "py-2 px-3",
+          "py-3 px-4",
           "text-text-primary dark:text-text-darkPrimary",
-          "focus:outline-none focus:ring-2 focus:ring-primary/40",
+          "focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary",
+          "hover:border-primary/50",
           type === "date" && "cursor-pointer",
           "[color-scheme:light] dark:[color-scheme:dark]",
         )}
@@ -42,25 +43,22 @@ export function Input({ label, type = "text", ...props }: InputProps) {
 export function Textarea(props: TextareaProps) {
   return (
     <label className="flex flex-col gap-1 text-sm">
-      <span className="text-text-accentLight dark:text-text-accentDark">
+      <span className="text-accent-pink dark:text-accent-lavender font-medium">
         {props.label}
       </span>
 
       <textarea
         className="
-          min-h-[80px]
-          rounded-lg
+          min-h-[100px]
+          rounded-xl
           border
-          border-border-light
-          dark:border-border-dark
-          bg-surface-cardLight
-          dark:bg-surface-cardDark
-          px-3 py-2
-          text-text-primary
-          dark:text-text-darkPrimary
-          focus:outline-none
-          focus:ring-2
-          focus:ring-primary/40
+          border-border-light dark:border-border-dark
+          bg-surface-cardLight dark:bg-surface-cardDark
+          px-4 py-3
+          text-text-primary dark:text-text-darkPrimary
+          focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
+          hover:border-primary/50
+          transition-colors duration-200
         "
         {...props}
       />

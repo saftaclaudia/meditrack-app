@@ -6,8 +6,9 @@ import { fetchNotifications } from "./notificationsThunks";
 import { markAsRead, markAllAsRead } from "./notificationsSlice";
 
 import NotificationItem from "./NotificationItem";
-
 import Dropdown from "../../components/ui/Dropdown";
+import NotificationHeader from "./NotificationHeader";
+import NotificationEmpty from "./NotificationEmpty";
 
 export function NotificationDropdown() {
   const dispatch = useAppDispatch();
@@ -20,47 +21,36 @@ export function NotificationDropdown() {
     dispatch(fetchNotifications());
   }, [dispatch]);
 
-  const hasUnread = notifications.some((n) => !n.read);
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
     <Dropdown
       trigger={
-        <button className="relative p-2 rounded-full hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark transition">
+        <button className="relative p-2 rounded-full hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark focus:ring-2 focus:ring-primary-soft transition">
           <Bell size={20} className="text-text-icon dark:text-text-iconDark" />
 
-          {hasUnread && (
-            <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-danger" />
+          {unreadCount > 0 && (
+            <span className="absolute -top-1 -right-1 text-xs px-1.5 py-0.5 rounded-full bg-danger-soft text-white">
+              {unreadCount}
+            </span>
           )}
         </button>
       }
-      className="w-72 left-0 md:right-0 md:left-auto"
+      className="w-72 left-0 md:right-0 md:left-auto rounded-xl border border-border-light dark:border-border-dark bg-surface-cardLight dark:bg-surface-cardDark shadow-md"
     >
       {/* HEADER */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border-light dark:border-border-dark">
-        <span className="text-sm font-semibold text-text-primary dark:text-text-darkPrimary">
-          Notifications
-        </span>
-
-        {notifications.length > 0 && (
-          <button
-            onClick={() => dispatch(markAllAsRead())}
-            className="text-xs text-primary hover:underline"
-          >
-            Mark all
-          </button>
-        )}
-      </div>
+      <NotificationHeader onMarkAll={() => dispatch(markAllAsRead())} />
 
       {/* CONTENT */}
       <div className="max-h-64 overflow-y-auto">
         {loading ? (
-          <p className="text-center py-4 text-text-secondary">Loading...</p>
-        ) : error ? (
-          <p className="text-center py-4 text-danger">{error}</p>
-        ) : notifications.length === 0 ? (
-          <p className="text-center py-4 text-text-secondary">
-            No notifications
+          <p className="text-center py-4 text-text-secondary dark:text-text-darkSecondary">
+            Loading...
           </p>
+        ) : error ? (
+          <p className="text-center py-4 text-danger-soft">{error}</p>
+        ) : notifications.length === 0 ? (
+          <NotificationEmpty />
         ) : (
           notifications.map((n) => (
             <NotificationItem

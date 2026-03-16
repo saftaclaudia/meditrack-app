@@ -13,11 +13,11 @@ import { Input, Textarea } from "../../../components/ui/FormFields";
 import { FileUploadField } from "../../../components/ui/FileUploadField";
 
 interface ExamFormProps {
-  editingExam: Exam | null; // Exam ->Edit mode  null ->Add mode
+  editingExam: Exam | null;
   onFinish: () => void;
 }
 
-const emptyForm = {
+const emptyForm: ExamFormData = {
   name: "",
   clinic: "",
   doctor: "",
@@ -46,8 +46,7 @@ export function ExamForm({ editingExam, onFinish }: ExamFormProps) {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-
-    setForm((prev) => ({ ...prev, [name]: value })); //comuted property
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = () => {
@@ -56,16 +55,12 @@ export function ExamForm({ editingExam, onFinish }: ExamFormProps) {
     } else {
       dispatch(addExam({ id: uuid(), ...form }));
     }
-
     onFinish();
     setForm(emptyForm);
   };
 
   return (
-    <section
-      className="rounded-2xl  bg-surface-cardLight
-  dark:bg-surface-cardDark border border-border-light dark:border-border-dark p-4 md:p-6 shadow-sm space-y-6"
-    >
+    <section className="rounded-2xl bg-surface-cardLight dark:bg-surface-cardDark border border-border-light dark:border-border-dark p-4 md:p-6 shadow-sm space-y-6">
       <h1 className="text-lg font-semibold text-primary dark:text-darkPrimary">
         {editingExam ? "Edit medical exam" : "Add new medical exam"}
       </h1>
@@ -129,7 +124,6 @@ export function ExamForm({ editingExam, onFinish }: ExamFormProps) {
         />
 
         {/* ACTIONS */}
-
         <div className="flex flex-col-reverse md:flex-row justify-end gap-2 md:col-span-2">
           <Button variant="secondary" onClick={onFinish} fullWidth>
             Cancel

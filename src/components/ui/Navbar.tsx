@@ -4,11 +4,9 @@ import getPageTitle from "../../utils/getPageTitle";
 import clsx from "clsx";
 
 import { NotificationDropdown } from "../../features/notifications/NotificationDropdown";
-
 import NavItem from "./NavItem";
 import UserMenu from "./UserMenu";
 
-// Navigation
 const navItem = [
   { to: "/", label: "Home", icon: Home },
   { to: "/exams", label: "Exams", icon: ClipboardList },
@@ -24,7 +22,7 @@ export default function Navbar() {
       className={clsx(
         "sticky top-0 z-50 backdrop-blur border-b",
         "bg-surface-cardLight/80 dark:bg-surface-cardDark/80",
-        "border-border-light dark:border-border-dark",
+        "border-border-light dark:border-border-dark transition-colors duration-300",
       )}
     >
       <div className="max-w-5xl mx-auto px-5 py-4">
@@ -33,13 +31,13 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             to="/"
-            className="text-lg font-bold tracking-wide text-text-accentLight dark:text-text-accentDark"
+            className="text-lg font-bold tracking-wide text-accent-pink dark:text-accent-lavender transition-colors duration-200"
           >
             MediTrack
           </Link>
 
           {/* Navigation */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-5">
             {navItem.map((item) => (
               <NavItem
                 key={item.to}
@@ -59,13 +57,10 @@ export default function Navbar() {
 
         {/* Mobile Navbar */}
         <div className="md:hidden flex items-center justify-between">
-          {/* Left */}
           <NotificationDropdown />
-          {/* Center  */}
-          <span className="text-sm font-semibold text-text-primary dark:text-text-darkPrimary">
+          <span className="text-sm font-semibold text-accent-pink dark:text-accent-lavender transition-colors duration-200">
             {pageTitle}
           </span>
-          {/* right */}
           <UserMenu />
         </div>
       </div>

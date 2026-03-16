@@ -18,23 +18,23 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-stone-100 px-4">
-      <div className="w-full max-w-md bg-white dark:bg-stone-900 rounded-3xl shadow-xl p-8 space-y-6">
-        <h1 className="font-semibold text-stone-800 dark:text-stone-100 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-background-light  dark:bg-background-dark px-4">
+      <div className="w-full max-w-md bg-surface-cardLight dark:bg-surface-cardDark rounded-3xl shadow-lg p-8 space-y-6">
+        <h1 className="font-semibold text-text-primary dark:text-text-darkPrimary text-center">
           Forgot Password
         </h1>
-        <p className="text-sm text-stone-500 text-center">
+        <p className="text-sm text-text-secondary dark:text-text-darkSecondary text-center">
           Enter your email address and we will sent you a reset link
         </p>
 
         {submitted ? (
-          <p className="text-center text-amber-600">
+          <p className="text-center text-primary font-medium">
             ✅ Check your email! If it exist, you will recive a reset link.
           </p>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+              <label className="text-sm font-medium text-text-secondary dark:text-text-darkSecondary">
                 Email address
               </label>
               <input
@@ -42,7 +42,7 @@ export default function ForgotPasswordPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className={`w-full rounded-2xl border px-4 py-3 text-sm focus:outline-none focus:ring-2 transition ${isEmailValid || email.length === 0 ? "border-stone-300 focus:ring-amber-300" : "border-red-400 ficus:ring-red-300"}`}
+                className={`w-full rounded-2xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-4 py-3 text-sm focus:outline-none focus:ring-2 transition ${isEmailValid || email.length === 0 ? "border-stone-300 focus:ring-primary" : "border-danger focus:ring-danger"}`}
                 required
               />
             </div>
@@ -54,11 +54,11 @@ export default function ForgotPasswordPage() {
           </form>
         )}
 
-        <p className="text-center text-sm text-stone-500">
+        <p className="text-center text-sm text-muted dark:text-text-darkMuted">
           Remember your password?{" "}
           <span
             onClick={() => navigate("/login")}
-            className="text-amber-600 font-medium cursor-pointer hover:underline"
+            className="text-primary font-medium cursor-pointer hover:underline"
           >
             Sign in
           </span>

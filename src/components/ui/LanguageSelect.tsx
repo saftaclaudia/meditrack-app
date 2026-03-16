@@ -5,6 +5,7 @@ import { Globe } from "lucide-react";
 import { useRef, useState } from "react";
 import ToggleButton from "./ToggleButton";
 import { useClickOutside } from "../../hooks/useClickOutside";
+import clsx from "clsx";
 
 export function LanguageSelect() {
   const dispatch = useAppDispatch();
@@ -33,7 +34,7 @@ export function LanguageSelect() {
       {isOpen && (
         <div
           ref={selectLangRef}
-          className="absolute left-0 right-0 mt-2  bg-surface-cardLight dark:bg-surface-cardDark rounded-xl  border border-border-light dark:border-border-dark  shadow-lg z-50"
+          className="absolute left-0 right-0 mt-2 rounded-xl border border-border-light dark:border-border-dark bg-surface-cardLight dark:bg-surface-cardDark shadow-lg z-50 overflow-hidden transition-colors duration-200"
         >
           {languages.map((lang) => (
             <button
@@ -43,7 +44,11 @@ export function LanguageSelect() {
                 dispatch(setLanguage(lang));
                 setIsOpen(false);
               }}
-              className={`w-full px-4 py-2 text-left text-sm hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark ${lang === currentLanguage ? "font-semibold text-primary" : ""}`}
+              className={clsx(
+                "w-full px-4 py-2 text-left text-sm transition-colors duration-200 hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark",
+                lang === currentLanguage &&
+                  "font-semibold text-primary dark:text-darkPrimary bg-soft-light dark:bg-soft-dark",
+              )}
             >
               {lang.toUpperCase()}
             </button>

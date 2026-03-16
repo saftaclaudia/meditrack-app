@@ -55,12 +55,12 @@ export default function AppLayout() {
   }, [language, i18n]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background-light dark:bg-background-dark transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-background-light dark:bg-background-dark  text-text-body dark:text-text-bodyDark transition-colors duration-300">
       {/* Top Navigation */}
       <Navbar />
 
       {/* Main content */}
-      <main className="flex-1 w-full max-w-4xl  mx-auto px-5 py-8 md:py-8">
+      <main className="flex-1 w-full max-w-4xl  mx-auto px-5 py-8 space-y-6">
         <Outlet />
       </main>
 
