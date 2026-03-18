@@ -8,12 +8,12 @@ import AppLayout from "../pages/AppLayout";
 import { AddExamPage } from "../features/exams/pages/AddExamPage";
 import { EditExamPage } from "../features/exams/pages/EditExamPage";
 import { SettingsPage } from "../features/settings/pages/SettingsPage";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
+import LoginPage from "../features/auth/pages/LoginPage";
+import RegisterPage from "../features/auth/pages/RegisterPage";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
 import { PublicRoute } from "../routes/PublicRoute";
 
-import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import ForgotPasswordPage from "../features/auth/pages/ForgotPasswordPage";
 
 export default function Router() {
   return (

@@ -7,6 +7,7 @@ import { saveLanguage } from "../utils/languageStorage";
 import Navbar from "../components/ui/Navbar";
 import { BottomNav } from "../components/ui/BottomNav";
 import { logout } from "../features/auth/authSlice";
+// import { logout } from "../features/auth/authSlice";
 
 export default function AppLayout() {
   const { i18n } = useTranslation();
@@ -20,9 +21,10 @@ export default function AppLayout() {
   useEffect(() => {
     const expiresAt = parseInt(
       localStorage.getItem("auth_expires_at") ||
-        sessionStorage.getItem("auth_exptres_at") ||
+        sessionStorage.getItem("auth_expires_at") ||
         "0",
     );
+
     if (!expiresAt) return;
 
     const timeout = expiresAt - Date.now();

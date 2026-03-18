@@ -1,50 +1,51 @@
-import type { AppDispatch } from "../../app/store";
-import persistAuth from "../../utils/persistAuth";
-import { authError, authStart, authSuccess } from "./authSlice";
+// src/features/auth/authThunks.ts
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { loginRequest, registerRequest } from "../../api/authApi";
+import type { AuthResponse } from "./authTypes";
+import type { AxiosError } from "axios";
 
-export const loginMock =
-  (email: string, password: string, rememberMe: boolean) =>
-  async (dispatch: AppDispatch) => {
-    dispatch(authStart());
+// Helper pentru extragerea mesajului de eroare
+const getErrorMessage = (err: unknown) => {
+  if ((err as AxiosError).isAxiosError) {
+    const axiosErr = err as AxiosError<{ message: string }>;
+    return axiosErr.response?.data?.message || axiosErr.message;
+  }
+  if (err instanceof Error) return err.message;
+  return "Server error";
+};
 
-    setTimeout(() => {
-      if (email && password.length >= 6) {
-        const authData = {
-          user: { id: "1", email, name: "MediTrack User" },
-          token: "mock-jwt-token-123",
-        };
+// REGISTER
+export const registerUser = createAsyncThunk<
+  AuthResponse,
+  { name: string; email: string; password: string },
+  { rejectValue: string }
+>("auth/registerUser", async (userData, { rejectWithValue }) => {
+  try {
+    const data = await registerRequest(
+      userData.name,
+      userData.email,
+      userData.password,
+    );
+    return data;
+  } catch (err: unknown) {
+    return rejectWithValue(getErrorMessage(err));
+  }
+});
 
-        persistAuth(authData, rememberMe);
+// LOGIN with rememberMe
+export const loginUser = createAsyncThunk<
+  AuthResponse & { rememberMe?: boolean },
+  { email: string; password: string; rememberMe: boolean },
+  { rejectValue: string }
+>(
+  "auth/loginUser",
+  async ({ email, password, rememberMe }, { rejectWithValue }) => {
+    try {
+      const data = await loginRequest(email, password);
 
-        dispatch(authSuccess(authData));
-      } else {
-        dispatch(authError("Invalid credentials"));
-      }
-    }, 1000);
-  };
-
-export const registerMock =
-  (name: string, email: string, password: string, rememberMe: boolean) =>
-  async (dispatch: AppDispatch) => {
-    dispatch(authStart());
-
-    setTimeout(() => {
-      if (!name || !email || password.length < 6) {
-        dispatch(authError("Please fill in all fields correctly."));
-        return;
-      }
-
-      const authData = {
-        user: {
-          id: crypto.randomUUID(),
-          name,
-          email,
-        },
-        token: "mock-jwt-token-" + Date.now(),
-      };
-
-      persistAuth(authData, rememberMe);
-
-      dispatch(authSuccess(authData));
-    }, 1000);
-  };
+      return { ...data, rememberMe };
+    } catch (err: unknown) {
+      return rejectWithValue(getErrorMessage(err));
+    }
+  },
+);

@@ -1,13 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import {
-  selectAuthError,
-  selectAuthLoading,
-} from "../features/auth/authSelectors";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { selectAuthError, selectAuthLoading } from "../authSelectors";
 import { useEffect, useState } from "react";
-import { clearError } from "../features/auth/authSlice";
-import { registerMock } from "../features/auth/authThunks";
-import { Button } from "../components/ui/Button";
+import { clearError } from "../authSlice";
+
+import { Button } from "../../../components/ui/Button";
+import { registerUser } from "../authThunks";
 
 export default function RegisterPage() {
   const dispatch = useAppDispatch();
@@ -38,7 +36,10 @@ export default function RegisterPage() {
     e.preventDefault();
     if (!isFormValid) return;
 
-    dispatch(registerMock(name, email, password, rememberMe));
+    dispatch(registerUser({ name, email, password }))
+      .unwrap()
+      .then(() => navigate("/"))
+      .catch(() => {});
   };
 
   return (

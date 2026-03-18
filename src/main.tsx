@@ -7,9 +7,9 @@ import { store } from "./app/store";
 import Router from "./app/router";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Router />
-    </Provider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <Provider store={store}>
+    <Router />
+  </Provider>,
+  // </React.StrictMode>,
 );

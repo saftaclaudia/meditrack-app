@@ -1,3 +1,4 @@
+// src/features/auth/authSelectors.ts
 import type { RootState } from "../../app/store";
 
 export const selectAuthUser = (state: RootState) => state.auth.user;

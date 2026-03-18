@@ -9,7 +9,10 @@ export interface AuthResponse {
   token: string;
 }
 
-export interface AuthData {
-  user: User;
-  token: string;
+export interface AuthState {
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  error: string | null;
 }
