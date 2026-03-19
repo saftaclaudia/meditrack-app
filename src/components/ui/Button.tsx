@@ -19,27 +19,28 @@ export function Button({
   ...rest
 }: ButtonProps) {
   const baseStyles =
-    "rounded-lg font-medium transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition-transform";
+    "font-sans font-light tracking-widest uppercase transition-all focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 rounded-full";
 
   const sizeStyles: Record<ButtonSize, string> = {
-    sm: "px-3 py-1 text-xs",
-    md: "px-4 py-2 text-sm",
-    lg: "px-6 py-3 text-base",
+    sm: "px-4 py-1.5 text-xs",
+    md: "px-5 py-2.5 text-xs",
+    lg: "px-7 py-3 text-sm",
   };
 
   const variantStyles: Record<ButtonVariant, string> = {
     primary:
-      "bg-primary text-white hover:bg-primary-hover focus:ring-primary/40",
+      "bg-primary text-background-light hover:bg-primary-hover focus:ring-primary/30 border border-primary hover:border-primary-hover",
 
     secondary:
-      "bg-soft-light dark:bg-soft-dark text-text-primary dark:text-text-darkPrimary border border-border-accentLight dark:border-border-accentDark hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark focus:ring-primary/30",
+      "bg-soft-light dark:bg-soft-dark text-text-primary dark:text-text-darkPrimary border border-border-light dark:border-border-dark hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark focus:ring-primary/20",
 
-    edit: "bg-edit DEFAULT text-white hover:bg-edit-hover focus:ring-edit/40",
+    edit: "bg-primary text-background-light hover:bg-primary-hover focus:ring-primary/30 border border-primary",
 
-    danger: "bg-danger text-white hover:bg-danger-hover focus:ring-danger/40",
+    danger:
+      "bg-danger text-white hover:bg-danger-hover focus:ring-danger/30 border border-danger",
 
     outline:
-      "border border-primary text-primary bg-transparent hover:bg-soft-light dark:hover:bg-soft-dark focus:ring-primary/30",
+      "border border-primary text-primary bg-transparent hover:bg-[#f5efe8]dark:hover:bg-[#2a2622]focus:ring-primary/20",
   };
 
   return (

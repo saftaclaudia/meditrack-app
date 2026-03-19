@@ -7,7 +7,7 @@ import { NotificationDropdown } from "../../features/notifications/NotificationD
 import NavItem from "./NavItem";
 import UserMenu from "./UserMenu";
 
-const navItem = [
+const navItems = [
   { to: "/", label: "Home", icon: Home },
   { to: "/exams", label: "Exams", icon: ClipboardList },
   { to: "/exams/new", label: "Add", icon: Plus },
@@ -20,25 +20,23 @@ export default function Navbar() {
   return (
     <nav
       className={clsx(
-        "sticky top-0 z-50 backdrop-blur border-b",
-        "bg-surface-cardLight/80 dark:bg-surface-cardDark/80",
+        "sticky top-0 z-50 backdrop-blur-md border-b",
+        "bg-background-light/90 dark:bg-background-dark/90",
         "border-border-light dark:border-border-dark transition-colors duration-300",
       )}
     >
-      <div className="max-w-5xl mx-auto px-5 py-4">
-        {/* Desktop Navbar */}
-        <div className="hidden md:flex items-center justify-between">
-          {/* Logo */}
+      <div className="max-w-2xl mx-auto px-4 md:px-6">
+        {/* Desktop */}
+        <div className="hidden md:flex items-center justify-between py-4">
           <Link
             to="/"
-            className="text-lg font-bold tracking-wide text-accent-pink dark:text-accent-lavender transition-colors duration-200"
+            className="font-serif text-xl font-light tracking-widest text-text-primary dark:text-text-darkPrimary hover:text-primary transition-colors duration-200"
           >
-            MediTrack
+            Meditrack
           </Link>
 
-          {/* Navigation */}
-          <div className="flex items-center gap-5">
-            {navItem.map((item) => (
+          <div className="flex items-center gap-6">
+            {navItems.map((item) => (
               <NavItem
                 key={item.to}
                 to={item.to}
@@ -48,19 +46,20 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center gap-3 relative">
+          <div className="flex items-center gap-3">
             <NotificationDropdown />
             <UserMenu />
           </div>
         </div>
 
-        {/* Mobile Navbar */}
-        <div className="md:hidden flex items-center justify-between">
+        {/* Mobile */}
+        <div className="md:hidden flex items-center justify-between py-3">
           <NotificationDropdown />
-          <span className="text-sm font-semibold text-accent-pink dark:text-accent-lavender transition-colors duration-200">
-            {pageTitle}
+
+          <span className="font-serif text-base font-light tracking-widest text-text-primary dark:text-text-darkPrimary">
+            {pageTitle || "Meditrack"}
           </span>
+
           <UserMenu />
         </div>
       </div>

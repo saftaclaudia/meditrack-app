@@ -29,7 +29,7 @@ export default function Dropdown({
       {isOpen && (
         <div
           className={clsx(
-            "absolute mt-2 rounded-xl shadow-md z-50 p-2 transition-all duration-200",
+            "absolute mt-2 rounded-2xl shadow-md shadow-black/5 z-50 p-2 transition-all duration-200",
             "bg-surface-cardLight dark:bg-surface-cardDark",
             "border border-border-light dark:border-border-dark",
             className,

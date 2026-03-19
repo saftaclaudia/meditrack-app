@@ -17,8 +17,8 @@ export function FabButton({
   ...rest
 }: FabButtonProps) {
   const variantStyles: Record<FabVariant, string> = {
-    primary: "bg-primary hover:brightness-105 focus:ring-primary-soft",
-    danger: "bg-danger hover:brightness-105 focus:ring-danger-soft",
+    primary: "bg-primary hover:bg-[#b39470] focus:ring-primary",
+    danger: "bg-danger hover:bg-[#a84848] focus:ring-danger",
   };
 
   const sizeStyles: Record<FabSize, string> = {
@@ -29,12 +29,12 @@ export function FabButton({
   return (
     <button
       className={`
-        fixed bottom-20 right-6
+        fixed bottom-24 right-5
         z-[60]
         flex items-center justify-center rounded-full
-        text-white shadow-lg
+        text-background-light shadow-md shadow-black/10
         transition transform
-        active:scale-95 hover:scale-105
+        active:scale-95 
         focus:outline-none
         focus:ring-2 focus:ring-offset-2
         focus:ring-offset-surface-light dark:focus:ring-offset-surface-dark

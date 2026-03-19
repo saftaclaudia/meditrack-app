@@ -7,7 +7,6 @@ import { saveLanguage } from "../utils/languageStorage";
 import Navbar from "../components/ui/Navbar";
 import { BottomNav } from "../components/ui/BottomNav";
 import { logout } from "../features/auth/authSlice";
-// import { logout } from "../features/auth/authSlice";
 
 export default function AppLayout() {
   const { i18n } = useTranslation();
@@ -32,6 +31,7 @@ export default function AppLayout() {
     if (timeout <= 0) {
       dispatch(logout());
       navigate("/login", { replace: true });
+      return;
     }
 
     const timer = setTimeout(() => {
@@ -57,16 +57,13 @@ export default function AppLayout() {
   }, [language, i18n]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background-light dark:bg-background-dark  text-text-body dark:text-text-bodyDark transition-colors duration-300">
-      {/* Top Navigation */}
+    <div className="min-h-screen flex flex-col bg-background-light dark:bg-background-dark text-text-body dark:text-text-bodyDark transition-colors duration-300">
       <Navbar />
 
-      {/* Main content */}
-      <main className="flex-1 w-full max-w-4xl  mx-auto px-5 py-8 space-y-6">
+      <main className="flex-1 w-full max-w-2xl mx-auto px-4 py-6 pb-28 md:pb-10 md:px-6 md:py-10">
         <Outlet />
       </main>
 
-      {/* Bottom Navigation */}
       <BottomNav />
     </div>
   );

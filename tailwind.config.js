@@ -2,110 +2,125 @@
 export default {
   darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  safelist: [
+    "hover:bg-primary-soft",
+    "hover:bg-danger-soft",
+    "hover:bg-soft-hoverLight",
+    "hover:bg-soft-hoverDark",
+    "bg-primary-soft",
+    "text-primary",
+  ],
   theme: {
     extend: {
+      fontFamily: {
+        serif: ["Cormorant Garamond", "Georgia", "serif"],
+        sans: ["Jost", "sans-serif"],
+      },
+
       colors: {
         primary: {
-          DEFAULT: "#7BC6A4",
-          hover: "#64B392",
-          soft: "#E6F5EE",
+          DEFAULT: "#C4A882",
+          hover: "#B39470",
+          soft: "#F5EFE8",
         },
 
         background: {
-          light: "#FBF9F6",
-          dark: "#1B201D",
+          light: "#FAF7F4",
+          dark: "#1A1714",
         },
 
         surface: {
           light: "#FFFFFF",
-          dark: "#232825",
+          dark: "#221F1C",
           cardLight: "#FFFFFF",
-          cardDark: "#262C28",
-          mutedLight: "#F6F3EF",
-          mutedDark: "#2C332E",
+          cardDark: "#221F1C",
+          mutedLight: "#F5F0EB",
+          mutedDark: "#2A2622",
         },
 
         border: {
-          light: "#E9E4DE",
-          dark: "#3B423E",
-          subtleLight: "#F1ECE6",
-          accentLight: "#D8EFE4",
-          accentDark: "#3F5E52",
+          light: "#E8E0D8",
+          dark: "#3A332C",
+          subtleLight: "#F0EAE3",
+          accentLight: "#E8D9C8",
+          accentDark: "#4A3D30",
         },
 
         text: {
-          primary: "#2F3A33",
-          darkPrimary: "#E6F1EA",
+          primary: "#2C2420",
+          darkPrimary: "#EDE8E3",
 
-          secondary: "#7D8A83",
-          darkSecondary: "#A7B7AE",
+          secondary: "#7A6E66",
+          darkSecondary: "#A89D94",
 
-          muted: "#A1A7A2",
-          darkMuted: "#7C8C83",
+          muted: "#9C8878",
+          darkMuted: "#7A6E66",
 
-          icon: "#7D8A83",
-          iconDark: "#A7B7AE",
+          icon: "#9C8878",
+          iconDark: "#A89D94",
 
-          body: "#3F4A44",
-          bodyDark: "#CAD7CF",
+          body: "#3D3028",
+          bodyDark: "#D4CCC4",
         },
 
         soft: {
-          light: "#F0F7F3",
-          dark: "#27312C",
-          hoverLight: "#E7F3ED",
-          hoverDark: "#2E3933",
+          light: "#F5F0EB",
+          dark: "#2A2622",
+          hoverLight: "#EDE6DE",
+          hoverDark: "#322E29",
         },
 
         accent: {
-          pink: "#F2C6C2",
-          pinkSoft: "#FAE6E4",
-          lavender: "#D8D0F0",
+          rose: "#E8C4B8",
+          roseSoft: "#FAF0EC",
+          sand: "#D4C4B0",
+          sandSoft: "#F5EFE8",
+          taupe: "#C8B8A8",
         },
 
         status: {
           upcoming: {
-            bg: "#EAF7F1",
-            bgDark: "#1F2C26",
-            text: "#4E7B66",
-            textDark: "#A9D7BF",
-            dot: "#7BC6A4",
+            bg: "#F0EDE8",
+            bgDark: "#252018",
+            text: "#6B5A3E",
+            textDark: "#D4C4A0",
+            dot: "#C4A882",
           },
 
           soon: {
-            bg: "#FFF6E9",
-            bgDark: "#2B2419",
-            text: "#A87333",
-            textDark: "#F0C997",
-            dot: "#E3A860",
+            bg: "#F5EDE8",
+            bgDark: "#251C18",
+            text: "#8B5E4A",
+            textDark: "#E0B8A4",
+            dot: "#C47860",
           },
 
           overdue: {
-            bg: "#FDECEC",
-            bgDark: "#2B1F1F",
-            text: "#C25A5A",
-            textDark: "#F3B1B1",
-            dot: "#D46A6A",
+            bg: "#F5E8E8",
+            bgDark: "#251818",
+            text: "#8B4A4A",
+            textDark: "#E0A4A4",
+            dot: "#C46060",
           },
 
           done: {
-            bg: "#F3F8F5",
-            bgDark: "#1F2622",
-            text: "#6C8A77",
-            textDark: "#B7D3C2",
-            dot: "#9AC5AE",
+            bg: "#EDF0EC",
+            bgDark: "#1A201A",
+            text: "#4A6B4A",
+            textDark: "#A4C4A4",
+            dot: "#82A882",
           },
         },
 
         edit: {
-          DEFAULT: "#7BC6A4",
-          hover: "#64B392",
+          DEFAULT: "#C4A882",
+          hover: "#B39470",
         },
 
         danger: {
-          DEFAULT: "#D46A6A",
-          hover: "#B85757",
-          soft: "#FDECEC",
+          DEFAULT: "#C46060",
+          hover: "#A84848",
+          soft: "#F5E8E8",
         },
       },
     },

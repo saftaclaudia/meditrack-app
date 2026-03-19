@@ -49,7 +49,7 @@ export function FileUploadField({
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-sm font-medium text-text-primary dark:text-text-darkPrimary">
+      <span className="text-xs font-light tracking-widest text-text-muted dark:text-text-darkMuted">
         {label}
       </span>
 
@@ -74,11 +74,11 @@ export function FileUploadField({
           {value.map((doc) => (
             <div
               key={doc.id}
-              className="flex flex-col gap-3 bg-soft-light dark:bg-soft-dark border border-border-light dark:border-border-dark p-3 rounded-lg shadow-md transition-colors duration-200"
+              className="flex flex-col gap-3 bg-soft-light dark:bg-soft-dark border border-border-light dark:border-border-dark p-3 rounded-2xl shadow-none transition-colors duration-200"
             >
               {/* Left side */}
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-text-primary dark:text-text-darkPrimary truncate">
+                <p className="text-sm font-light text-text-primary dark:text-text-darkPrimary truncate">
                   {doc.name}
                 </p>
                 <p className="text-xs text-text-muted dark:text-text-darkMuted">

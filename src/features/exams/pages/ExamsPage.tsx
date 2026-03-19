@@ -10,16 +10,16 @@ export function ExamsPage() {
 
   if (loading)
     return (
-      <p className=" text-center mt-10 text-gray-500 dark:text-gray-400">
+      <p className="text-center mt-10 font-light tracking-wide">
         Loading exams...
       </p>
     );
 
   return (
-    <div className="relative min-h-screen p-4 md:p-8 space-y-6 ">
+    <div className="p-4 md:p-8 space-y-6 ">
       {/* HEADER */}
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-primary dark:text-darkPrimary">
+        <h1 className="text-xl font-serif font-light dark:text-darkPrimary">
           My medical exams
         </h1>
 
