@@ -16,9 +16,9 @@ export function SettingsPage() {
   };
 
   return (
-    <div className="flex justify-center px-4 py-6">
-      <div className="w-full max-w-md space-y-6">
-        <h3 className="text-xl font-semibold text-text-primary dark:text-text-darkPrimary">
+    <div className="space-y-8">
+      <div className="space-y-6">
+        <h3 className="font-serif text-3xl font-light text-text-primary dark:text-text-darkPrimary">
           Settings
         </h3>
 

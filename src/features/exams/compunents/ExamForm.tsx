@@ -61,7 +61,7 @@ export function ExamForm({ editingExam, onFinish }: ExamFormProps) {
 
   return (
     <section className="rounded-2xl bg-surface-cardLight dark:bg-surface-cardDark border border-border-light dark:border-border-dark p-4 md:p-6 shadow-sm space-y-6">
-      <h1 className="text-lg font-semibold text-primary dark:text-darkPrimary">
+      <h1 className="font-serif font-light text-text-primary">
         {editingExam ? "Edit medical exam" : "Add new medical exam"}
       </h1>
 

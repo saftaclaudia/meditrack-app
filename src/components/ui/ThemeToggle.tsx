@@ -12,9 +12,9 @@ export function ThemeToggle() {
     <ToggleButton
       icon={
         isLight ? (
-          <Moon className="w-5 h-5 text-accent-lavender" />
+          <Moon className="w-4 h-4 text-text-muted dark:text-text-darkMuted" />
         ) : (
-          <Sun className="w-5 h-5 text-accent-pink" />
+          <Sun className="w-4 h-4 text-primary" />
         )
       }
       label="Theme"

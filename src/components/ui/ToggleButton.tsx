@@ -19,7 +19,7 @@ export default function ToggleButton({
   ...rest
 }: ToggleButtonProps) {
   const base =
-    "flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition focus:outline-none focus:ring-2 duration-150 hover:-translate-y-0.5 active:scale-[0.97]";
+    "flex items-center justify-center gap-2 px-4 py-3 rounded-2xl transition focus:outline-none focus:ring-2 duration-150 active:scale-[0.97]";
 
   const colors = {
     primary:
@@ -44,7 +44,7 @@ export default function ToggleButton({
       {...rest}
     >
       {icon}
-      <span className="text-sm font-medium">{label}</span>
+      <span className="text-xs font-light tracking-wide">{label}</span>
     </button>
   );
 }

@@ -26,17 +26,17 @@ export function NotificationDropdown() {
   return (
     <Dropdown
       trigger={
-        <button className="relative p-2 rounded-full hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark focus:ring-2 focus:ring-primary-soft transition">
+        <button className="relative p-1.5 rounded-full hover:bg-[#F5EFE8] dark:hover:bg-soft-hoverDark transition">
           <Bell size={20} className="text-text-icon dark:text-text-iconDark" />
 
           {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 text-xs px-1.5 py-0.5 rounded-full bg-danger-soft text-white">
+            <span className="absolute -top-1 -right-1 text-[10px] px-1.5 py-0.5 rounded-full bg-danger text-background-light">
               {unreadCount}
             </span>
           )}
         </button>
       }
-      className="w-72 left-0 md:right-0 md:left-auto rounded-xl border border-border-light dark:border-border-dark bg-surface-cardLight dark:bg-surface-cardDark shadow-md"
+      className="w-72 left-0 md:right-0 md:left-auto "
     >
       {/* HEADER */}
       <NotificationHeader onMarkAll={() => dispatch(markAllAsRead())} />

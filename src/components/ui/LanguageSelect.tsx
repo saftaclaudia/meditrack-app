@@ -34,7 +34,7 @@ export function LanguageSelect() {
       {isOpen && (
         <div
           ref={selectLangRef}
-          className="absolute left-0 right-0 mt-2 rounded-xl border border-border-light dark:border-border-dark bg-surface-cardLight dark:bg-surface-cardDark shadow-lg z-50 overflow-hidden transition-colors duration-200"
+          className="absolute left-0 right-0 mt-2 rounded-2xl border border-border-light dark:border-border-dark bg-surface-cardLight dark:bg-surface-cardDark shadow-md shadow-black/5 z-50 overflow-hidden"
         >
           {languages.map((lang) => (
             <button
@@ -46,8 +46,9 @@ export function LanguageSelect() {
               }}
               className={clsx(
                 "w-full px-4 py-2 text-left text-sm transition-colors duration-200 hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark",
-                lang === currentLanguage &&
-                  "font-semibold text-primary dark:text-darkPrimary bg-soft-light dark:bg-soft-dark",
+                lang === currentLanguage
+                  ? "w-full px-4 py-2.5 text-left text-xs font-light text-primary bg-[#F5EFE8] dark:bg-soft-dark transition-colors"
+                  : "w-full px-4 py-2.5 text-left text-xs font-light text-text-secondary dark:text-text-darkSecondary hover:bg-[#F5EFE8] dark:hover:bg-soft-hoverDark transition-colors",
               )}
             >
               {lang.toUpperCase()}

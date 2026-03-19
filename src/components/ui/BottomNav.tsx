@@ -3,63 +3,111 @@ import { Home, ClipboardList, Plus, Settings } from "lucide-react";
 import clsx from "clsx";
 
 const itemBase =
-  "flex flex-col items-center justify-center gap-1 text-xs transition";
-const itemActive = "text-primary scale-110";
+  "flex flex-col items-center justify-center gap-1 py-1 transition-all duration-200";
+
+const itemActive = "text-primary";
 const itemInactive =
-  "text-text-secondary dark:text-text-darkSecondary hover:text-primary dark:hover:text-primary";
+  "text-text-muted dark:text-text-darkMuted hover:text-primary dark:hover:text-primary";
 
 export function BottomNav() {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
-      <div className="mx-auto max-w-md bg-surface-cardLight/90 dark:bg-surface-cardDark/90 backdrop-blur border-t border-border-light dark:border-border-dark px-2 py-2">
-        <div className="grid grid-cols-5 items-center">
-          {/* Home */}
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              clsx(itemBase, isActive ? itemActive : itemInactive)
-            }
-          >
-            <Home size={22} />
-            <span>Home</span>
-          </NavLink>
+      {/* Fade edge top */}
+      <div className="h-4 bg-gradient-to-t from-background-light dark:from-background-dark to-transparent pointer-events-none" />
 
-          {/* Exams */}
-          <NavLink
-            to="/exams"
-            className={({ isActive }) =>
-              clsx(itemBase, isActive ? itemActive : itemInactive)
-            }
-          >
-            <ClipboardList size={22} />
-            <span>Exams</span>
-          </NavLink>
+      <div className="bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-t border-border-light dark:border-border-dark">
+        <div className="max-w-md mx-auto px-4 pb-safe">
+          <div className="grid grid-cols-5 items-center py-2">
+            {/* Home */}
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                clsx(itemBase, isActive ? itemActive : itemInactive)
+              }
+            >
+              <Home size={20} strokeWidth={1.5} />
+              <span className="text-[10px] font-light tracking-widest uppercase">
+                Home
+              </span>
+            </NavLink>
 
-          {/* Add (FAB center) */}
-          <NavLink
-            to="/exams/new"
-            className={({ isActive }) =>
-              clsx("flex items-center justify-center", isActive && "scale-110")
-            }
-          >
-            <div className="h-12 w-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg hover:bg-primary-hover active:scale-95 transition">
-              <Plus size={24} />
-            </div>
-          </NavLink>
+            {/* Exams */}
+            <NavLink
+              to="/exams"
+              className={({ isActive }) =>
+                clsx(itemBase, isActive ? itemActive : itemInactive)
+              }
+            >
+              <ClipboardList size={20} strokeWidth={1.5} />
+              <span className="text-[10px] font-light tracking-widest uppercase">
+                Exams
+              </span>
+            </NavLink>
 
-          {/* Spacer */}
-          <div />
+            {/* Add — FAB center */}
+            <NavLink
+              to="/exams/new"
+              className="flex items-center justify-center"
+            >
+              {({ isActive }) => (
+                <div
+                  className={clsx(
+                    "h-12 w-12 rounded-full flex items-center justify-center shadow-md transition-all duration-200 active:scale-95",
+                    isActive
+                      ? "bg-primary-hover"
+                      : "bg-primary hover:bg-primary-hover",
+                  )}
+                >
+                  <Plus
+                    size={22}
+                    strokeWidth={1.5}
+                    className="text-background-light"
+                  />
+                </div>
+              )}
+            </NavLink>
 
-          {/* Settings */}
-          <NavLink
-            to="/settings"
-            className={({ isActive }) =>
-              clsx(itemBase, isActive ? itemActive : itemInactive)
-            }
-          >
-            <Settings size={22} />
-            <span>Settings</span>
-          </NavLink>
+            {/* Calories — placeholder */}
+            <NavLink
+              to="/calories"
+              className={({ isActive }) =>
+                clsx(itemBase, isActive ? itemActive : itemInactive)
+              }
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 2a7 7 0 0 1 7 7c0 4-3 6-4 9H9c-1-3-4-5-4-9a7 7 0 0 1 7-7z" />
+                <path d="M9 18h6" />
+                <path d="M10 22h4" />
+              </svg>
+              <span className="text-[10px] font-light tracking-widest uppercase">
+                Nutrition
+              </span>
+            </NavLink>
+
+            {/* Settings */}
+            <NavLink
+              to="/settings"
+              className={({ isActive }) =>
+                clsx(itemBase, isActive ? itemActive : itemInactive)
+              }
+            >
+              <Settings size={20} strokeWidth={1.5} />
+              <span className="text-[10px] font-light tracking-widest uppercase">
+                Settings
+              </span>
+            </NavLink>
+          </div>
         </div>
       </div>
     </nav>

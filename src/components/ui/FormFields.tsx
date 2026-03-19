@@ -17,14 +17,14 @@ interface TextareaProps extends BaseFieldProps {
 export function Input({ label, type = "text", ...props }: InputProps) {
   return (
     <label className="flex flex-col gap-1 text-sm">
-      <span className="text-accent-pink dark:text-accent-lavender font-medium">
+      <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
         {label}
       </span>
 
       <input
         type={type}
         className={clsx(
-          "rounded-xl border transition-colors duration-200",
+          "rounded-2xl border transition-colors duration-200",
           "border-border-light dark:border-border-dark",
           "bg-surface-cardLight dark:bg-surface-cardDark",
           "py-3 px-4",
@@ -43,14 +43,14 @@ export function Input({ label, type = "text", ...props }: InputProps) {
 export function Textarea(props: TextareaProps) {
   return (
     <label className="flex flex-col gap-1 text-sm">
-      <span className="text-accent-pink dark:text-accent-lavender font-medium">
+      <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
         {props.label}
       </span>
 
       <textarea
         className="
           min-h-[100px]
-          rounded-xl
+          rounded-2xl
           border
           border-border-light dark:border-border-dark
           bg-surface-cardLight dark:bg-surface-cardDark

@@ -24,21 +24,21 @@ export default function NotificationItem({
     <div
       onClick={() => onRead(id)}
       className={clsx(
-        "p-3 mb-1 cursor-pointer transition rounded-lg border",
-        "border-border-accentLight dark:border-border-dark",
-        !read && "bg-soft-light dark:bg-soft-dark font-medium",
-        "hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark",
-        type === "appointment" && "border-l-2 border-primary",
-        type === "reminder" && "border-l-2 border-status-soon-dot",
-        type === "result" && "border-l-2 border-status-done-dot",
+        "p-3 mb-1 cursor-pointer transition rounded-xl",
+
+        !read && "bg-[#f5efe8] dark:bg-soft-dark",
+        "hover:bg-[#f5efe8] dark:hover:bg-soft-hoverDark",
+        type === "appointment" && " border-primary",
+        type === "reminder" && " border-status-soon-dot",
+        type === "result" && " border-status-done-dot",
       )}
     >
       <div className="flex justify-between items-start">
         <div>
-          <p className="text-sm text-text-accentLight dark:text-text-accentDark">
+          <p className="text-xs font-light  text-text-primary dark:text-text-darkPrimary">
             {title}
           </p>
-          <p className="text-xs text-text-secondary dark:text-text-darkSecondary">
+          <p className="text-xs font-light text-text-muted dark:text-text-darkMuted mt-0.5">
             {message}
           </p>
           <p className="text-[10px] mt-1 text-text-muted dark:text-text-darkMuted">
