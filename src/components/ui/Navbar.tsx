@@ -8,9 +8,9 @@ import NavItem from "./NavItem";
 import UserMenu from "./UserMenu";
 
 const navItems = [
-  { to: "/", label: "Home", icon: Home },
-  { to: "/exams", label: "Exams", icon: ClipboardList },
-  { to: "/exams/new", label: "Add", icon: Plus },
+  { to: "/", label: "Home", icon: Home, end: true },
+  { to: "/exams", label: "Exams", icon: ClipboardList, end: true },
+  { to: "/exams/new", label: "Add", icon: Plus, end: true },
 ];
 
 export default function Navbar() {
@@ -42,6 +42,7 @@ export default function Navbar() {
                 to={item.to}
                 label={item.label}
                 icon={item.icon}
+                end={item.end}
               />
             ))}
           </div>

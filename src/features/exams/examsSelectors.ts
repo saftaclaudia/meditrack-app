@@ -19,3 +19,17 @@ export const selectExamsWithStatus = createSelector(
     }));
   },
 );
+
+export const selectExamsSummary = createSelector(
+  [selectExamsWithStatus],
+  (exams) => {
+    const total = exams.length;
+    const upcoming = exams.filter(
+      (e) => e.status === "upcoming" || e.status === "soon",
+    ).length;
+    const overdue = exams.filter((e) => e.status === "overdue").length;
+    const done = exams.filter((e) => e.status === "done").length;
+
+    return { total, upcoming, overdue, done };
+  },
+);

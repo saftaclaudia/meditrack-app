@@ -1,27 +1,76 @@
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../../app/hooks";
-import { ExamsList } from "../compunents/ExamsList";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+
 import { Button } from "../../../components/ui/Button";
 import { FabButton } from "../../../components/ui/FabButton";
+import { ExamFilterBar, type ExamFilter } from "../compunents/ExamFilterBar";
+import {
+  selectExamsItems,
+  selectExamsSummary,
+  selectExamsWithStatus,
+} from "../examsSelectors";
+import { useMemo, useState } from "react";
+import { getDueExams } from "../utils/getRecommendedStatus";
+import { ExamsBadgeSummary } from "../compunents/ExamsBadgeSummary";
+import { ExamSection } from "../compunents/ExamSection";
+import { RecommendedExamCard } from "../compunents/RecommendedExamCard";
+import { ExamCard } from "../compunents/ExamCard";
+import { removeExam } from "../examsSlice";
 
 export function ExamsPage() {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [activeFilter, setActiveFilter] = useState<ExamFilter>("all");
+
+  const exams = useAppSelector(selectExamsWithStatus);
+  const rawExams = useAppSelector(selectExamsItems);
+  const sumary = useAppSelector(selectExamsSummary);
+  const dueExams = useMemo(() => getDueExams(rawExams), [rawExams]);
+
   const loading = useAppSelector((state) => state.exams.loading);
+
+  // counts for filter bar
+  const counts: Record<ExamFilter, number> = {
+    all: exams.length,
+    upcoming: sumary.upcoming,
+    due: dueExams.length,
+    done: sumary.done,
+    overdue: sumary.overdue,
+  };
+
+  // filtered exams
+  const filteredExams = useMemo(() => {
+    if (activeFilter === "all") return exams;
+    if (activeFilter === "due") return [];
+    if (activeFilter === "upcoming")
+      return exams.filter(
+        (e) => e.status === "upcoming" || e.status === "soon",
+      );
+    return exams.filter((e) => e.status === activeFilter);
+  }, [exams, activeFilter]);
+
+  const showDueSection = activeFilter === "all" || activeFilter === "due";
+  const showExamsSection = activeFilter !== "due";
 
   if (loading)
     return (
-      <p className="text-center mt-10 font-light tracking-wide">
+      <p className="text-center mt-10 font-light tracking-wide text-text-muted dark:text-text-darkMuted">
         Loading exams...
       </p>
     );
 
   return (
-    <div className="p-4 md:p-8 space-y-6 ">
-      {/* HEADER */}
+    <div className="space-y-8 ">
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-serif font-light dark:text-darkPrimary">
-          My medical exams
-        </h1>
+        <div>
+          <p className="text-ex font-light tracking-widest upercase text-text-muted dark:text-text-darkMuted mb-1">
+            Health tracking
+          </p>
+          <h1 className="font-serif font-light  text-3xl text-text-primary dark:text-text-darkPrimary">
+            My examinations
+          </h1>
+        </div>
 
         {/* Desktop button */}
         <div className="hidden md:block">
@@ -29,7 +78,55 @@ export function ExamsPage() {
         </div>
       </div>
 
-      <ExamsList onEdit={(exam) => navigate(`/exams/${exam.id}/edit`)} />
+      {/* Summary */}
+      <ExamsBadgeSummary />
+
+      {/* Filter bar */}
+      <ExamFilterBar
+        active={activeFilter}
+        onChange={setActiveFilter}
+        counts={counts}
+      />
+
+      {/* Due section */}
+      {showDueSection && dueExams.length > 0 && (
+        <ExamSection
+          title="Due for scheduling"
+          subtitle="Recomended exams for your age group"
+          count={dueExams.length}
+          empty="All recommended exams are up to date"
+        >
+          {dueExams.map((exam) => (
+            <RecommendedExamCard key={exam.id} exam={exam} />
+          ))}
+        </ExamSection>
+      )}
+
+      {/* Exams section */}
+      {showExamsSection && (
+        <ExamSection
+          title={
+            activeFilter === "all"
+              ? "All exams"
+              : activeFilter === "upcoming"
+                ? "Upcoming exams"
+                : activeFilter === "overdue"
+                  ? "Overdue exams"
+                  : "Completed exams"
+          }
+          count={filteredExams.length}
+          empty="No exams in this category"
+        >
+          {filteredExams.map((exam) => (
+            <ExamCard
+              key={exam.id}
+              exam={exam}
+              onEdit={(exam) => navigate(`/exams/${exam.id}/edit`)}
+              onDelete={(id) => dispatch(removeExam(id))}
+            />
+          ))}
+        </ExamSection>
+      )}
 
       {/* Mobile FAB */}
       <FabButton

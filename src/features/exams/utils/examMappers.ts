@@ -12,5 +12,6 @@ export function examToFormData(exam: Exam): ExamFormData {
     result: exam.result ?? "",
     treatment: exam.treatment ?? "",
     notes: exam.notes ?? "",
+    documents: exam.documents ?? [],
   };
 }

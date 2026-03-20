@@ -6,6 +6,7 @@ interface NavItemProps {
   to: string;
   label: string;
   icon: LucideIcon;
+  end?: boolean;
 }
 
 // Styles
@@ -17,10 +18,11 @@ const navItemActive = "bg-[#F5EFE8] dark:bg-soft-dark text-primary";
 const navItemInactive =
   "text-text-muted dark:text-text-darkMuted hover:bg-[#F5EFE8] dark:hover:bg-soft-hoverDark";
 
-export default function NavItem({ to, label, icon: Icon }: NavItemProps) {
+export default function NavItem({ to, label, icon: Icon, end }: NavItemProps) {
   return (
     <NavLink
       to={to}
+      end={end}
       className={({ isActive }) =>
         clsx(navItemBase, isActive ? navItemActive : navItemInactive)
       }

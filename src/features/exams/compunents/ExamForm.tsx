@@ -15,6 +15,7 @@ import { FileUploadField } from "../../../components/ui/FileUploadField";
 interface ExamFormProps {
   editingExam: Exam | null;
   onFinish: () => void;
+  prefill?: { name?: string; speciality?: string } | null;
 }
 
 const emptyForm: ExamFormData = {
@@ -30,7 +31,7 @@ const emptyForm: ExamFormData = {
   documents: [],
 };
 
-export function ExamForm({ editingExam, onFinish }: ExamFormProps) {
+export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
   const dispatch = useAppDispatch();
 
   const [form, setForm] = useState<ExamFormData>(() =>
@@ -39,7 +40,11 @@ export function ExamForm({ editingExam, onFinish }: ExamFormProps) {
           ...examToFormData(editingExam),
           documents: editingExam.documents ?? [],
         }
-      : emptyForm,
+      : {
+          ...emptyForm,
+          name: prefill?.name ?? "",
+          speciality: prefill?.speciality ?? "",
+        },
   );
 
   const handleChange = (
