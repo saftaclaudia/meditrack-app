@@ -1,10 +1,9 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { removeExam } from "../examsSlice";
-import type { Exam } from "../../../types/exam";
+import type { Exam, ExamWithMongoId } from "../../../types/exam";
 
 import { ExamCard } from "./ExamCard";
 import { useEffect } from "react";
-import { fetchExams } from "../examsThunks";
+import { deleteExam, fetchExams } from "../examsThunks";
 import { selectExamsWithStatus } from "../examsSelectors";
 
 interface ExamListProps {
@@ -16,13 +15,11 @@ export function ExamsList({ onEdit }: ExamListProps) {
   const exams = useAppSelector(selectExamsWithStatus);
 
   useEffect(() => {
-    if (exams.length === 0) {
-      dispatch(fetchExams());
-    }
-  }, [dispatch, exams.length]);
+    dispatch(fetchExams());
+  }, [dispatch]);
 
   const handleDelete = (id: string) => {
-    dispatch(removeExam(id));
+    dispatch(deleteExam(id));
   };
 
   if (exams.length === 0) {
@@ -37,7 +34,7 @@ export function ExamsList({ onEdit }: ExamListProps) {
     <div className="grid grid-cols-1 gap-3 md:gap-4">
       {exams.map((exam) => (
         <ExamCard
-          key={exam.id}
+          key={(exam as ExamWithMongoId)._id ?? exam.id}
           exam={exam}
           onEdit={onEdit}
           onDelete={handleDelete}

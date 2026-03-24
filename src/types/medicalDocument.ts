@@ -1,5 +1,6 @@
 export interface MedicalDocument {
-  id: string;
+  id?: string;
+  _id?: string;
   name: string;
   file: string;
   uploadedAt: string;

@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5001", // fără /api, pentru că backend-ul tău are rutele direct sub /auth
+  baseURL: "http://localhost:5001",
   headers: {
     "Content-Type": "application/json",
   },

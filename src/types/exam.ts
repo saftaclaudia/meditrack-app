@@ -13,3 +13,5 @@ export interface Exam {
   notes?: string;
   documents?: MedicalDocument[];
 }
+
+export type ExamWithMongoId = Exam & { _id?: string };

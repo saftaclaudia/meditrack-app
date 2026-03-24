@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ConfirmModal } from "../../../components/ui/ConfirmModal";
-import type { Exam } from "../../../types/exam";
+import type { Exam, ExamWithMongoId } from "../../../types/exam";
 import { getExamStatus } from "../utils/getExamStatus";
 import { downloadPdf, viewPdf } from "../../../utils/documentActions";
 import {
@@ -157,9 +157,9 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
                   Documents
                 </p>
                 <div className="flex flex-col gap-2">
-                  {exam.documents!.map((doc) => (
+                  {exam.documents!.map((doc, index) => (
                     <div
-                      key={doc.id}
+                      key={doc.id ?? doc._id ?? index}
                       className="flex items-center justify-between bg-surface-mutedLight dark:bg-surface-mutedDark px-3 py-2.5 rounded-xl border border-border-light dark:border-border-dark"
                     >
                       <div className="flex items-center gap-2 min-w-0">
@@ -202,7 +202,8 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
         cancelText="Cancel"
         onCancel={() => setOpenConfirm(false)}
         onConfirm={() => {
-          onDelete(exam.id);
+          const examId = (exam as ExamWithMongoId)._id ?? exam.id;
+          onDelete(examId);
           setOpenConfirm(false);
         }}
       />

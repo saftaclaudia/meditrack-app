@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
-import type { Exam } from "../../../types/exam";
-import { v4 as uuid } from "uuid";
+import type { Exam, ExamWithMongoId } from "../../../types/exam";
 
-import { addExam, updateExam } from "../examsSlice";
 import { Button } from "../../../components/ui/Button";
 
 import { examToFormData } from "../utils/examMappers";
@@ -11,6 +9,7 @@ import type { ExamFormData } from "../../../types/examForm";
 
 import { Input, Textarea } from "../../../components/ui/FormFields";
 import { FileUploadField } from "../../../components/ui/FileUploadField";
+import { createExam, updateExam } from "../examsThunks";
 
 interface ExamFormProps {
   editingExam: Exam | null;
@@ -54,11 +53,12 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (editingExam) {
-      dispatch(updateExam({ ...editingExam, ...form }));
+      const examId = (editingExam as ExamWithMongoId)._id ?? editingExam.id;
+      await dispatch(updateExam({ ...editingExam, ...form, id: examId }));
     } else {
-      dispatch(addExam({ id: uuid(), ...form }));
+      await dispatch(createExam(form));
     }
     onFinish();
     setForm(emptyForm);

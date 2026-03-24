@@ -9,13 +9,14 @@ import {
   selectExamsSummary,
   selectExamsWithStatus,
 } from "../examsSelectors";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getDueExams } from "../utils/getRecommendedStatus";
 import { ExamsBadgeSummary } from "../compunents/ExamsBadgeSummary";
 import { ExamSection } from "../compunents/ExamSection";
 import { RecommendedExamCard } from "../compunents/RecommendedExamCard";
 import { ExamCard } from "../compunents/ExamCard";
-import { removeExam } from "../examsSlice";
+import { deleteExam, fetchExams } from "../examsThunks";
+import type { ExamWithMongoId } from "../../../types/exam";
 
 export function ExamsPage() {
   const dispatch = useAppDispatch();
@@ -37,6 +38,10 @@ export function ExamsPage() {
     done: sumary.done,
     overdue: sumary.overdue,
   };
+
+  useEffect(() => {
+    dispatch(fetchExams());
+  }, [dispatch]);
 
   // filtered exams
   const filteredExams = useMemo(() => {
@@ -119,10 +124,14 @@ export function ExamsPage() {
         >
           {filteredExams.map((exam) => (
             <ExamCard
-              key={exam.id}
+              key={(exam as ExamWithMongoId)._id ?? exam.id}
               exam={exam}
-              onEdit={(exam) => navigate(`/exams/${exam.id}/edit`)}
-              onDelete={(id) => dispatch(removeExam(id))}
+              onEdit={(exam) =>
+                navigate(
+                  `/exams/${(exam as ExamWithMongoId)._id ?? exam.id}/edit`,
+                )
+              }
+              onDelete={(id) => dispatch(deleteExam(id))}
             />
           ))}
         </ExamSection>

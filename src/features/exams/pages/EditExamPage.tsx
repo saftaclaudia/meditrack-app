@@ -1,13 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../../app/hooks";
 import { ExamForm } from "../compunents/ExamForm";
+import type { ExamWithMongoId } from "../../../types/exam";
 
 export function EditExamPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const exam = useAppSelector((state) =>
-    state.exams.items.find((item) => item.id === id),
+    state.exams.items.find((item) => {
+      const mongoId = (item as ExamWithMongoId)._id;
+      return mongoId === id || item.id === id;
+    }),
   );
 
   if (!exam) {
