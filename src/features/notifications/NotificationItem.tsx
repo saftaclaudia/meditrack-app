@@ -2,27 +2,27 @@ import clsx from "clsx";
 import type { NotificationType } from "../../types/notification";
 
 interface NotificationItemProps {
-  id: string;
+  _id: string;
   title: string;
   message: string;
-  timestamp: string;
+  createdAt: string;
   read: boolean;
   type: NotificationType;
   onRead: (id: string) => void;
 }
 
 export default function NotificationItem({
-  id,
+  _id,
   title,
   message,
-  timestamp,
+  createdAt,
   read,
   type,
   onRead,
 }: NotificationItemProps) {
   return (
     <div
-      onClick={() => onRead(id)}
+      onClick={() => onRead(_id)}
       className={clsx(
         "p-3 mb-1 cursor-pointer transition rounded-xl",
 
@@ -42,14 +42,14 @@ export default function NotificationItem({
             {message}
           </p>
           <p className="text-[10px] mt-1 text-text-muted dark:text-text-darkMuted">
-            {new Date(timestamp).toLocaleString()}
+            {new Date(createdAt).toLocaleString()}
           </p>
         </div>
         {!read && (
           <button
             onClick={(e) => {
               e.stopPropagation();
-              onRead(id);
+              onRead(_id);
             }}
             className="text-[10px] text-primary hover:underline"
           >

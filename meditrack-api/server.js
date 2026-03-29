@@ -2,8 +2,14 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const connectDB = require("./config/db");
+
 const authRoutes = require("./routes/authRoutes");
 const examRoutes = require("./routes/examRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
+
+// Cron jobs
+const { scheduleExamNotifications } = require("./jobs/examNotifications");
+const { scheduleCaloriesReminder } = require("./jobs/caloriesNotifications");
 
 const app = express();
 
@@ -17,13 +23,12 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // Routes
 app.use("/auth", authRoutes);
-console.log("Exams route inregistrata");
 app.use("/exams", examRoutes);
+app.use("/notifications", notificationRoutes);
 
-// Test route
-app.get("/", (req, res) => {
-  res.send("MediTrack API running");
-});
+// Start cron jobs after connecting to DB
+scheduleExamNotifications();
+scheduleCaloriesReminder();
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {

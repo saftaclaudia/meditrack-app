@@ -2,8 +2,11 @@ import { useEffect } from "react";
 import { Bell } from "lucide-react";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { fetchNotifications } from "./notificationsThunks";
-import { markAsRead, markAllAsRead } from "./notificationsSlice";
+import {
+  fetchNotifications,
+  markAllNotificationsAsRead,
+  markNotificationAsRead,
+} from "./notificationsThunks";
 
 import NotificationItem from "./NotificationItem";
 import Dropdown from "../../components/ui/Dropdown";
@@ -39,7 +42,9 @@ export function NotificationDropdown() {
       className="w-72 left-0 md:right-0 md:left-auto "
     >
       {/* HEADER */}
-      <NotificationHeader onMarkAll={() => dispatch(markAllAsRead())} />
+      <NotificationHeader
+        onMarkAll={() => dispatch(markAllNotificationsAsRead())}
+      />
 
       {/* CONTENT */}
       <div className="max-h-64 overflow-y-auto">
@@ -54,9 +59,9 @@ export function NotificationDropdown() {
         ) : (
           notifications.map((n) => (
             <NotificationItem
-              key={n.id}
+              key={n._id}
               {...n}
-              onRead={(id) => dispatch(markAsRead(id))}
+              onRead={(id) => dispatch(markNotificationAsRead(id))}
             />
           ))
         )}

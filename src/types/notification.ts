@@ -5,11 +5,10 @@ export type NotificationType =
   | "general";
 
 export interface Notification {
-  id: string;
+  _id: string;
   title: string;
   message: string;
-  timestamp: string;
-  read: boolean;
   type: NotificationType;
-  onRead: (id: string) => void;
+  read: boolean;
+  createdAt: string;
 }

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../../app/hooks";
-import { ExamForm } from "../compunents/ExamForm";
+import { ExamForm } from "../components/ExamForm";
 import type { ExamWithMongoId } from "../../../types/exam";
 
 export function EditExamPage() {

@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { ExamForm } from "../compunents/ExamForm";
+import { ExamForm } from "../components/ExamForm";
 import { useEffect } from "react";
 
 export function AddExamPage() {

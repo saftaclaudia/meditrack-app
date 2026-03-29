@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 
 import { Button } from "../../../components/ui/Button";
 import { FabButton } from "../../../components/ui/FabButton";
-import { ExamFilterBar, type ExamFilter } from "../compunents/ExamFilterBar";
+import { ExamFilterBar, type ExamFilter } from "../components/ExamFilterBar";
 import {
   selectExamsItems,
   selectExamsSummary,
@@ -11,10 +11,10 @@ import {
 } from "../examsSelectors";
 import { useEffect, useMemo, useState } from "react";
 import { getDueExams } from "../utils/getRecommendedStatus";
-import { ExamsBadgeSummary } from "../compunents/ExamsBadgeSummary";
-import { ExamSection } from "../compunents/ExamSection";
-import { RecommendedExamCard } from "../compunents/RecommendedExamCard";
-import { ExamCard } from "../compunents/ExamCard";
+import { ExamsBadgeSummary } from "../components/ExamsBadgeSummary";
+import { ExamSection } from "../components/ExamSection";
+import { RecommendedExamCard } from "../components/RecommendedExamCard";
+import { ExamCard } from "../components/ExamCard";
 import { deleteExam, fetchExams } from "../examsThunks";
 import type { ExamWithMongoId } from "../../../types/exam";
 
