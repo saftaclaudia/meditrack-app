@@ -3,6 +3,7 @@ import settingsReducer from "../features/settings/settingsSlice";
 import examsReducer from "../features/exams/examsSlice";
 import authReducer from "../features/auth/authSlice";
 import notificationsReducer from "../features/notifications/notificationsSlice";
+import caloriesReducer from "../features/calories/caloriesSlices";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     settings: settingsReducer,
     exams: examsReducer,
     notifications: notificationsReducer,
+    calories: caloriesReducer,
   },
 });
 

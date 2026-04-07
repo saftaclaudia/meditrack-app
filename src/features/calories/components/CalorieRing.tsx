@@ -1,0 +1,82 @@
+interface CalorieRingProps {
+  consumed: number;
+  goal: number;
+}
+
+export default function CalorieRing({ consumed, goal }: CalorieRingProps) {
+  const percentage = Math.min((consumed / goal) * 100, 100);
+  const radius = 54;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
+  const color =
+    percentage >= 100 ? "#e57373" : percentage >= 75 ? "#f4a261" : "#c8a98a";
+  const remaining = goal - consumed;
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <svg width="140" height="140" viewBox="0 0 120 120">
+        <circle
+          cx="60"
+          cy="60"
+          r={radius}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="10"
+          className="text-border-light dark:text-border-dark"
+        />
+        <circle
+          cx="60"
+          cy="60"
+          r={radius}
+          fill="none"
+          stroke={color}
+          strokeWidth="10"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          transform="rotate(-90 60 60)"
+          style={{ transition: "stroke-dashoffset 0.5s ease" }}
+        />
+        <text
+          x="60"
+          y="55"
+          textAnchor="middle"
+          className="fill-text-primary dark:fill-text-darkPrimary"
+          fontSize="16"
+          fontWeight="300"
+        >
+          {consumed}
+        </text>
+        <text
+          x="60"
+          y="72"
+          textAnchor="middle"
+          className="fill-text-muted dark:fill-text-darkMuted"
+          fontSize="9"
+          fontWeight="300"
+        >
+          kcal
+        </text>
+      </svg>
+      <div className="flex gap-6 text-center">
+        <div>
+          <p className="text-lg font-light text-text-primary dark:text-text-darkPrimary">
+            {goal}
+          </p>
+          <p className="text-[10px] uppercase tracking-widest text-text-muted dark:text-text-darkMuted">
+            Goal
+          </p>
+        </div>
+        <div className="w-px bg-border-light dark:bg-border-dark" />
+        <div>
+          <p className="text-lg font-light text-text-primary dark:text-text-darkPrimary">
+            {remaining > 0 ? remaining : 0}
+          </p>
+          <p className="text-[10px] uppercase tracking-widest text-text-muted dark:text-text-darkMuted">
+            Remaining
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

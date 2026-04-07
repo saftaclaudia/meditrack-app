@@ -1,7 +1,37 @@
 export interface CalorieEntry {
-  id: string;
-  date: string;
-  meal: "breakfast" | "lunch" | "dinner" | "snack";
-  food: string;
+  _id: string;
+  name: string;
   calories: number;
+  quantity: number;
+  unit: string;
+}
+
+export type MealType = "breakfast" | "lunch" | "dinner" | "snack";
+
+export interface Meal {
+  _id: string;
+  type: MealType;
+  entries: CalorieEntry[];
+}
+export interface CalorieLog {
+  _id: string;
+  user: string;
+  date: string;
+  dailyGoal: number;
+  meals: Meal[];
+}
+
+export type NewEntry = Omit<CalorieEntry, "_id">;
+
+export interface AddEntryPayload {
+  date: string;
+  mealType: MealType;
+  entry: NewEntry;
+  dailyGoal?: number;
+}
+
+export interface DaySummary {
+  date: string;
+  totalCalorie: number;
+  dailyGoal: number;
 }
