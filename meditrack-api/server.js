@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const examRoutes = require("./routes/examRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
+const calorieRoutes = require("./routes/calorieRoutes");
 
 // Cron jobs
 const { scheduleExamNotifications } = require("./jobs/examNotifications");
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use("/auth", authRoutes);
 app.use("/exams", examRoutes);
 app.use("/notifications", notificationRoutes);
+app.use("/calories", calorieRoutes);
 
 // Start cron jobs after connecting to DB
 scheduleExamNotifications();

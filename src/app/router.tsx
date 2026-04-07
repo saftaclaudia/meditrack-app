@@ -14,6 +14,7 @@ import { ProtectedRoute } from "../routes/ProtectedRoute";
 import { PublicRoute } from "../routes/PublicRoute";
 
 import ForgotPasswordPage from "../features/auth/pages/ForgotPasswordPage";
+import CaloriesPage from "../features/calories/CaloriesPage";
 
 export default function Router() {
   return (
@@ -32,6 +33,7 @@ export default function Router() {
             <Route path="/exams" element={<ExamsPage />} />
             <Route path="/exams/new" element={<AddExamPage />} />
             <Route path="/exams/:id/edit" element={<EditExamPage />} />
+            <Route path="/calories" element={<CaloriesPage />} />
           </Route>
         </Route>
       </Routes>
