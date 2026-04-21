@@ -1,10 +1,20 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const { type } = require("os");
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  age: { type: Number },
+  sex: { type: String, enum: ["male", "female"] },
+  heightCm: { type: Number },
+  weightKg: { type: Number },
+  activityLevel: {
+    type: String,
+    enum: ["sedentary", "light", "moderate", "active", "very_active"],
+    default: "sedentary",
+  },
 });
 
 // Encrypt password before save
