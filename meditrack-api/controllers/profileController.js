@@ -4,12 +4,12 @@ const calculateRecommendedCalories = (user) => {
   const { age, sex, heightCm, weightKg, targetWeightKg, activityLevel } = user;
 
   if (!age || !sex || !heightCm || !weightKg) return null;
-  // BRM
+  // BMR
   let bmr;
   if (sex === "male") {
-    brm = 10 * weightKg + 6.25 * heightCm - 5 * age + 5;
+    bmr = 10 * weightKg + 6.25 * heightCm - 5 * age + 5;
   } else {
-    brm = 10 * weightKg + 6.25 + heightCm - 5 * age - 161;
+    bmr = 10 * weightKg + 6.25 * heightCm - 5 * age - 161;
   }
 
   // TDEE
@@ -20,7 +20,7 @@ const calculateRecommendedCalories = (user) => {
     active: 1.725,
     very_active: 1.9,
   };
-  const tdee = brm * (activityFactors[activityLevel] || 1.2);
+  const tdee = bmr * (activityFactors[activityLevel] || 1.2);
 
   if (!targetWeightKg) return Math.round(tdee);
 
@@ -43,6 +43,7 @@ const getProfile = async (req, res) => {
     res.json({
       _id: user._id,
       name: user.name,
+      sex: user.sex,
       email: user.email,
       age: user.age,
       heightCm: user.heightCm,
@@ -85,6 +86,7 @@ const updateProfile = async (req, res) => {
     res.json({
       _id: user._id,
       name: user.name,
+      sex: user.sex,
       email: user.email,
       age: user.age,
       heightCm: user.heightCm,

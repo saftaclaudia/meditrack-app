@@ -17,7 +17,7 @@ export interface UserProfile {
   heightCm?: number;
   weightKg?: number;
   targetWeightKg?: number;
-  activityLegel?: ActivityLevel;
+  activityLevel?: ActivityLevel;
   recommendedCalories: number | null;
 }
 // PATCH /api/profile
@@ -29,7 +29,7 @@ export type UpdateProfilePayload = Partial<{
   heightCm: number;
   weightKg: number;
   targetWeightKg: number;
-  activityLegel: ActivityLevel;
+  activityLevel: ActivityLevel;
 }>;
 
 // Redux state

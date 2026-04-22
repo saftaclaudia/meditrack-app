@@ -95,7 +95,7 @@ export function BottomNav() {
               </span>
             </NavLink>
 
-            {/* Settings */}
+            {/* Settings*/}
             <NavLink
               to="/settings"
               className={({ isActive }) =>

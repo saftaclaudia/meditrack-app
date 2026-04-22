@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Plus, Home, ClipboardList } from "lucide-react";
+import { Plus, Home, ClipboardList, User } from "lucide-react";
 import getPageTitle from "../../utils/getPageTitle";
 import clsx from "clsx";
 
@@ -10,6 +10,7 @@ import UserMenu from "./UserMenu";
 const navItems = [
   { to: "/", label: "Home", icon: Home, end: true },
   { to: "/exams", label: "Exams", icon: ClipboardList, end: true },
+  { to: "/calories", label: "Nutrition", icon: User, end: true },
   { to: "/exams/new", label: "Add", icon: Plus, end: true },
 ];
 

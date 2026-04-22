@@ -3,5 +3,5 @@ export default function getPageTitle(pathname: string) {
   if (pathname.startsWith("/exams")) return "Medical Exams";
   if (pathname.startsWith("/exams/new")) return "Add Exam";
   if (pathname.startsWith("/settings")) return "Settings";
-  return "";
+  if (pathname.startsWith("/profile")) return "Health Profile";
 }

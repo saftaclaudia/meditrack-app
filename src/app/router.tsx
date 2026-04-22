@@ -30,6 +30,7 @@ export default function Router() {
           <Route element={<AppLayout />}>
             <Route path="/" element={<DashBoard />} />
             <Route path="/settings" element={<SettingsPage />} />
+
             <Route path="/exams" element={<ExamsPage />} />
             <Route path="/exams/new" element={<AddExamPage />} />
             <Route path="/exams/:id/edit" element={<EditExamPage />} />
