@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { fetchProfile } from "../profile/profileThunks";
-import { TabBar } from "./components/TabBar";
+import { TabBar, type TabId } from "./components/TabBar";
 import { LogContent } from "./components/LogContent";
 import { ProfilePage } from "../profile/pages/ProfilePage";
+import { HistoryContent } from "./components/HistoryContent";
 
 export default function CaloriesPage() {
   const dispatch = useAppDispatch();
   const { profile } = useAppSelector((s) => s.profile);
 
-  const [activeTab, setActiveTab] = useState<"log" | "profile">("log");
+  const [activeTab, setActiveTab] = useState<TabId>("log");
 
   useEffect(() => {
     dispatch(fetchProfile());
@@ -38,6 +39,7 @@ export default function CaloriesPage() {
           profileIncomplete={profileIncomplete}
         />
       )}
+      {activeTab === "history" && <HistoryContent dailyGoal={dailyGoal} />}
       {activeTab === "profile" && <ProfilePage />}
     </div>
   );

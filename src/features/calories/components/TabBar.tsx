@@ -1,16 +1,19 @@
+export type TabId = "log" | "profile" | "history";
+
 interface Tab {
-  id: "log" | "profile";
+  id: TabId;
   label: string;
 }
 
 const TABS: Tab[] = [
   { id: "log", label: "Log" },
+  { id: "history", label: "History" },
   { id: "profile", label: "Profile" },
 ];
 
 interface TabBarProps {
-  activeTab: "log" | "profile";
-  onChange: (tab: "log" | "profile") => void;
+  activeTab: TabId;
+  onChange: (tab: TabId) => void;
 }
 
 export function TabBar({ activeTab, onChange }: TabBarProps) {
