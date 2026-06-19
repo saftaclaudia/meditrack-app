@@ -9,7 +9,7 @@ export default function CalorieRing({ consumed, goal }: CalorieRingProps) {
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
   const color =
-    percentage >= 100 ? "#e57373" : percentage >= 75 ? "#f4a261" : "#c8a98a";
+    percentage >= 100 ? "#ef4444" : percentage >= 75 ? "#f59e0b" : "#0d9488";
   const remaining = goal - consumed;
 
   return (

@@ -17,8 +17,8 @@ export function FabButton({
   ...rest
 }: FabButtonProps) {
   const variantStyles: Record<FabVariant, string> = {
-    primary: "bg-primary hover:bg-[#b39470] focus:ring-primary",
-    danger: "bg-danger hover:bg-[#a84848] focus:ring-danger",
+    primary: "bg-primary hover:bg-primary-hover focus:ring-primary",
+    danger: "bg-danger hover:bg-danger-hover focus:ring-danger",
   };
 
   const sizeStyles: Record<FabSize, string> = {

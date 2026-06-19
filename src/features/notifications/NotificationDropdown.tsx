@@ -29,7 +29,7 @@ export function NotificationDropdown() {
   return (
     <Dropdown
       trigger={
-        <button className="relative p-1.5 rounded-full hover:bg-[#F5EFE8] dark:hover:bg-soft-hoverDark transition">
+        <button className="relative p-1.5 rounded-full hover:bg-soft-light dark:hover:bg-soft-hoverDark transition">
           <Bell size={20} className="text-text-icon dark:text-text-iconDark" />
 
           {unreadCount > 0 && (

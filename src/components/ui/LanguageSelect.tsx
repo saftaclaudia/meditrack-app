@@ -47,8 +47,8 @@ export function LanguageSelect() {
               className={clsx(
                 "w-full px-4 py-2 text-left text-sm transition-colors duration-200 hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark",
                 lang === currentLanguage
-                  ? "w-full px-4 py-2.5 text-left text-xs font-light text-primary bg-[#F5EFE8] dark:bg-soft-dark transition-colors"
-                  : "w-full px-4 py-2.5 text-left text-xs font-light text-text-secondary dark:text-text-darkSecondary hover:bg-[#F5EFE8] dark:hover:bg-soft-hoverDark transition-colors",
+                  ? "w-full px-4 py-2.5 text-left text-xs font-light text-primary bg-soft-light dark:bg-soft-dark transition-colors"
+                  : "w-full px-4 py-2.5 text-left text-xs font-light text-text-secondary dark:text-text-darkSecondary hover:bg-soft-light dark:hover:bg-soft-hoverDark transition-colors",
               )}
             >
               {lang.toUpperCase()}

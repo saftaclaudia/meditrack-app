@@ -13,10 +13,10 @@ interface NavItemProps {
 const navItemBase =
   "flex items-center gap-2 text-xs tracking-wide font-light transition-colors duration-200 px-3 py-2 rounded-lg";
 
-const navItemActive = "bg-[#F5EFE8] dark:bg-soft-dark text-primary";
+const navItemActive = "bg-soft-light dark:bg-soft-dark text-primary";
 
 const navItemInactive =
-  "text-text-muted dark:text-text-darkMuted hover:bg-[#F5EFE8] dark:hover:bg-soft-hoverDark";
+  "text-text-muted dark:text-text-darkMuted hover:bg-soft-light dark:hover:bg-soft-hoverDark";
 
 export default function NavItem({ to, label, icon: Icon, end }: NavItemProps) {
   return (

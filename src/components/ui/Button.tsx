@@ -40,7 +40,7 @@ export function Button({
       "bg-danger text-white hover:bg-danger-hover focus:ring-danger/30 border border-danger",
 
     outline:
-      "border border-primary text-primary bg-transparent hover:bg-[#f5efe8]dark:hover:bg-[#2a2622]focus:ring-primary/20",
+      "border border-primary text-primary bg-transparent hover:bg-soft-light dark:hover:bg-soft-dark focus:ring-primary/20",
   };
 
   return (

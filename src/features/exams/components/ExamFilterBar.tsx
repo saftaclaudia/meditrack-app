@@ -31,7 +31,7 @@ export function ExamFilterBar({
             "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-light tracking-widest uppercase transition-all duration-200 border",
             active === key
               ? "bg-primary text-background-light border-primary"
-              : "bg-transparent text-text-muted dark:text-text-darkMuted border-border-light dark:border-border-dark hover:bg-[#F5EFE8] dark:hover:bg-soft-dark hover:text-primary hover:border-primary",
+              : "bg-transparent text-text-muted dark:text-text-darkMuted border-border-light dark:border-border-dark hover:bg-soft-light dark:hover:bg-soft-dark hover:text-primary hover:border-primary",
           )}
         >
           {label}

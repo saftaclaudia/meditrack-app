@@ -44,8 +44,8 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
                 onClick={() => setShowDetails((p) => !p)}
                 className={`p-1.5 rounded-lg transition-colors duration-150 ${
                   showDetails
-                    ? "bg-[#F5EFE8] text-primary"
-                    : "text-text-muted dark:text-text-darkMuted hover:text-primary hover:bg-[#F5EFE8]"
+                    ? "bg-soft-light text-primary"
+                    : "text-text-muted dark:text-text-darkMuted hover:text-primary hover:bg-soft-light"
                 }`}
                 aria-label="Toggle details"
               >
@@ -54,7 +54,7 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
 
               <button
                 onClick={() => onEdit(exam)}
-                className="p-1.5 rounded-lg text-text-muted dark:text-text-darkMuted hover:text-primary hover:bg-[#F5EFE8] transition-colors duration-150"
+                className="p-1.5 rounded-lg text-text-muted dark:text-text-darkMuted hover:text-primary hover:bg-soft-light transition-colors duration-150"
                 aria-label="Edit exam"
               >
                 <EditIcon />
@@ -62,7 +62,7 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
 
               <button
                 onClick={() => setOpenConfirm(true)}
-                className="p-1.5 rounded-lg text-text-muted dark:text-text-darkMuted hover:text-danger hover:bg-[#F5E8E8] transition-colors duration-150"
+                className="p-1.5 rounded-lg text-text-muted dark:text-text-darkMuted hover:text-danger hover:bg-danger-soft transition-colors duration-150"
                 aria-label="Delete exam"
               >
                 <TrashIcon />
@@ -78,7 +78,7 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
           {/* meta row */}
           <div className="flex items-center justify-between">
             {docCount > 0 ? (
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#F5EFE8] text-primary text-xs font-light">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-soft-light text-primary text-xs font-light">
                 <DocIcon />
                 {docCount} {docCount === 1 ? "doc" : "docs"}
               </span>
@@ -172,7 +172,7 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
                       <div className="flex items-center gap-1.5 shrink-0 ml-2">
                         <button
                           onClick={() => viewPdf(doc.file)}
-                          className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary text-background-light text-xs font-light hover:bg-[#B39470] transition-colors"
+                          className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary text-background-light text-xs font-light hover:bg-primary-hover transition-colors"
                         >
                           <EyeIcon />
                           <span>View</span>
@@ -180,7 +180,7 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
 
                         <button
                           onClick={() => downloadPdf(doc.file, doc.name)}
-                          className="flex items-center gap-1 px-2.5 py-1.5 rounded-full border border-border-light dark:border-border-dark text-primary text-xs font-light hover:bg-[#F5EFE8] transition-colors"
+                          className="flex items-center gap-1 px-2.5 py-1.5 rounded-full border border-border-light dark:border-border-dark text-primary text-xs font-light hover:bg-soft-light transition-colors"
                         >
                           <DownloadIcon />
                         </button>
