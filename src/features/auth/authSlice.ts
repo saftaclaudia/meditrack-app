@@ -1,7 +1,8 @@
 // src/features/auth/authSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUser, loginUser } from "./authThunks";
-import type { AuthState } from "./authTypes";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { registerUser, loginUser, changePasswordThunk } from "./authThunks";
+import type { AuthState, User } from "./authTypes";
 
 function getInitialState(): AuthState {
   const token =
@@ -42,6 +43,18 @@ const authSlice = createSlice({
     },
     clearError(state) {
       state.error = null;
+    },
+    updateUser(state, action: PayloadAction<Partial<User>>) {
+      if (state.user) {
+        state.user = { ...state.user, ...action.payload };
+        const userJson = JSON.stringify(state.user);
+        if (localStorage.getItem("auth_user")) {
+          localStorage.setItem("auth_user", userJson);
+        }
+        if (sessionStorage.getItem("auth_user")) {
+          sessionStorage.setItem("auth_user", userJson);
+        }
+      }
     },
   },
   extraReducers: (builder) => {
@@ -98,9 +111,23 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Login failed";
+      })
+
+      // CHANGE PASSWORD
+      .addCase(changePasswordThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(changePasswordThunk.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(changePasswordThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to change password";
       });
   },
 });
 
-export const { logout, clearError } = authSlice.actions;
+export const { logout, clearError, updateUser } = authSlice.actions;
 export default authSlice.reducer;

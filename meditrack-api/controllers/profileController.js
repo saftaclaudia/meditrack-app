@@ -68,10 +68,16 @@ const updateProfile = async (req, res) => {
       targetWeightKg,
       activityLevel,
       name,
+      email,
     } = req.body;
     const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ message: "User not found" });
     if (name !== undefined) user.name = name;
+    if (email !== undefined) {
+      const emailTaken = await User.findOne({ email, _id: { $ne: req.user._id } });
+      if (emailTaken) return res.status(400).json({ message: "Email already in use" });
+      user.email = email;
+    }
     if (age !== undefined) user.age = age;
     if (sex !== undefined) user.sex = sex;
     if (heightCm !== undefined) user.heightCm = heightCm;

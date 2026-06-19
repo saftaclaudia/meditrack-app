@@ -1,6 +1,6 @@
 // src/features/auth/authThunks.ts
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { loginRequest, registerRequest } from "../../api/authApi";
+import { loginRequest, registerRequest, changePasswordRequest } from "../../api/authApi";
 import type { AuthResponse } from "./authTypes";
 import type { AxiosError } from "axios";
 
@@ -27,6 +27,19 @@ export const registerUser = createAsyncThunk<
       userData.password,
     );
     return data;
+  } catch (err: unknown) {
+    return rejectWithValue(getErrorMessage(err));
+  }
+});
+
+// CHANGE PASSWORD
+export const changePasswordThunk = createAsyncThunk<
+  { message: string },
+  { currentPassword: string; newPassword: string },
+  { rejectValue: string }
+>("auth/changePassword", async ({ currentPassword, newPassword }, { rejectWithValue }) => {
+  try {
+    return await changePasswordRequest(currentPassword, newPassword);
   } catch (err: unknown) {
     return rejectWithValue(getErrorMessage(err));
   }

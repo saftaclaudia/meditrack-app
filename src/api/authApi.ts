@@ -20,3 +20,14 @@ export const loginRequest = async (
   return response.data;
   console.log("LOGIN RESPONSE DATA:", response.data);
 };
+
+export const changePasswordRequest = async (
+  currentPassword: string,
+  newPassword: string,
+): Promise<{ message: string }> => {
+  const response = await api.put("/auth/change-password", {
+    currentPassword,
+    newPassword,
+  });
+  return response.data;
+};
