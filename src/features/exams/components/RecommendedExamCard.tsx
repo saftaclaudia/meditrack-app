@@ -57,7 +57,7 @@ export function RecommendedExamCard({ exam }: RecommendedExamCardProps) {
             },
           })
         }
-        className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-full border border-primary text-primary text-xs font-light tracking-widest uppercase hover:bg-[#f5efe8] transition-colors"
+        className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-full border border-primary text-primary text-xs font-light tracking-widest uppercase hover:bg-soft-light transition-colors"
       >
         <CalendarPlus size={14} strokeWidth={1.5} />
         <span className="hidden sm:inline">Schedule</span>

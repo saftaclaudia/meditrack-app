@@ -18,13 +18,13 @@ export function ExamsBadgeSummary() {
       label: "Upcoming",
       value: upcoming,
       color: "text-primary",
-      bg: "bg-[#f5efe8] dark:bg-soft-dark",
+      bg: "bg-soft-light dark:bg-soft-dark",
     },
     {
       label: "Due",
       value: dueCount,
       color: "text-danger",
-      bg: "bg-[#f5e8e8] dark:bg-[#251818]",
+      bg: "bg-danger-soft dark:bg-danger-softDark",
     },
     {
       label: "Overdue",

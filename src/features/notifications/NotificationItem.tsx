@@ -26,8 +26,8 @@ export default function NotificationItem({
       className={clsx(
         "p-3 mb-1 cursor-pointer transition rounded-xl",
 
-        !read && "bg-[#f5efe8] dark:bg-soft-dark",
-        "hover:bg-[#f5efe8] dark:hover:bg-soft-hoverDark",
+        !read && "bg-soft-light dark:bg-soft-dark",
+        "hover:bg-soft-light dark:hover:bg-soft-hoverDark",
         type === "appointment" && " border-primary",
         type === "reminder" && " border-status-soon-dot",
         type === "result" && " border-status-done-dot",

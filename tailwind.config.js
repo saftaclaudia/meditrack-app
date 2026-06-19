@@ -19,108 +19,109 @@ export default {
 
       colors: {
         primary: {
-          DEFAULT: "#C4A882",
-          hover: "#B39470",
-          soft: "#F5EFE8",
+          DEFAULT: "#0d9488", // teal-600
+          hover: "#0f766e",   // teal-700
+          soft: "#f0fdfa",    // teal-50
         },
 
         background: {
-          light: "#FAF7F4",
-          dark: "#1A1714",
+          light: "#f8fafc",   // slate-50
+          dark: "#0f172a",    // slate-900
         },
 
         surface: {
-          light: "#FFFFFF",
-          dark: "#221F1C",
-          cardLight: "#FFFFFF",
-          cardDark: "#221F1C",
-          mutedLight: "#F5F0EB",
-          mutedDark: "#2A2622",
+          light: "#ffffff",
+          dark: "#1e293b",        // slate-800
+          cardLight: "#ffffff",
+          cardDark: "#1e293b",
+          mutedLight: "#f1f5f9",  // slate-100
+          mutedDark: "#334155",   // slate-700
         },
 
         border: {
-          light: "#E8E0D8",
-          dark: "#3A332C",
-          subtleLight: "#F0EAE3",
-          accentLight: "#E8D9C8",
-          accentDark: "#4A3D30",
+          light: "#e2e8f0",       // slate-200
+          dark: "#334155",        // slate-700
+          subtleLight: "#f1f5f9",
+          accentLight: "#99f6e4", // teal-200
+          accentDark: "#134e4a",  // teal-900
         },
 
         text: {
-          primary: "#2C2420",
-          darkPrimary: "#EDE8E3",
+          primary: "#0f172a",        // slate-900
+          darkPrimary: "#f1f5f9",    // slate-100
 
-          secondary: "#7A6E66",
-          darkSecondary: "#A89D94",
+          secondary: "#475569",      // slate-600
+          darkSecondary: "#94a3b8",  // slate-400
 
-          muted: "#9C8878",
-          darkMuted: "#7A6E66",
+          muted: "#94a3b8",          // slate-400
+          darkMuted: "#64748b",      // slate-500
 
-          icon: "#9C8878",
-          iconDark: "#A89D94",
+          icon: "#64748b",           // slate-500
+          iconDark: "#94a3b8",       // slate-400
 
-          body: "#3D3028",
-          bodyDark: "#D4CCC4",
+          body: "#1e293b",           // slate-800
+          bodyDark: "#cbd5e1",       // slate-300
         },
 
         soft: {
-          light: "#F5F0EB",
-          dark: "#2A2622",
-          hoverLight: "#EDE6DE",
-          hoverDark: "#322E29",
+          light: "#f0fdfa",      // teal-50
+          dark: "#134e4a",       // teal-900
+          hoverLight: "#ccfbf1", // teal-100
+          hoverDark: "#115e59",  // teal-800
         },
 
         accent: {
-          rose: "#E8C4B8",
-          roseSoft: "#FAF0EC",
-          sand: "#D4C4B0",
-          sandSoft: "#F5EFE8",
-          taupe: "#C8B8A8",
+          rose: "#fbbf24",     // amber-400
+          roseSoft: "#fffbeb", // amber-50
+          sand: "#f59e0b",     // amber-500
+          sandSoft: "#fef3c7", // amber-100
+          taupe: "#d97706",    // amber-600
         },
 
         status: {
           upcoming: {
-            bg: "#F0EDE8",
-            bgDark: "#252018",
-            text: "#6B5A3E",
-            textDark: "#D4C4A0",
-            dot: "#C4A882",
+            bg: "#f0fdfa",
+            bgDark: "#134e4a",
+            text: "#0f766e",
+            textDark: "#5eead4",
+            dot: "#0d9488",
           },
 
           soon: {
-            bg: "#F5EDE8",
-            bgDark: "#251C18",
-            text: "#8B5E4A",
-            textDark: "#E0B8A4",
-            dot: "#C47860",
+            bg: "#fffbeb",
+            bgDark: "#451a03",
+            text: "#92400e",
+            textDark: "#fcd34d",
+            dot: "#f59e0b",
           },
 
           overdue: {
-            bg: "#F5E8E8",
-            bgDark: "#251818",
-            text: "#8B4A4A",
-            textDark: "#E0A4A4",
-            dot: "#C46060",
+            bg: "#fef2f2",
+            bgDark: "#450a0a",
+            text: "#991b1b",
+            textDark: "#fca5a5",
+            dot: "#ef4444",
           },
 
           done: {
-            bg: "#EDF0EC",
-            bgDark: "#1A201A",
-            text: "#4A6B4A",
-            textDark: "#A4C4A4",
-            dot: "#82A882",
+            bg: "#f0fdf4",
+            bgDark: "#052e16",
+            text: "#166534",
+            textDark: "#86efac",
+            dot: "#22c55e",
           },
         },
 
         edit: {
-          DEFAULT: "#C4A882",
-          hover: "#B39470",
+          DEFAULT: "#0d9488",
+          hover: "#0f766e",
         },
 
         danger: {
-          DEFAULT: "#C46060",
-          hover: "#A84848",
-          soft: "#F5E8E8",
+          DEFAULT: "#ef4444",  // red-500
+          hover: "#dc2626",    // red-600
+          soft: "#fef2f2",     // red-50
+          softDark: "#450a0a", // red-950
         },
       },
     },
