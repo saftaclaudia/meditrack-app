@@ -38,9 +38,9 @@ export default function Navbar() {
         <div className="hidden md:flex items-center justify-between py-4">
           <Link
             to="/"
-            className="font-sans text-lg font-bold tracking-tight text-primary hover:text-primary-hover transition-colors duration-200"
+            className="font-display text-lg font-bold tracking-widest uppercase text-primary hover:text-primary-hover transition-colors duration-200"
           >
-            Meditrack
+            Meditrack<span className="text-accent-rose">•</span>
           </Link>
 
           <div className="flex items-center gap-1">
@@ -70,8 +70,8 @@ export default function Navbar() {
 
           {/* Center: app name + current page */}
           <div className="flex flex-col items-center gap-1">
-            <span className="font-sans text-base font-black tracking-widest uppercase leading-none bg-gradient-to-r from-primary to-accent-rose bg-clip-text text-transparent">
-              Meditrack
+            <span className="font-display text-base font-bold tracking-widest uppercase leading-none text-primary">
+              Meditrack<span className="text-accent-rose">•</span>
             </span>
             {pageTitle && (
               <span className="px-2.5 py-0.5 rounded-full bg-primary/10 dark:bg-primary/20 text-[10px] font-semibold tracking-widest uppercase text-primary leading-tight">
