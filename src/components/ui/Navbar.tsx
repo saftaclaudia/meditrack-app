@@ -26,7 +26,7 @@ export default function Navbar() {
         "border-border-light dark:border-border-dark transition-colors duration-300",
       )}
     >
-      <div className="max-w-2xl mx-auto px-4 md:px-6">
+      <div className="max-w-5xl mx-auto px-4 md:px-8">
         {/* Desktop */}
         <div className="hidden md:flex items-center justify-between py-4">
           <Link
