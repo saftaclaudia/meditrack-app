@@ -40,7 +40,7 @@ export default function Navbar() {
             to="/"
             className="font-display text-lg font-bold tracking-widest uppercase text-primary hover:text-primary-hover transition-colors duration-200"
           >
-            Meditrack<span className="text-accent-rose">•</span>
+            Meditrack
           </Link>
 
           <div className="flex items-center gap-1">
@@ -71,11 +71,13 @@ export default function Navbar() {
           {/* Center: app name + current page */}
           <div className="flex flex-col items-center gap-1">
             <span className="font-display text-base font-bold tracking-widest uppercase leading-none text-primary">
-              Meditrack<span className="text-accent-rose">•</span>
+              Meditrack
             </span>
             {pageTitle && (
-              <span className="px-2.5 py-0.5 rounded-full bg-primary/10 dark:bg-primary/20 text-[10px] font-semibold tracking-widest uppercase text-primary leading-tight">
+              <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/10 dark:bg-primary/20 text-[10px] font-semibold tracking-widest uppercase text-primary leading-tight">
+                <span className="text-accent-rose">•</span>
                 {pageTitle}
+                <span className="text-accent-rose">•</span>
               </span>
             )}
           </div>
