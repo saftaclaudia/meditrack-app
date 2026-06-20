@@ -14,7 +14,7 @@ export default function DashBoard() {
     hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
   return (
-    <div className="space-y-8 pb-24">
+    <div className="space-y-6">
       {/* Header */}
       <div className="space-y-1">
         <p className="text-sm text-text-muted dark:text-text-darkMuted">
