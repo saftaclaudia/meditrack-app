@@ -27,41 +27,41 @@ export default {
 
         background: {
           light: "#f8fafc",
-          dark: "#0B1120",       // deeper dark for more contrast
+          dark: "#111827",       // gray-900 — neutru, fără tint
         },
 
         surface: {
           light: "#ffffff",
-          dark: "#162032",       // slightly lighter than bg
+          dark: "#1F2937",       // gray-800
           cardLight: "#ffffff",
-          cardDark: "#1C2B3A",   // card on dark bg
+          cardDark: "#1F2937",   // gray-800
           mutedLight: "#f1f5f9",
-          mutedDark: "#243447",
+          mutedDark: "#374151",  // gray-700
         },
 
         border: {
           light: "#e2e8f0",
-          dark: "#2A3F52",
+          dark: "#374151",       // gray-700
           subtleLight: "#f1f5f9",
           accentLight: "#7FE8F0",
-          accentDark: "#00AEBB",  // teal border visible on dark
+          accentDark: "#00AEBB", // teal border vizibil pe dark
         },
 
         text: {
           primary: "#0f172a",
-          darkPrimary: "#E8F8FB",  // slight teal tint on white
+          darkPrimary: "#f1f5f9",
 
           secondary: "#475569",
-          darkSecondary: "#8BBCC8",
+          darkSecondary: "#9ca3af",
 
           muted: "#94a3b8",
-          darkMuted: "#5A7A8A",
+          darkMuted: "#6b7280",
 
           icon: "#64748b",
-          iconDark: "#8BBCC8",
+          iconDark: "#9ca3af",
 
           body: "#1e293b",
-          bodyDark: "#C5DDE5",
+          bodyDark: "#d1d5db",
         },
 
         soft: {
