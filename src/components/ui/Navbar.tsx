@@ -5,7 +5,6 @@ import clsx from "clsx";
 
 import { NotificationDropdown } from "../../features/notifications/NotificationDropdown";
 import NavItem from "./NavItem";
-import UserMenu from "./UserMenu";
 
 const navItems = [
   { to: "/", label: "Home", icon: Home, end: true },
@@ -48,10 +47,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="flex items-center gap-3">
-            <NotificationDropdown />
-            <UserMenu />
-          </div>
+          <NotificationDropdown />
         </div>
 
         {/* Mobile */}
@@ -60,7 +56,8 @@ export default function Navbar() {
           <span className="font-sans text-sm font-bold tracking-tight text-primary">
             {pageTitle || "Meditrack"}
           </span>
-          <UserMenu />
+          {/* spacer to keep title centered */}
+          <div className="w-8" />
         </div>
       </div>
     </nav>
