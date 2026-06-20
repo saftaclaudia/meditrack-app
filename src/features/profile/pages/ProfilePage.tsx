@@ -83,7 +83,7 @@ export function ProfilePage() {
         <p className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted mb-1">
           Account
         </p>
-        <h1 className="font-serif text-xl font-light text-text-primary dark:text-text-darkPrimary">
+        <h1 className="font-serif text-xl font-light text-primary">
           Health Profile
         </h1>
       </div>

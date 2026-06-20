@@ -19,78 +19,80 @@ export default {
 
       colors: {
         primary: {
-          DEFAULT: "#00AEBB", // teal vibrant
-          hover: "#0099AA",   // teal darker
-          soft: "#E6F9FB",    // teal tint
+          DEFAULT: "#00AEBB",
+          hover: "#0099AA",
+          soft: "#CCF3F7",       // teal tint — light mode
+          softDark: "#003D47",   // teal tint — dark mode
         },
 
         background: {
-          light: "#f8fafc",   // slate-50
-          dark: "#0f172a",    // slate-900
+          light: "#f8fafc",
+          dark: "#0B1120",       // deeper dark for more contrast
         },
 
         surface: {
           light: "#ffffff",
-          dark: "#1e293b",        // slate-800
+          dark: "#162032",       // slightly lighter than bg
           cardLight: "#ffffff",
-          cardDark: "#1e293b",
-          mutedLight: "#f1f5f9",  // slate-100
-          mutedDark: "#334155",   // slate-700
+          cardDark: "#1C2B3A",   // card on dark bg
+          mutedLight: "#f1f5f9",
+          mutedDark: "#243447",
         },
 
         border: {
-          light: "#e2e8f0",       // slate-200
-          dark: "#334155",        // slate-700
+          light: "#e2e8f0",
+          dark: "#2A3F52",
           subtleLight: "#f1f5f9",
-          accentLight: "#7FE8F0", // teal light
-          accentDark: "#004D57",  // teal deep
+          accentLight: "#7FE8F0",
+          accentDark: "#00AEBB",  // teal border visible on dark
         },
 
         text: {
-          primary: "#0f172a",        // slate-900
-          darkPrimary: "#f1f5f9",    // slate-100
+          primary: "#0f172a",
+          darkPrimary: "#E8F8FB",  // slight teal tint on white
 
-          secondary: "#475569",      // slate-600
-          darkSecondary: "#94a3b8",  // slate-400
+          secondary: "#475569",
+          darkSecondary: "#8BBCC8",
 
-          muted: "#94a3b8",          // slate-400
-          darkMuted: "#64748b",      // slate-500
+          muted: "#94a3b8",
+          darkMuted: "#5A7A8A",
 
-          icon: "#64748b",           // slate-500
-          iconDark: "#94a3b8",       // slate-400
+          icon: "#64748b",
+          iconDark: "#8BBCC8",
 
-          body: "#1e293b",           // slate-800
-          bodyDark: "#cbd5e1",       // slate-300
+          body: "#1e293b",
+          bodyDark: "#C5DDE5",
         },
 
         soft: {
-          light: "#E6F9FB",      // teal tint
-          dark: "#004D57",       // teal deep dark
-          hoverLight: "#C5F2F6", // teal tint hover
-          hoverDark: "#005F6B",  // teal dark hover
+          light: "#CCF3F7",      // teal tint light
+          dark: "#003D47",       // teal tint dark
+          hoverLight: "#A8EBF2",
+          hoverDark: "#004F5E",
         },
 
         accent: {
-          rose: "#F5B800",     // golden yellow
-          roseSoft: "#FEF9E6", // golden yellow tint
-          sand: "#E0A800",     // golden yellow darker
-          sandSoft: "#FDF3C0", // golden yellow light
-          taupe: "#C99200",    // golden yellow deep
+          rose: "#F5B800",       // golden yellow
+          roseSoft: "#FFF3C4",   // visible yellow tint light
+          roseSoftDark: "#3D2E00", // yellow tint dark
+          sand: "#E0A800",
+          sandSoft: "#FFE680",
+          taupe: "#C99200",
         },
 
         status: {
           upcoming: {
-            bg: "#E6F9FB",
-            bgDark: "#004D57",
+            bg: "#CCF3F7",
+            bgDark: "#003D47",
             text: "#0099AA",
             textDark: "#5EECF5",
             dot: "#00AEBB",
           },
 
           soon: {
-            bg: "#FEF9E6",
-            bgDark: "#451a03",
-            text: "#92400e",
+            bg: "#FFF3C4",
+            bgDark: "#3D2E00",
+            text: "#7A5800",
             textDark: "#F5B800",
             dot: "#E0A800",
           },

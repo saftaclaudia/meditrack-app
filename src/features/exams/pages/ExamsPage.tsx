@@ -72,7 +72,7 @@ export function ExamsPage() {
           <p className="text-ex font-light tracking-widest upercase text-text-muted dark:text-text-darkMuted mb-1">
             Health tracking
           </p>
-          <h1 className="font-serif font-light  text-3xl text-text-primary dark:text-text-darkPrimary">
+          <h1 className="font-serif font-light text-3xl text-primary">
             My examinations
           </h1>
         </div>

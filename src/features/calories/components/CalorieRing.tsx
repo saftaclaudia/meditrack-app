@@ -9,12 +9,15 @@ export default function CalorieRing({ consumed, goal }: CalorieRingProps) {
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
   const color =
-    percentage >= 100 ? "#ef4444" : percentage >= 75 ? "#f59e0b" : "#0d9488";
+    percentage >= 100 ? "#ef4444" : percentage >= 75 ? "#F5B800" : "#00AEBB";
   const remaining = goal - consumed;
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <svg width="140" height="140" viewBox="0 0 120 120">
+      <div className="relative flex items-center justify-center">
+        {/* Yellow background blob */}
+        <div className="absolute w-36 h-36 rounded-full bg-accent-rose/30 dark:bg-accent-rose/20" />
+      <svg width="140" height="140" viewBox="0 0 120 120" className="relative z-10">
         <circle
           cx="60"
           cy="60"
@@ -58,9 +61,10 @@ export default function CalorieRing({ consumed, goal }: CalorieRingProps) {
           kcal
         </text>
       </svg>
+      </div>
       <div className="flex gap-6 text-center">
         <div>
-          <p className="text-lg font-light text-text-primary dark:text-text-darkPrimary">
+          <p className="text-lg font-light text-primary">
             {goal}
           </p>
           <p className="text-[10px] uppercase tracking-widest text-text-muted dark:text-text-darkMuted">
@@ -69,7 +73,7 @@ export default function CalorieRing({ consumed, goal }: CalorieRingProps) {
         </div>
         <div className="w-px bg-border-light dark:bg-border-dark" />
         <div>
-          <p className="text-lg font-light text-text-primary dark:text-text-darkPrimary">
+          <p className="text-lg font-light text-primary">
             {remaining > 0 ? remaining : 0}
           </p>
           <p className="text-[10px] uppercase tracking-widest text-text-muted dark:text-text-darkMuted">
