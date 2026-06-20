@@ -60,7 +60,7 @@ export default function AppLayout() {
     <div className="min-h-screen flex flex-col bg-background-light dark:bg-background-dark text-text-body dark:text-text-bodyDark transition-colors duration-300">
       <Navbar />
 
-      <main className="flex-1 w-full max-w-2xl mx-auto px-4 py-6 pb-28 md:pb-10 md:px-6 md:py-10">
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 pt-6 pb-24 md:pb-10 md:px-8 md:py-10">
         <Outlet />
       </main>
 

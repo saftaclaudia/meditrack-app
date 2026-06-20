@@ -15,6 +15,7 @@ export default {
       fontFamily: {
         serif: ["Cormorant Garamond", "Georgia", "serif"],
         sans: ["Jost", "sans-serif"],
+        display: ["Playfair Display", "Georgia", "serif"],
       },
 
       colors: {
