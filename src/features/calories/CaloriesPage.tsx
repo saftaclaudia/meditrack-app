@@ -27,7 +27,7 @@ export default function CaloriesPage() {
         <p className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted mb-1">
           Today
         </p>
-        <h1 className="font-serif text-xl font-light text-text-primary dark:text-text-darkPrimary">
+        <h1 className="font-serif text-xl font-light text-primary">
           Nutrition
         </h1>
       </div>

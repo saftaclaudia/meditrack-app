@@ -23,14 +23,14 @@ export default function ToggleButton({
 
   const colors = {
     primary:
-      "bg-surface-cardLight dark:bg-surface-cardDark hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark focus:ring-primary-soft text-text-primary dark:text-text-darkPrimary",
-    soft: "bg-soft-light dark:bg-soft-dark hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark focus:ring-primary-soft text-text-primary dark:text-text-darkPrimary",
+      "bg-surface-cardLight dark:bg-surface-cardDark hover:bg-soft-light dark:hover:bg-soft-dark focus:ring-primary/30 text-text-primary dark:text-text-darkPrimary border border-border-light dark:border-border-dark",
+    soft: "bg-soft-light dark:bg-soft-dark hover:bg-soft-hoverLight dark:hover:bg-soft-hoverDark focus:ring-primary/30 text-text-primary dark:text-text-darkPrimary border border-primary/20 dark:border-border-accentDark",
     danger:
-      "bg-danger-soft hover:bg-danger focus:ring-danger text-danger hover:text-white",
+      "bg-danger-soft hover:bg-danger focus:ring-danger text-danger hover:text-white border border-danger/20",
   };
 
   const activeStyles =
-    "ring-2 ring-primary bg-soft-hoverLight dark:bg-soft-hoverDark";
+    "ring-2 ring-primary border-primary bg-soft-hoverLight dark:bg-soft-hoverDark";
 
   return (
     <button

@@ -29,7 +29,7 @@ export default function MealCard({
   const total = getMealTotal(meal);
   return (
     <>
-      <div className="rounded-2xl bg-surface-cardLight dark:bg-surface-cardDark border border-border-light dark:border-border-dark overflow-hidden">
+      <div className={`rounded-2xl border overflow-hidden transition-colors ${total > 0 ? "bg-soft-light dark:bg-soft-dark border-primary/30 dark:border-primary/40" : "bg-surface-cardLight dark:bg-surface-cardDark border-border-light dark:border-border-dark"}`}>
         {/* Header card - click expand/collapse */}
         <button
           onClick={() => setExpanded((prev) => !prev)}

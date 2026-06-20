@@ -27,7 +27,7 @@ export function SettingsPage() {
 
   return (
     <div className="space-y-8">
-      <h3 className="font-serif text-3xl font-light text-text-primary dark:text-text-darkPrimary">
+      <h3 className="font-serif text-3xl font-light text-primary">
         Settings
       </h3>
 

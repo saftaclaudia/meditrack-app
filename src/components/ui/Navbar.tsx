@@ -22,8 +22,8 @@ export default function Navbar() {
     <nav
       className={clsx(
         "sticky top-0 z-50 backdrop-blur-md border-b",
-        "bg-background-light/90 dark:bg-background-dark/90",
-        "border-border-light dark:border-border-dark transition-colors duration-300",
+        "bg-background-light/90 dark:bg-background-dark/95",
+        "border-border-light dark:border-border-accentDark transition-colors duration-300",
       )}
     >
       <div className="max-w-2xl mx-auto px-4 md:px-6">
@@ -31,7 +31,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center justify-between py-4">
           <Link
             to="/"
-            className="font-serif text-xl font-light tracking-widest text-text-primary dark:text-text-darkPrimary hover:text-primary transition-colors duration-200"
+            className="font-serif text-xl font-light tracking-widest text-primary hover:text-primary-hover transition-colors duration-200"
           >
             Meditrack
           </Link>
@@ -58,7 +58,7 @@ export default function Navbar() {
         <div className="md:hidden flex items-center justify-between py-3">
           <NotificationDropdown />
 
-          <span className="font-serif text-base font-light tracking-widest text-text-primary dark:text-text-darkPrimary">
+          <span className="font-serif text-base font-light tracking-widest text-primary">
             {pageTitle || "Meditrack"}
           </span>
 

@@ -15,7 +15,7 @@ export function BottomNav() {
       {/* Fade edge top */}
       <div className="h-4 bg-gradient-to-t from-background-light dark:from-background-dark to-transparent pointer-events-none" />
 
-      <div className="bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-t border-border-light dark:border-border-dark">
+      <div className="bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-t border-border-light dark:border-border-accentDark">
         <div className="max-w-md mx-auto px-4 pb-safe">
           <div className="grid grid-cols-5 items-center py-2">
             {/* Home */}
