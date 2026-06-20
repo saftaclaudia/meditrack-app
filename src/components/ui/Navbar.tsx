@@ -28,7 +28,7 @@ export default function Navbar() {
   return (
     <nav
       className={clsx(
-        "sticky top-0 z-50 backdrop-blur-md border-b",
+        "sticky top-0 z-50 backdrop-blur-md border-b pt-safe",
         "bg-background-light/90 dark:bg-background-dark/95",
         "border-border-light dark:border-border-dark transition-colors duration-300",
       )}
@@ -59,7 +59,7 @@ export default function Navbar() {
         </div>
 
         {/* Mobile */}
-        <div className="md:hidden flex items-center justify-between py-2">
+        <div className="md:hidden flex items-center justify-between py-4">
           {/* Avatar — click → Settings */}
           <button
             onClick={() => navigate("/settings")}
@@ -70,7 +70,7 @@ export default function Navbar() {
 
           {/* Center: app name + current page */}
           <div className="flex flex-col items-center gap-1">
-            <span className="font-sans text-base font-black tracking-widest uppercase text-primary leading-none">
+            <span className="font-sans text-base font-black tracking-widest uppercase leading-none bg-gradient-to-r from-primary to-accent-rose bg-clip-text text-transparent">
               Meditrack
             </span>
             {pageTitle && (
