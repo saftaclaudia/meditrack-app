@@ -1,12 +1,9 @@
-// import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/Button";
 import { useAppSelector } from "../app/hooks";
 import { selectAuthUser } from "../features/auth/authSelectors";
+import { ClipboardList, Flame, ArrowRight } from "lucide-react";
 
 export default function DashBoard() {
-  // const { t } = useTranslation();
-
   const navigate = useNavigate();
   const user = useAppSelector(selectAuthUser);
 
@@ -17,72 +14,71 @@ export default function DashBoard() {
     hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8 pb-24">
       {/* Header */}
-      <div>
-        <p className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted mb-1">
-          {greeting}, {firstName}
+      <div className="space-y-1">
+        <p className="text-sm text-text-muted dark:text-text-darkMuted">
+          {greeting} 👋
         </p>
-        <h1 className="font-serif text-4xl md:text-5xl font-light text-text-primary dark:text-text-darkPrimary leading-tight">
-          Your wellness <br />
-          <em className="italic">at a glance</em>
+        <h1 className="font-sans text-3xl font-bold text-text-primary dark:text-text-darkPrimary leading-tight">
+          Hey, <span className="text-primary">{firstName}!</span>
         </h1>
+        <p className="text-sm text-text-muted dark:text-text-darkMuted">
+          Here's what's on your health radar today.
+        </p>
       </div>
 
-      {/* Divider */}
-      <div className="h-px bg-border-light dark:bg-border-dark" />
+      {/* Cards */}
+      <div className="grid gap-4 md:grid-cols-2">
 
-      {/* Main cards */}
-      <div className="grid gap-5 md:grid-cols-2">
-        {/* Medical Exams Card */}
-        <div className="group rounded-2xl bg-surface-cardLight dark:bg-surface-cardDark border border-border-light dark:border-border-dark p-6 flex flex-col gap-5 transition-shadow hover:shadow-md hover:shadow-black/5">
+        {/* Exams Card — teal */}
+        <button
+          onClick={() => navigate("/exams")}
+          className="group text-left rounded-3xl p-6 flex flex-col gap-4 transition-all duration-200 active:scale-[0.98] bg-primary hover:bg-primary-hover"
+        >
+          <div className="flex items-center justify-between">
+            <div className="w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center">
+              <ClipboardList size={22} className="text-white" strokeWidth={2} />
+            </div>
+            <ArrowRight size={18} className="text-white/60 group-hover:text-white group-hover:translate-x-1 transition-all" />
+          </div>
           <div>
-            <p className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted mb-3">
+            <p className="text-xs font-medium uppercase tracking-widest text-white/70 mb-1">
               Medical
             </p>
-            <h2 className="font-serif text-2xl font-light text-text-primary dark:text-text-darkPrimary mb-2">
-              Examinations
+            <h2 className="font-sans text-xl font-bold text-white leading-snug">
+              My Exams
             </h2>
-            <p className="text-sm font-light text-text-secondary dark:text-text-darkSecondary leading-relaxed">
-              Track and schedule your medical check-ups in one place.
+            <p className="text-sm text-white/70 mt-1 leading-relaxed">
+              Track & schedule your medical check-ups.
             </p>
           </div>
-          <Button
-            variant="outline"
-            fullWidth
-            onClick={() => navigate("/exams")}
-          >
-            View all exams
-          </Button>
-        </div>
+        </button>
 
-        {/* Calorie Tracker Card */}
-        <div className="group rounded-2xl bg-surface-cardLight dark:bg-surface-cardDark border border-border-light dark:border-border-dark p-6 flex flex-col gap-5 transition-shadow hover:shadow-md hover:shadow-black/5">
+        {/* Nutrition Card — yellow */}
+        <button
+          onClick={() => navigate("/calories")}
+          className="group text-left rounded-3xl p-6 flex flex-col gap-4 transition-all duration-200 active:scale-[0.98] bg-accent-rose hover:bg-accent-sand"
+        >
+          <div className="flex items-center justify-between">
+            <div className="w-11 h-11 rounded-2xl bg-black/10 flex items-center justify-center">
+              <Flame size={22} className="text-white" strokeWidth={2} />
+            </div>
+            <ArrowRight size={18} className="text-black/30 group-hover:text-black/50 group-hover:translate-x-1 transition-all" />
+          </div>
           <div>
-            <p className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted mb-3">
+            <p className="text-xs font-medium uppercase tracking-widest text-black/50 mb-1">
               Nutrition
             </p>
-            <h2 className="font-serif text-2xl font-light text-text-primary dark:text-text-darkPrimary mb-2">
+            <h2 className="font-sans text-xl font-bold text-black/80 leading-snug">
               Calorie Log
             </h2>
-            <p className="text-sm font-light text-text-secondary dark:text-text-darkSecondary leading-relaxed">
-              Monitor your daily nutrition for a balanced, healthy lifestyle.
+            <p className="text-sm text-black/50 mt-1 leading-relaxed">
+              Log meals and hit your daily goal.
             </p>
           </div>
-          <Button
-            variant="outline"
-            fullWidth
-            onClick={() => navigate("/calories")}
-          >
-            Track today
-          </Button>
-        </div>
+        </button>
       </div>
-
-      {/* Subtle footer note */}
-      <p className="text-center text-xs font-light tracking-wider text-text-muted dark:text-text-darkMuted uppercase">
-        Meditrack · Your personal health companion
-      </p>
     </div>
   );
 }
