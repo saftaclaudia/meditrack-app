@@ -69,12 +69,12 @@ export default function Navbar() {
           </button>
 
           {/* Center: app name + current page */}
-          <div className="flex flex-col items-center">
-            <span className="font-sans text-sm font-bold tracking-tight text-primary leading-tight">
+          <div className="flex flex-col items-center gap-1">
+            <span className="font-sans text-base font-black tracking-widest uppercase text-primary leading-none">
               Meditrack
             </span>
             {pageTitle && (
-              <span className="text-[10px] font-medium tracking-widest uppercase text-text-muted dark:text-text-darkMuted leading-tight">
+              <span className="px-2.5 py-0.5 rounded-full bg-primary/10 dark:bg-primary/20 text-[10px] font-semibold tracking-widest uppercase text-primary leading-tight">
                 {pageTitle}
               </span>
             )}
