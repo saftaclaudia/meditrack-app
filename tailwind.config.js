@@ -19,9 +19,9 @@ export default {
 
       colors: {
         primary: {
-          DEFAULT: "#0d9488", // teal-600
-          hover: "#0f766e",   // teal-700
-          soft: "#f0fdfa",    // teal-50
+          DEFAULT: "#00AEBB", // teal vibrant
+          hover: "#0099AA",   // teal darker
+          soft: "#E6F9FB",    // teal tint
         },
 
         background: {
@@ -42,8 +42,8 @@ export default {
           light: "#e2e8f0",       // slate-200
           dark: "#334155",        // slate-700
           subtleLight: "#f1f5f9",
-          accentLight: "#99f6e4", // teal-200
-          accentDark: "#134e4a",  // teal-900
+          accentLight: "#7FE8F0", // teal light
+          accentDark: "#004D57",  // teal deep
         },
 
         text: {
@@ -64,35 +64,35 @@ export default {
         },
 
         soft: {
-          light: "#f0fdfa",      // teal-50
-          dark: "#134e4a",       // teal-900
-          hoverLight: "#ccfbf1", // teal-100
-          hoverDark: "#115e59",  // teal-800
+          light: "#E6F9FB",      // teal tint
+          dark: "#004D57",       // teal deep dark
+          hoverLight: "#C5F2F6", // teal tint hover
+          hoverDark: "#005F6B",  // teal dark hover
         },
 
         accent: {
-          rose: "#fbbf24",     // amber-400
-          roseSoft: "#fffbeb", // amber-50
-          sand: "#f59e0b",     // amber-500
-          sandSoft: "#fef3c7", // amber-100
-          taupe: "#d97706",    // amber-600
+          rose: "#F5B800",     // golden yellow
+          roseSoft: "#FEF9E6", // golden yellow tint
+          sand: "#E0A800",     // golden yellow darker
+          sandSoft: "#FDF3C0", // golden yellow light
+          taupe: "#C99200",    // golden yellow deep
         },
 
         status: {
           upcoming: {
-            bg: "#f0fdfa",
-            bgDark: "#134e4a",
-            text: "#0f766e",
-            textDark: "#5eead4",
-            dot: "#0d9488",
+            bg: "#E6F9FB",
+            bgDark: "#004D57",
+            text: "#0099AA",
+            textDark: "#5EECF5",
+            dot: "#00AEBB",
           },
 
           soon: {
-            bg: "#fffbeb",
+            bg: "#FEF9E6",
             bgDark: "#451a03",
             text: "#92400e",
-            textDark: "#fcd34d",
-            dot: "#f59e0b",
+            textDark: "#F5B800",
+            dot: "#E0A800",
           },
 
           overdue: {
@@ -113,8 +113,8 @@ export default {
         },
 
         edit: {
-          DEFAULT: "#0d9488",
-          hover: "#0f766e",
+          DEFAULT: "#00AEBB",
+          hover: "#0099AA",
         },
 
         danger: {
