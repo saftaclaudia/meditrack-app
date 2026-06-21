@@ -6,12 +6,14 @@ interface DropdownProps {
   trigger: ReactNode;
   children: ReactNode;
   className?: string;
+  mobileFixed?: boolean;
 }
 
 export default function Dropdown({
   trigger,
   children,
   className,
+  mobileFixed = false,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -29,9 +31,12 @@ export default function Dropdown({
       {isOpen && (
         <div
           className={clsx(
-            "absolute mt-2 rounded-2xl shadow-md shadow-black/5 z-50 p-2 transition-all duration-200",
+            "rounded-2xl shadow-md shadow-black/5 z-50 p-2",
             "bg-surface-cardLight dark:bg-surface-cardDark",
             "border border-border-light dark:border-border-dark",
+            mobileFixed
+              ? "fixed left-2 right-2 top-16 md:absolute md:left-auto md:top-auto md:mt-2"
+              : "absolute mt-2",
             className,
           )}
         >

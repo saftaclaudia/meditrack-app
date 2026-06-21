@@ -39,7 +39,8 @@ export function NotificationDropdown() {
           )}
         </button>
       }
-      className="w-72 left-0 md:right-0 md:left-auto "
+      mobileFixed
+      className="md:w-72 md:right-0"
     >
       {/* HEADER */}
       <NotificationHeader
