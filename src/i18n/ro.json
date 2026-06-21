@@ -1,3 +1,86 @@
 {
-  "dashboard.title": "Prezentare generală a sănătății"
+  "nav": {
+    "home": "Acasă",
+    "exams": "Analize",
+    "nutrition": "Nutriție",
+    "settings": "Setări",
+    "page_home": "Tablou de bord",
+    "page_exams": "Analize medicale",
+    "page_add_exam": "Adaugă analiză",
+    "page_nutrition": "Nutriție",
+    "page_settings": "Setări",
+    "page_profile": "Profil de sănătate"
+  },
+  "dashboard": {
+    "greeting_morning": "Bună dimineața",
+    "greeting_afternoon": "Bună ziua",
+    "greeting_evening": "Bună seara",
+    "subtitle": "Iată ce ai pe radar azi.",
+    "exams_label": "Medical",
+    "exams_title": "Analizele mele",
+    "exams_desc": "Urmărește și programează controalele medicale.",
+    "nutrition_label": "Nutriție",
+    "nutrition_title": "Jurnal calorii",
+    "nutrition_desc": "Loghează mese și atinge obiectivul zilnic."
+  },
+  "settings": {
+    "title": "Setări",
+    "account": "Cont",
+    "security": "Securitate",
+    "preferences": "Preferințe",
+    "logout": "Deconectare",
+    "name": "Nume",
+    "name_placeholder": "Numele tău",
+    "email": "Email",
+    "save_account": "Salvează contul",
+    "account_updated": "Cont actualizat cu succes",
+    "current_password": "Parola curentă",
+    "new_password": "Parolă nouă",
+    "confirm_password": "Confirmă parola nouă",
+    "change_password": "Schimbă parola",
+    "password_changed": "Parola a fost schimbată cu succes",
+    "saving": "Se salvează...",
+    "error_fields_required": "Toate câmpurile sunt obligatorii",
+    "error_passwords_mismatch": "Parolele noi nu coincid",
+    "error_password_length": "Parola nouă trebuie să aibă cel puțin 6 caractere",
+    "error_save_account": "Salvarea contului a eșuat",
+    "error_change_password": "Schimbarea parolei a eșuat"
+  },
+  "exams": {
+    "title": "Analizele mele",
+    "subtitle": "Monitorizare sănătate",
+    "add": "+ Adaugă analiză",
+    "loading": "Se încarcă analizele...",
+    "filter_all": "Toate analizele",
+    "filter_upcoming": "Analize viitoare",
+    "filter_overdue": "Analize întârziate",
+    "filter_due": "Analize scadente",
+    "filter_done": "Analize finalizate"
+  },
+  "nutrition": {
+    "title": "Nutriție",
+    "today": "Azi",
+    "loading": "Se încarcă...",
+    "goal": "Obiectiv",
+    "remaining": "Rămase",
+    "no_entries": "Nicio înregistrare",
+    "add_food": "Adaugă aliment",
+    "breakfast": "Mic dejun",
+    "lunch": "Prânz",
+    "dinner": "Cină",
+    "snack": "Gustare",
+    "daily_goal": "Obiectiv zilnic",
+    "edit": "Editează",
+    "save": "Salvează",
+    "cancel": "Anulează",
+    "get_goal": "Obține obiectivul tău personalizat de calorii",
+    "get_goal_desc": "Completează profilul de sănătate → calculăm restul",
+    "set_up": "Configurează →"
+  },
+  "notifications": {
+    "title": "Notificări",
+    "mark_all": "Marchează toate ca citite",
+    "empty": "Ești la zi cu totul",
+    "loading": "Se încarcă..."
+  }
 }

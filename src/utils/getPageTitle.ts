@@ -1,8 +1,8 @@
-export default function getPageTitle(pathname: string) {
-  if (pathname === "/") return "Dashboard";
-  if (pathname.startsWith("/exams/new")) return "Add Exam";
-  if (pathname.startsWith("/exams")) return "Medical Exams";
-  if (pathname.startsWith("/calories")) return "Nutrition";
-  if (pathname.startsWith("/settings")) return "Settings";
-  if (pathname.startsWith("/profile")) return "Health Profile";
+export default function getPageTitle(pathname: string): string | undefined {
+  if (pathname === "/") return "nav.page_home";
+  if (pathname.startsWith("/exams/new")) return "nav.page_add_exam";
+  if (pathname.startsWith("/exams")) return "nav.page_exams";
+  if (pathname.startsWith("/calories")) return "nav.page_nutrition";
+  if (pathname.startsWith("/settings")) return "nav.page_settings";
+  if (pathname.startsWith("/profile")) return "nav.page_profile";
 }

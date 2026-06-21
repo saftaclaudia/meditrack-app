@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { fetchProfile } from "../profile/profileThunks";
 import { TabBar, type TabId } from "./components/TabBar";
@@ -8,6 +9,7 @@ import { HistoryContent } from "./components/HistoryContent";
 
 export default function CaloriesPage() {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { profile } = useAppSelector((s) => s.profile);
 
   const [activeTab, setActiveTab] = useState<TabId>("log");
@@ -25,10 +27,10 @@ export default function CaloriesPage() {
       {/* Header */}
       <div>
         <p className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted mb-1">
-          Today
+          {t("nutrition.today")}
         </p>
         <h1 className="font-serif text-xl font-light text-primary">
-          Nutrition
+          {t("nutrition.title")}
         </h1>
       </div>
       <TabBar activeTab={activeTab} onChange={setActiveTab} />

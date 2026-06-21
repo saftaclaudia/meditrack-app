@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 
 export type ExamFilter = "all" | "upcoming" | "due" | "done" | "overdue";
@@ -8,12 +9,12 @@ interface ExamFilterBarProps {
   counts: Record<ExamFilter, number>;
 }
 
-const FILTERS: { key: ExamFilter; label: string }[] = [
-  { key: "all", label: "All" },
-  { key: "upcoming", label: "Upcoming" },
-  { key: "due", label: "Due" },
-  { key: "done", label: "Done" },
-  { key: "overdue", label: "Overdue" },
+const FILTER_KEYS: { key: ExamFilter; tKey: string }[] = [
+  { key: "all", tKey: "exams.filter_all" },
+  { key: "upcoming", tKey: "exams.filter_upcoming" },
+  { key: "due", tKey: "exams.filter_due" },
+  { key: "done", tKey: "exams.filter_done" },
+  { key: "overdue", tKey: "exams.filter_overdue" },
 ];
 
 export function ExamFilterBar({
@@ -21,9 +22,11 @@ export function ExamFilterBar({
   onChange,
   counts,
 }: ExamFilterBarProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
-      {FILTERS.map(({ key, label }) => (
+      {FILTER_KEYS.map(({ key, tKey }) => (
         <button
           key={key}
           onClick={() => onChange(key)}
@@ -34,7 +37,7 @@ export function ExamFilterBar({
               : "bg-transparent text-text-muted dark:text-text-darkMuted border-border-light dark:border-border-dark hover:bg-soft-light dark:hover:bg-soft-dark hover:text-primary hover:border-primary",
           )}
         >
-          {label}
+          {t(tKey)}
           {counts[key] > 0 && (
             <span
               className={clsx(

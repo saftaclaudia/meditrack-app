@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { Meal, MealType, NewEntry } from "../../../types/calorie";
 import { ChevronDown, ChevronUp, Plus } from "lucide-react";
 import EntryItem from "./EntryItem";
@@ -9,24 +10,22 @@ interface MealCardProps {
   onAddEntry: (mealType: MealType, entry: NewEntry) => void;
   onDeleteEntry: (mealType: MealType, entryId: string) => void;
 }
-const MEAL_LABELS: Record<MealType, string> = {
-  breakfast: "Breakfast",
-  lunch: "Lunch",
-  dinner: "Dinner",
-  snack: "Snack",
-};
 
 const getMealTotal = (meal: Meal) =>
   meal.entries.reduce((acc, entry) => acc + entry.calories, 0);
+
 export default function MealCard({
   meal,
   onAddEntry,
   onDeleteEntry,
 }: MealCardProps) {
+  const { t } = useTranslation();
   const [expanded, setExpanded] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
   const total = getMealTotal(meal);
+  const mealLabel = t(`nutrition.${meal.type}`);
+
   return (
     <>
       <div className={`rounded-2xl border overflow-hidden transition-colors ${total > 0 ? "bg-soft-light dark:bg-soft-dark border-primary/30 dark:border-primary/40" : "bg-surface-cardLight dark:bg-surface-cardDark border-border-light dark:border-border-dark"}`}>
@@ -37,7 +36,7 @@ export default function MealCard({
         >
           <div className="flex items-center gap-3">
             <span className="text-sm font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-              {MEAL_LABELS[meal.type]}
+              {mealLabel}
             </span>
             {total > 0 && (
               <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">
@@ -52,7 +51,7 @@ export default function MealCard({
           <div className="px-4 pb-4 space-y-1">
             {meal.entries.length === 0 ? (
               <p className="text-xs text-text-muted dark:text-text-darkMuted py-2 text-center">
-                No entries yet
+                {t("nutrition.no_entries")}
               </p>
             ) : (
               meal.entries.map((entry) => (
@@ -69,7 +68,7 @@ export default function MealCard({
               className="mt-2 flex items-center gap-1.5 text-xs text-primary hover:underline transition"
             >
               <Plus size={13} />
-              Add food
+              {t("nutrition.add_food")}
             </button>
           </div>
         )}

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../../../app/hooks";
 import { logout } from "../../auth/authSlice";
 import { AccountSection } from "../components/AccountSection";
@@ -19,6 +20,7 @@ function SectionHeader({ label }: { label: string }) {
 export function SettingsPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleLogout = () => {
     dispatch(logout());
@@ -28,21 +30,21 @@ export function SettingsPage() {
   return (
     <div className="space-y-8">
       <h3 className="font-serif text-3xl font-light text-primary">
-        Settings
+        {t("settings.title")}
       </h3>
 
       <div className="space-y-3">
-        <SectionHeader label="Account" />
+        <SectionHeader label={t("settings.account")} />
         <AccountSection />
       </div>
 
       <div className="space-y-3">
-        <SectionHeader label="Security" />
+        <SectionHeader label={t("settings.security")} />
         <SecuritySection />
       </div>
 
       <div className="space-y-3">
-        <SectionHeader label="Preferences" />
+        <SectionHeader label={t("settings.preferences")} />
         <ThemeToggle />
         <LanguageSelect />
       </div>
@@ -54,7 +56,7 @@ export function SettingsPage() {
         onClick={handleLogout}
       >
         <LogOut size={18} />
-        Log out
+        {t("settings.logout")}
       </Button>
     </div>
   );

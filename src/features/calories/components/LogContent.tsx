@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import type { MealType, NewEntry } from "../../../types/calorie";
 import { useEffect, useState } from "react";
@@ -22,6 +23,7 @@ const todayStr = () => new Date().toISOString().split("T")[0];
 
 export function LogContent({ dailyGoal, profileIncomplete }: LogContentProps) {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { todayLog, loading, error } = useAppSelector((s) => s.calories);
   const navigate = useNavigate();
 
@@ -71,13 +73,13 @@ export function LogContent({ dailyGoal, profileIncomplete }: LogContentProps) {
         >
           <div>
             <p className="text-sm text-text-primary dark:text-text-darkPrimary">
-              Get your personalized calorie goal
+              {t("nutrition.get_goal")}
             </p>
             <p className="text-xs text-text-muted dark:text-text-darkMuted mt-0.5">
-              Complete your health profile → we calculate the rest
+              {t("nutrition.get_goal_desc")}
             </p>
             <span className="text-xs text-primary group-hover:underline whitespace-nowrap ml-4">
-              Set up →
+              {t("nutrition.set_up")}
             </span>
           </div>
         </button>
@@ -86,7 +88,7 @@ export function LogContent({ dailyGoal, profileIncomplete }: LogContentProps) {
       {loading ? (
         <div className="flex justify-center py-8">
           <p className="text-sm text-text-muted dark:text-text-darkMuted">
-            Laoding...
+            {t("nutrition.loading")}
           </p>
         </div>
       ) : (
@@ -107,13 +109,13 @@ export function LogContent({ dailyGoal, profileIncomplete }: LogContentProps) {
                     onClick={handleSaveGaol}
                     className="text-xs text-primary hover:underline"
                   >
-                    Save
+                    {t("nutrition.save")}
                   </button>
                   <button
                     onClick={() => setEditingGoal(false)}
                     className="text-xs text-text-muted hover:underline"
                   >
-                    Cancel
+                    {t("nutrition.cancel")}
                   </button>
                 </>
               ) : (
@@ -121,7 +123,7 @@ export function LogContent({ dailyGoal, profileIncomplete }: LogContentProps) {
                   onClick={() => setEditingGoal(true)}
                   className="text-xs text-text-muted dark:text-text-darkMuted hover:text-text-primary transition"
                 >
-                  Daily goal:{dailyGoal} kcal · Edit
+                  {t("nutrition.daily_goal")}: {dailyGoal} kcal · {t("nutrition.edit")}
                 </button>
               )}
             </div>

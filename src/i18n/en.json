@@ -1,3 +1,86 @@
 {
-  "dashboard.title": "Your Health Overview"
+  "nav": {
+    "home": "Home",
+    "exams": "Exams",
+    "nutrition": "Nutrition",
+    "settings": "Settings",
+    "page_home": "Dashboard",
+    "page_exams": "Medical Exams",
+    "page_add_exam": "Add Exam",
+    "page_nutrition": "Nutrition",
+    "page_settings": "Settings",
+    "page_profile": "Health Profile"
+  },
+  "dashboard": {
+    "greeting_morning": "Good morning",
+    "greeting_afternoon": "Good afternoon",
+    "greeting_evening": "Good evening",
+    "subtitle": "Here's what's on your health radar today.",
+    "exams_label": "Medical",
+    "exams_title": "My Exams",
+    "exams_desc": "Track & schedule your medical check-ups.",
+    "nutrition_label": "Nutrition",
+    "nutrition_title": "Calorie Log",
+    "nutrition_desc": "Log meals and hit your daily goal."
+  },
+  "settings": {
+    "title": "Settings",
+    "account": "Account",
+    "security": "Security",
+    "preferences": "Preferences",
+    "logout": "Log out",
+    "name": "Name",
+    "name_placeholder": "Your name",
+    "email": "Email",
+    "save_account": "Save account",
+    "account_updated": "Account updated successfully",
+    "current_password": "Current password",
+    "new_password": "New password",
+    "confirm_password": "Confirm new password",
+    "change_password": "Change password",
+    "password_changed": "Password changed successfully",
+    "saving": "Saving...",
+    "error_fields_required": "All fields are required",
+    "error_passwords_mismatch": "New passwords do not match",
+    "error_password_length": "New password must be at least 6 characters",
+    "error_save_account": "Failed to save account",
+    "error_change_password": "Failed to change password"
+  },
+  "exams": {
+    "title": "My examinations",
+    "subtitle": "Health tracking",
+    "add": "+ Add exam",
+    "loading": "Loading exams...",
+    "filter_all": "All exams",
+    "filter_upcoming": "Upcoming exams",
+    "filter_overdue": "Overdue exams",
+    "filter_due": "Due exams",
+    "filter_done": "Completed exams"
+  },
+  "nutrition": {
+    "title": "Nutrition",
+    "today": "Today",
+    "loading": "Loading...",
+    "goal": "Goal",
+    "remaining": "Remaining",
+    "no_entries": "No entries yet",
+    "add_food": "Add food",
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "snack": "Snack",
+    "daily_goal": "Daily goal",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "get_goal": "Get your personalized calorie goal",
+    "get_goal_desc": "Complete your health profile → we calculate the rest",
+    "set_up": "Set up →"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "mark_all": "Mark all as read",
+    "empty": "You're all caught up",
+    "loading": "Loading..."
+  }
 }
