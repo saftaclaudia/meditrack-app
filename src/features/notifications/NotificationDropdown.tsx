@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Bell } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
@@ -15,6 +16,7 @@ import NotificationEmpty from "./NotificationEmpty";
 
 export function NotificationDropdown() {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const notifications = useAppSelector((state) => state.notifications.items);
   const loading = useAppSelector((state) => state.notifications.loading);
@@ -50,7 +52,7 @@ export function NotificationDropdown() {
       <div className="max-h-64 overflow-y-auto">
         {loading ? (
           <p className="text-center py-4 text-text-secondary dark:text-text-darkSecondary">
-            Loading...
+            {t("notifications.loading")}
           </p>
         ) : error ? (
           <p className="text-center py-4 text-danger-soft">{error}</p>

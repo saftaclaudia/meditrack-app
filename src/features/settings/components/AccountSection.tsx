@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { updateUser } from "../../auth/authSlice";
 import { updateProfile } from "../../profile/profileThunks";
@@ -6,6 +7,7 @@ import { Button } from "../../../components/ui/Button";
 
 export function AccountSection() {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const authUser = useAppSelector((s) => s.auth.user);
   const profileLoading = useAppSelector((s) => s.profile.loading);
 
@@ -27,7 +29,7 @@ export function AccountSection() {
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } else {
-      setError((result.payload as string) ?? "Failed to save account");
+      setError((result.payload as string) ?? t("settings.error_save_account"));
     }
   };
 
@@ -37,17 +39,17 @@ export function AccountSection() {
   return (
     <div className="space-y-3">
       <div className="space-y-1">
-        <label className="text-xs text-text-muted dark:text-text-darkMuted">Name</label>
+        <label className="text-xs text-text-muted dark:text-text-darkMuted">{t("settings.name")}</label>
         <input
           type="text"
           value={name}
           onChange={(e) => { setName(e.target.value); setSaved(false); }}
-          placeholder="Your name"
+          placeholder={t("settings.name_placeholder")}
           className={inputClass}
         />
       </div>
       <div className="space-y-1">
-        <label className="text-xs text-text-muted dark:text-text-darkMuted">Email</label>
+        <label className="text-xs text-text-muted dark:text-text-darkMuted">{t("settings.email")}</label>
         <input
           type="email"
           value={email}
@@ -57,9 +59,9 @@ export function AccountSection() {
         />
       </div>
       {error && <p className="text-sm text-danger">{error}</p>}
-      {saved && <p className="text-sm text-primary">Account updated successfully</p>}
+      {saved && <p className="text-sm text-primary">{t("settings.account_updated")}</p>}
       <Button fullWidth onClick={handleSave} disabled={profileLoading}>
-        {profileLoading ? "Saving..." : "Save account"}
+        {profileLoading ? t("settings.saving") : t("settings.save_account")}
       </Button>
     </div>
   );

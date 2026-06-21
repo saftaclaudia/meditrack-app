@@ -1,3 +1,86 @@
 {
-  "dashboard.title": "Ghesundheitsűbersicht"
+  "nav": {
+    "home": "Startseite",
+    "exams": "Untersuchungen",
+    "nutrition": "Ernährung",
+    "settings": "Einstellungen",
+    "page_home": "Dashboard",
+    "page_exams": "Medizinische Untersuchungen",
+    "page_add_exam": "Untersuchung hinzufügen",
+    "page_nutrition": "Ernährung",
+    "page_settings": "Einstellungen",
+    "page_profile": "Gesundheitsprofil"
+  },
+  "dashboard": {
+    "greeting_morning": "Guten Morgen",
+    "greeting_afternoon": "Guten Tag",
+    "greeting_evening": "Guten Abend",
+    "subtitle": "Das steht heute auf deinem Gesundheitsradar.",
+    "exams_label": "Medizinisch",
+    "exams_title": "Meine Untersuchungen",
+    "exams_desc": "Verfolge und plane deine medizinischen Kontrolluntersuchungen.",
+    "nutrition_label": "Ernährung",
+    "nutrition_title": "Kalorientagebuch",
+    "nutrition_desc": "Mahlzeiten erfassen und Tagesziel erreichen."
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "account": "Konto",
+    "security": "Sicherheit",
+    "preferences": "Einstellungen",
+    "logout": "Abmelden",
+    "name": "Name",
+    "name_placeholder": "Dein Name",
+    "email": "E-Mail",
+    "save_account": "Konto speichern",
+    "account_updated": "Konto erfolgreich aktualisiert",
+    "current_password": "Aktuelles Passwort",
+    "new_password": "Neues Passwort",
+    "confirm_password": "Neues Passwort bestätigen",
+    "change_password": "Passwort ändern",
+    "password_changed": "Passwort erfolgreich geändert",
+    "saving": "Wird gespeichert...",
+    "error_fields_required": "Alle Felder sind erforderlich",
+    "error_passwords_mismatch": "Die neuen Passwörter stimmen nicht überein",
+    "error_password_length": "Das neue Passwort muss mindestens 6 Zeichen lang sein",
+    "error_save_account": "Konto konnte nicht gespeichert werden",
+    "error_change_password": "Passwort konnte nicht geändert werden"
+  },
+  "exams": {
+    "title": "Meine Untersuchungen",
+    "subtitle": "Gesundheitsüberwachung",
+    "add": "+ Untersuchung hinzufügen",
+    "loading": "Untersuchungen werden geladen...",
+    "filter_all": "Alle Untersuchungen",
+    "filter_upcoming": "Bevorstehende Untersuchungen",
+    "filter_overdue": "Überfällige Untersuchungen",
+    "filter_due": "Fällige Untersuchungen",
+    "filter_done": "Abgeschlossene Untersuchungen"
+  },
+  "nutrition": {
+    "title": "Ernährung",
+    "today": "Heute",
+    "loading": "Wird geladen...",
+    "goal": "Ziel",
+    "remaining": "Verbleibend",
+    "no_entries": "Noch keine Einträge",
+    "add_food": "Essen hinzufügen",
+    "breakfast": "Frühstück",
+    "lunch": "Mittagessen",
+    "dinner": "Abendessen",
+    "snack": "Snack",
+    "daily_goal": "Tagesziel",
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "get_goal": "Hol dir dein persönliches Kalorienziel",
+    "get_goal_desc": "Gesundheitsprofil ausfüllen → wir berechnen den Rest",
+    "set_up": "Einrichten →"
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "mark_all": "Alle als gelesen markieren",
+    "empty": "Du bist auf dem neuesten Stand",
+    "loading": "Wird geladen..."
+  }
 }

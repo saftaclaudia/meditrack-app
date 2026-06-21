@@ -1,17 +1,23 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../app/hooks";
 import { selectAuthUser } from "../features/auth/authSelectors";
 import { ClipboardList, Flame, ArrowRight } from "lucide-react";
 
 export default function DashBoard() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const user = useAppSelector(selectAuthUser);
 
   const firstName = user?.name?.split(" ")[0] ?? "there";
 
   const hour = new Date().getHours();
   const greeting =
-    hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+    hour < 12
+      ? t("dashboard.greeting_morning")
+      : hour < 18
+        ? t("dashboard.greeting_afternoon")
+        : t("dashboard.greeting_evening");
 
   return (
     <div className="space-y-6">
@@ -24,7 +30,7 @@ export default function DashBoard() {
           Hey, <span className="text-primary">{firstName}!</span>
         </h1>
         <p className="text-sm text-text-muted dark:text-text-darkMuted">
-          Here's what's on your health radar today.
+          {t("dashboard.subtitle")}
         </p>
       </div>
 
@@ -44,13 +50,13 @@ export default function DashBoard() {
           </div>
           <div>
             <p className="text-xs font-medium uppercase tracking-widest text-white/70 mb-1">
-              Medical
+              {t("dashboard.exams_label")}
             </p>
             <h2 className="font-sans text-xl font-bold text-white leading-snug">
-              My Exams
+              {t("dashboard.exams_title")}
             </h2>
             <p className="text-sm text-white/70 mt-1 leading-relaxed">
-              Track & schedule your medical check-ups.
+              {t("dashboard.exams_desc")}
             </p>
           </div>
         </button>
@@ -68,13 +74,13 @@ export default function DashBoard() {
           </div>
           <div>
             <p className="text-xs font-medium uppercase tracking-widest text-black/50 mb-1">
-              Nutrition
+              {t("dashboard.nutrition_label")}
             </p>
             <h2 className="font-sans text-xl font-bold text-black/80 leading-snug">
-              Calorie Log
+              {t("dashboard.nutrition_title")}
             </h2>
             <p className="text-sm text-black/50 mt-1 leading-relaxed">
-              Log meals and hit your daily goal.
+              {t("dashboard.nutrition_desc")}
             </p>
           </div>
         </button>

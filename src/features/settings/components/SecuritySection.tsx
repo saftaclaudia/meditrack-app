@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../../../app/hooks";
 import { changePasswordThunk } from "../../auth/authThunks";
 import { Button } from "../../../components/ui/Button";
 
 export function SecuritySection() {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -16,15 +18,15 @@ export function SecuritySection() {
   const handleSave = async () => {
     setError(null);
     if (!currentPassword || !newPassword || !confirmPassword) {
-      setError("All fields are required");
+      setError(t("settings.error_fields_required"));
       return;
     }
     if (newPassword !== confirmPassword) {
-      setError("New passwords do not match");
+      setError(t("settings.error_passwords_mismatch"));
       return;
     }
     if (newPassword.length < 6) {
-      setError("New password must be at least 6 characters");
+      setError(t("settings.error_password_length"));
       return;
     }
 
@@ -39,7 +41,7 @@ export function SecuritySection() {
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } else {
-      setError((result.payload as string) ?? "Failed to change password");
+      setError((result.payload as string) ?? t("settings.error_change_password"));
     }
   };
 
@@ -49,7 +51,7 @@ export function SecuritySection() {
   return (
     <div className="space-y-3">
       <div className="space-y-1">
-        <label className="text-xs text-text-muted dark:text-text-darkMuted">Current password</label>
+        <label className="text-xs text-text-muted dark:text-text-darkMuted">{t("settings.current_password")}</label>
         <input
           type="password"
           value={currentPassword}
@@ -59,7 +61,7 @@ export function SecuritySection() {
         />
       </div>
       <div className="space-y-1">
-        <label className="text-xs text-text-muted dark:text-text-darkMuted">New password</label>
+        <label className="text-xs text-text-muted dark:text-text-darkMuted">{t("settings.new_password")}</label>
         <input
           type="password"
           value={newPassword}
@@ -69,7 +71,7 @@ export function SecuritySection() {
         />
       </div>
       <div className="space-y-1">
-        <label className="text-xs text-text-muted dark:text-text-darkMuted">Confirm new password</label>
+        <label className="text-xs text-text-muted dark:text-text-darkMuted">{t("settings.confirm_password")}</label>
         <input
           type="password"
           value={confirmPassword}
@@ -79,9 +81,9 @@ export function SecuritySection() {
         />
       </div>
       {error && <p className="text-sm text-danger">{error}</p>}
-      {saved && <p className="text-sm text-primary">Password changed successfully</p>}
+      {saved && <p className="text-sm text-primary">{t("settings.password_changed")}</p>}
       <Button fullWidth onClick={handleSave} disabled={loading}>
-        {loading ? "Saving..." : "Change password"}
+        {loading ? t("settings.saving") : t("settings.change_password")}
       </Button>
     </div>
   );

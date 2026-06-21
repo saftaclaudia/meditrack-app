@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 
 import { Button } from "../../../components/ui/Button";
@@ -21,6 +22,7 @@ import type { ExamWithMongoId } from "../../../types/exam";
 export function ExamsPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState<ExamFilter>("all");
 
   const exams = useAppSelector(selectExamsWithStatus);
@@ -57,10 +59,19 @@ export function ExamsPage() {
   const showDueSection = activeFilter === "all" || activeFilter === "due";
   const showExamsSection = activeFilter !== "due";
 
+  const sectionTitle =
+    activeFilter === "all"
+      ? t("exams.filter_all")
+      : activeFilter === "upcoming"
+        ? t("exams.filter_upcoming")
+        : activeFilter === "overdue"
+          ? t("exams.filter_overdue")
+          : t("exams.filter_done");
+
   if (loading)
     return (
       <p className="text-center mt-10 font-light tracking-wide text-text-muted dark:text-text-darkMuted">
-        Loading exams...
+        {t("exams.loading")}
       </p>
     );
 
@@ -70,16 +81,16 @@ export function ExamsPage() {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-ex font-light tracking-widest upercase text-text-muted dark:text-text-darkMuted mb-1">
-            Health tracking
+            {t("exams.subtitle")}
           </p>
           <h1 className="font-serif font-light text-3xl text-primary">
-            My examinations
+            {t("exams.title")}
           </h1>
         </div>
 
         {/* Desktop button */}
         <div className="hidden md:block">
-          <Button onClick={() => navigate("/exams/new")}>+ Add exam</Button>
+          <Button onClick={() => navigate("/exams/new")}>{t("exams.add")}</Button>
         </div>
       </div>
 
@@ -110,15 +121,7 @@ export function ExamsPage() {
       {/* Exams section */}
       {showExamsSection && (
         <ExamSection
-          title={
-            activeFilter === "all"
-              ? "All exams"
-              : activeFilter === "upcoming"
-                ? "Upcoming exams"
-                : activeFilter === "overdue"
-                  ? "Overdue exams"
-                  : "Completed exams"
-          }
+          title={sectionTitle}
           count={filteredExams.length}
           empty="No exams in this category"
         >

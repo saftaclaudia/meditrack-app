@@ -1,15 +1,18 @@
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Home, ClipboardList, Flame, Settings } from "lucide-react";
 import clsx from "clsx";
 
 const navItems = [
-  { to: "/", label: "Home", icon: Home, end: true },
-  { to: "/exams", label: "Exams", icon: ClipboardList, end: false },
-  { to: "/calories", label: "Nutrition", icon: Flame, end: false },
-  { to: "/settings", label: "Settings", icon: Settings, end: false },
+  { to: "/", tKey: "nav.home", icon: Home, end: true },
+  { to: "/exams", tKey: "nav.exams", icon: ClipboardList, end: false },
+  { to: "/calories", tKey: "nav.nutrition", icon: Flame, end: false },
+  { to: "/settings", tKey: "nav.settings", icon: Settings, end: false },
 ];
 
 export function BottomNav() {
+  const { t } = useTranslation();
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
       <div className="h-4 bg-gradient-to-t from-background-light dark:from-background-dark to-transparent pointer-events-none" />
@@ -17,7 +20,7 @@ export function BottomNav() {
       <div className="bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-t border-border-light dark:border-border-dark">
         <div className="max-w-md mx-auto px-2 pb-safe">
           <div className="grid grid-cols-4 items-center py-2">
-            {navItems.map(({ to, label, icon: Icon, end }) => (
+            {navItems.map(({ to, tKey, icon: Icon, end }) => (
               <NavLink
                 key={to}
                 to={to}
@@ -44,7 +47,7 @@ export function BottomNav() {
                           : "text-text-muted dark:text-text-darkMuted",
                       )}
                     >
-                      {label}
+                      {t(tKey)}
                     </span>
                   </div>
                 )}
