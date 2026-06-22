@@ -1,6 +1,6 @@
 // src/features/auth/authThunks.ts
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { loginRequest, registerRequest, changePasswordRequest } from "../../api/authApi";
+import { loginRequest, registerRequest, changePasswordRequest, deleteAccountRequest } from "../../api/authApi";
 import type { AuthResponse } from "./authTypes";
 import type { AxiosError } from "axios";
 
@@ -27,6 +27,19 @@ export const registerUser = createAsyncThunk<
       userData.password,
     );
     return data;
+  } catch (err: unknown) {
+    return rejectWithValue(getErrorMessage(err));
+  }
+});
+
+// DELETE ACCOUNT
+export const deleteAccountThunk = createAsyncThunk<
+  { message: string },
+  void,
+  { rejectValue: string }
+>("auth/deleteAccount", async (_, { rejectWithValue }) => {
+  try {
+    return await deleteAccountRequest();
   } catch (err: unknown) {
     return rejectWithValue(getErrorMessage(err));
   }

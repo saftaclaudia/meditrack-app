@@ -23,6 +23,8 @@ export default function Navbar() {
   const pageTitleKey = getPageTitle(pathname);
   const user = useAppSelector(selectAuthUser);
 
+  const avatarColor = useAppSelector((s) => s.settings.avatarColor);
+
   const initials = user?.name
     ? user.name.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase()
     : "?";
@@ -65,7 +67,8 @@ export default function Navbar() {
           {/* Avatar — click → Settings */}
           <button
             onClick={() => navigate("/settings")}
-            className="w-9 h-9 rounded-full bg-primary flex items-center justify-center shrink-0"
+            className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
+            style={{ backgroundColor: avatarColor }}
           >
             <span className="text-white text-xs font-bold">{initials}</span>
           </button>
