@@ -1,13 +1,10 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ConfirmModal } from "../../../components/ui/ConfirmModal";
 import type { Exam, ExamWithMongoId } from "../../../types/exam";
 import { getExamStatus } from "../utils/getExamStatus";
 import { downloadPdf, viewPdf } from "../../../utils/documentActions";
-import {
-  dateLabelMap,
-  STATUS_CONFIG,
-  type StatusKey,
-} from "../constants/examStatusConfig";
+import { STATUS_CONFIG, type StatusKey } from "../constants/examStatusConfig";
 import { ChevronIcon, DocIcon } from "./ExamIcons";
 import { DownloadIcon, EditIcon, EyeIcon, TrashIcon } from "lucide-react";
 import { ExamStatusBadge } from "./ExamStatusBadge";
@@ -20,6 +17,7 @@ interface ExamCardProps {
 }
 
 export function ExamCard({ exam, onEdit, onDelete, onView }: ExamCardProps) {
+  const { t } = useTranslation();
   const status = getExamStatus(exam.nextDate, exam.lastDate) as StatusKey;
   const cfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.soon;
 
@@ -84,17 +82,17 @@ export function ExamCard({ exam, onEdit, onDelete, onView }: ExamCardProps) {
             {docCount > 0 ? (
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-soft-light text-primary text-xs font-light">
                 <DocIcon />
-                {docCount} {docCount === 1 ? "doc" : "docs"}
+                {docCount} {t(docCount === 1 ? "exams.doc_one" : "exams.doc_other")}
               </span>
             ) : (
               <span className="text-xs font-light text-text-muted dark:text-text-darkMuted">
-                No documents
+                {t("exams.no_documents")}
               </span>
             )}
 
             {exam.nextDate && (
               <span className="text-xs font-light text-text-muted dark:text-text-darkMuted">
-                {dateLabelMap[status]}{" "}
+                {t(`exams.date_label_${status}`)}:{" "}
                 <span className="text-text-secondary dark:text-text-darkSecondary">
                   {exam.nextDate}
                 </span>
@@ -125,7 +123,7 @@ export function ExamCard({ exam, onEdit, onDelete, onView }: ExamCardProps) {
             {exam.lastDate && (
               <div className="flex justify-between">
                 <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-                  Last visit
+                  {t("exams.last_visit")}
                 </span>
                 <span className="text-xs text-text-secondary dark:text-text-darkSecondary">
                   {exam.lastDate}
@@ -136,7 +134,7 @@ export function ExamCard({ exam, onEdit, onDelete, onView }: ExamCardProps) {
             {exam.treatment && (
               <div>
                 <p className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted mb-1.5">
-                  Treatment
+                  {t("exams.treatment")}
                 </p>
                 <p className="text-sm font-light text-text-body dark:text-text-bodyDark leading-relaxed">
                   {exam.treatment}
@@ -147,7 +145,7 @@ export function ExamCard({ exam, onEdit, onDelete, onView }: ExamCardProps) {
             {exam.notes && (
               <div>
                 <p className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted mb-1.5">
-                  Notes
+                  {t("exams.notes")}
                 </p>
                 <p className="text-sm font-light text-text-body dark:text-text-bodyDark leading-relaxed">
                   {exam.notes}
@@ -158,7 +156,7 @@ export function ExamCard({ exam, onEdit, onDelete, onView }: ExamCardProps) {
             {docCount > 0 && (
               <div>
                 <p className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted mb-2">
-                  Documents
+                  {t("exams.documents")}
                 </p>
                 <div className="flex flex-col gap-2">
                   {exam.documents!.map((doc, index) => (
@@ -179,7 +177,7 @@ export function ExamCard({ exam, onEdit, onDelete, onView }: ExamCardProps) {
                           className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary text-background-light text-xs font-light hover:bg-primary-hover transition-colors"
                         >
                           <EyeIcon />
-                          <span>View</span>
+                          <span>{t("exams.view")}</span>
                         </button>
 
                         <button

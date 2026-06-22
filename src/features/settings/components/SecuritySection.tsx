@@ -4,6 +4,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useAppDispatch } from "../../../app/hooks";
 import { changePasswordThunk } from "../../auth/authThunks";
 import { Button } from "../../../components/ui/Button";
+import { useToast } from "../../../context/ToastContext";
 
 function getPasswordStrength(password: string): 0 | 1 | 2 | 3 {
   if (password.length === 0) return 0;
@@ -57,11 +58,10 @@ export function SecuritySection() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
+  const { showToast } = useToast();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [saved, setSaved] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const [showCurrent, setShowCurrent] = useState(false);
@@ -85,17 +85,16 @@ export function SecuritySection() {
   const passwordsMismatch = confirmPassword.length > 0 && newPassword !== confirmPassword;
 
   const handleSave = async () => {
-    setError(null);
     if (!currentPassword || !newPassword || !confirmPassword) {
-      setError(t("settings.error_fields_required"));
+      showToast(t("settings.error_fields_required"), "error");
       return;
     }
     if (newPassword !== confirmPassword) {
-      setError(t("settings.error_passwords_mismatch"));
+      showToast(t("settings.error_passwords_mismatch"), "error");
       return;
     }
     if (newPassword.length < 6) {
-      setError(t("settings.error_password_length"));
+      showToast(t("settings.error_password_length"), "error");
       return;
     }
 
@@ -107,10 +106,9 @@ export function SecuritySection() {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
+      showToast(t("settings.password_changed"));
     } else {
-      setError((result.payload as string) ?? t("settings.error_change_password"));
+      showToast((result.payload as string) ?? t("settings.error_change_password"), "error");
     }
   };
 
@@ -119,7 +117,7 @@ export function SecuritySection() {
       <PasswordInput
         label={t("settings.current_password")}
         value={currentPassword}
-        onChange={(v) => { setCurrentPassword(v); setSaved(false); }}
+        onChange={(v) => { setCurrentPassword(v); }}
         onKeyDown={(e) => e.key === "Enter" && newPasswordRef.current?.focus()}
         autoComplete="current-password"
         show={showCurrent}
@@ -130,7 +128,7 @@ export function SecuritySection() {
         <PasswordInput
           label={t("settings.new_password")}
           value={newPassword}
-          onChange={(v) => { setNewPassword(v); setSaved(false); }}
+          onChange={(v) => { setNewPassword(v); }}
           onKeyDown={(e) => e.key === "Enter" && confirmPasswordRef.current?.focus()}
           autoComplete="new-password"
           show={showNew}
@@ -161,7 +159,7 @@ export function SecuritySection() {
         <PasswordInput
           label={t("settings.confirm_password")}
           value={confirmPassword}
-          onChange={(v) => { setConfirmPassword(v); setSaved(false); }}
+          onChange={(v) => { setConfirmPassword(v); }}
           onKeyDown={(e) => e.key === "Enter" && passwordsTyped && handleSave()}
           autoComplete="new-password"
           show={showConfirm}
@@ -173,9 +171,6 @@ export function SecuritySection() {
           <p className="text-xs text-danger">{t("settings.error_passwords_mismatch")}</p>
         )}
       </div>
-
-      {error && <p className="text-sm text-danger">{error}</p>}
-      {saved && <p className="text-sm text-primary">{t("settings.password_changed")}</p>}
 
       <Button fullWidth onClick={handleSave} disabled={loading || !passwordsTyped}>
         {loading ? t("settings.saving") : t("settings.change_password")}

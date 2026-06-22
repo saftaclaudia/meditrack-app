@@ -107,10 +107,10 @@ export function ExamsPage() {
       {/* Due section */}
       {showDueSection && dueExams.length > 0 && (
         <ExamSection
-          title="Due for scheduling"
-          subtitle="Recomended exams for your age group"
+          title={t("exams.due_section_title")}
+          subtitle={t("exams.due_section_subtitle")}
           count={dueExams.length}
-          empty="All recommended exams are up to date"
+          empty={t("exams.due_section_empty")}
         >
           {dueExams.map((exam) => (
             <RecommendedExamCard key={exam.id} exam={exam} />
@@ -123,7 +123,7 @@ export function ExamsPage() {
         <ExamSection
           title={sectionTitle}
           count={filteredExams.length}
-          empty="No exams in this category"
+          empty={t("exams.section_empty")}
         >
           {filteredExams.map((exam) => (
             <ExamCard

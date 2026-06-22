@@ -1,5 +1,5 @@
 import clsx from "clsx";
-
+import { useTranslation } from "react-i18next";
 import { STATUS_CONFIG, type StatusKey } from "../constants/examStatusConfig";
 
 interface Props {
@@ -7,6 +7,7 @@ interface Props {
 }
 
 export function ExamStatusBadge({ status }: Props) {
+  const { t } = useTranslation();
   const cfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.soon;
 
   return (
@@ -16,7 +17,6 @@ export function ExamStatusBadge({ status }: Props) {
         cfg.classes,
       )}
     >
-      {/* animated dot */}
       <span
         className={clsx(
           "w-1 h-1 rounded-full",
@@ -24,8 +24,7 @@ export function ExamStatusBadge({ status }: Props) {
           status !== "done" && "animate-pulse",
         )}
       />
-
-      {cfg.label}
+      {t(`exams.status_${status}`)}
     </span>
   );
 }

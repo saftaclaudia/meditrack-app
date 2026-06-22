@@ -5,6 +5,7 @@ import { updateUser } from "../../auth/authSlice";
 import { updateProfile } from "../../profile/profileThunks";
 import { setAvatarColor } from "../settingsSlice";
 import { Button } from "../../../components/ui/Button";
+import { useToast } from "../../../context/ToastContext";
 
 const AVATAR_COLORS = [
   "#00AEBB",
@@ -24,10 +25,9 @@ export function AccountSection() {
   const profileLoading = useAppSelector((s) => s.profile.loading);
   const avatarColor = useAppSelector((s) => s.settings.avatarColor);
 
+  const { showToast } = useToast();
   const [name, setName] = useState(authUser?.name ?? "");
   const [email, setEmail] = useState(authUser?.email ?? "");
-  const [saved, setSaved] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const emailRef = useRef<HTMLInputElement>(null);
 
@@ -44,10 +44,9 @@ export function AccountSection() {
     const result = await dispatch(updateProfile(payload));
     if (updateProfile.fulfilled.match(result)) {
       dispatch(updateUser({ name: result.payload.name, email: result.payload.email }));
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
+      showToast(t("settings.account_updated"));
     } else {
-      setError((result.payload as string) ?? t("settings.error_save_account"));
+      showToast((result.payload as string) ?? t("settings.error_save_account"), "error");
     }
   };
 
@@ -100,7 +99,7 @@ export function AccountSection() {
         <input
           type="text"
           value={name}
-          onChange={(e) => { setName(e.target.value); setSaved(false); }}
+          onChange={(e) => { setName(e.target.value); }}
           onKeyDown={(e) => e.key === "Enter" && emailRef.current?.focus()}
           placeholder={t("settings.name_placeholder")}
           className={inputClass}
@@ -116,15 +115,12 @@ export function AccountSection() {
           ref={emailRef}
           type="email"
           value={email}
-          onChange={(e) => { setEmail(e.target.value); setSaved(false); }}
+          onChange={(e) => { setEmail(e.target.value); }}
           onKeyDown={(e) => e.key === "Enter" && hasChanges && handleSave()}
           placeholder="your@email.com"
           className={inputClass}
         />
       </div>
-
-      {error && <p className="text-sm text-danger">{error}</p>}
-      {saved && <p className="text-sm text-primary">{t("settings.account_updated")}</p>}
 
       <Button fullWidth onClick={handleSave} disabled={profileLoading || !hasChanges}>
         {profileLoading ? t("settings.saving") : t("settings.save_account")}

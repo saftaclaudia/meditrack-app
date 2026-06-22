@@ -1,20 +1,18 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../../app/hooks";
 import { ArrowLeft, Pencil } from "lucide-react";
 import type { ExamWithMongoId } from "../../../types/exam";
 import { ExamStatusBadge } from "../components/ExamStatusBadge";
 import { getExamStatus } from "../utils/getExamStatus";
-import {
-  dateLabelMap,
-  STATUS_CONFIG,
-  type StatusKey,
-} from "../constants/examStatusConfig";
+import { STATUS_CONFIG, type StatusKey } from "../constants/examStatusConfig";
 import { DocIcon, DownloadIcon, EyeIcon } from "../components/ExamIcons";
 import { downloadPdf, viewPdf } from "../../../utils/documentActions";
 
 export function ExamDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const exam = useAppSelector((state) =>
     state.exams.items.find((item) => {
@@ -26,7 +24,7 @@ export function ExamDetailPage() {
   if (!exam) {
     return (
       <p className="text-center text-sm font-light tracking-wide text-text-muted dark:text-text-darkMuted mt-10">
-        Exam not found 🥺
+        {t("exams.not_found")}
       </p>
     );
   }
@@ -44,14 +42,14 @@ export function ExamDetailPage() {
           className="flex items-center gap-1.5 text-sm text-text-muted dark:text-text-darkMuted hover:text-primary transition-colors"
         >
           <ArrowLeft size={16} />
-          Back
+          {t("exams.back")}
         </button>
         <button
           onClick={() => navigate(`/exams/${examId}/edit`)}
           className="flex items-center gap-1.5 text-sm text-primary hover:underline"
         >
           <Pencil size={14} />
-          Edit
+          {t("exams.edit")}
         </button>
       </div>
 
@@ -73,7 +71,7 @@ export function ExamDetailPage() {
             {exam.speciality && (
               <div className="flex justify-between">
                 <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-                  Speciality
+                  {t("exams.speciality")}
                 </span>
                 <span className="text-xs text-text-secondary dark:text-text-darkSecondary">
                   {exam.speciality}
@@ -83,7 +81,7 @@ export function ExamDetailPage() {
             {exam.doctor && (
               <div className="flex justify-between">
                 <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-                  Doctor
+                  {t("exams.doctor")}
                 </span>
                 <span className="text-xs text-text-secondary dark:text-text-darkSecondary">
                   {exam.doctor}
@@ -93,7 +91,7 @@ export function ExamDetailPage() {
             {exam.clinic && (
               <div className="flex justify-between">
                 <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-                  Clinic
+                  {t("exams.clinic")}
                 </span>
                 <span className="text-xs text-text-secondary dark:text-text-darkSecondary">
                   {exam.clinic}
@@ -103,7 +101,7 @@ export function ExamDetailPage() {
             {exam.lastDate && (
               <div className="flex justify-between">
                 <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-                  Last visit
+                  {t("exams.last_visit")}
                 </span>
                 <span className="text-xs text-text-secondary dark:text-text-darkSecondary">
                   {exam.lastDate}
@@ -113,7 +111,7 @@ export function ExamDetailPage() {
             {exam.nextDate && (
               <div className="flex justify-between">
                 <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-                  {dateLabelMap[status].replace(":", "")}
+                  {t(`exams.date_label_${status}`)}
                 </span>
                 <span className="text-xs text-text-secondary dark:text-text-darkSecondary">
                   {exam.nextDate}
@@ -128,7 +126,7 @@ export function ExamDetailPage() {
               <div className="border-t border-border-light dark:border-border-dark opacity-60" />
               <div className="space-y-1.5">
                 <p className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-                  Treatment
+                  {t("exams.treatment")}
                 </p>
                 <p className="text-sm font-light text-text-body dark:text-text-bodyDark leading-relaxed">
                   {exam.treatment}
@@ -143,7 +141,7 @@ export function ExamDetailPage() {
               <div className="border-t border-border-light dark:border-border-dark opacity-60" />
               <div className="space-y-1.5">
                 <p className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-                  Notes
+                  {t("exams.notes")}
                 </p>
                 <p className="text-sm font-light text-text-body dark:text-text-bodyDark leading-relaxed">
                   {exam.notes}
@@ -158,7 +156,7 @@ export function ExamDetailPage() {
               <div className="border-t border-border-light dark:border-border-dark opacity-60" />
               <div className="space-y-2">
                 <p className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-                  Documents
+                  {t("exams.documents")}
                 </p>
                 <div className="flex flex-col gap-2">
                   {exam.documents!.map((doc, index) => (
@@ -178,7 +176,7 @@ export function ExamDetailPage() {
                           className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary text-background-light text-xs font-light hover:bg-primary-hover transition-colors"
                         >
                           <EyeIcon />
-                          <span>View</span>
+                          <span>{t("exams.view")}</span>
                         </button>
                         <button
                           onClick={() => downloadPdf(doc.file, doc.name)}

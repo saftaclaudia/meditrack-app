@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 
 interface ExamSectionProps {
   title: string;
@@ -15,6 +16,7 @@ export function ExamSection({
   children,
   empty,
 }: ExamSectionProps) {
+  const { t } = useTranslation();
   return (
     <div className="space-y-3">
       {/* Header */}
@@ -31,7 +33,7 @@ export function ExamSection({
         </div>
         {count !== undefined && count > 0 && (
           <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-            {count} {count === 1 ? "exam" : "exams"}
+            {count} {t(count === 1 ? "exams.exam_one" : "exams.exam_other")}
           </span>
         )}
       </div>
