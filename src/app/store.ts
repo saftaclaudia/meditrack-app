@@ -5,6 +5,7 @@ import authReducer from "../features/auth/authSlice";
 import notificationsReducer from "../features/notifications/notificationsSlice";
 import caloriesReducer from "../features/calories/caloriesSlice";
 import profileReducer from "../features/profile/profileSlice";
+import recipesReducer from "../features/recipes/recipesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     notifications: notificationsReducer,
     calories: caloriesReducer,
     profile: profileReducer,
+    recipes: recipesReducer,
   },
 });
 
