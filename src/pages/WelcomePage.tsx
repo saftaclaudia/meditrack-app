@@ -83,7 +83,10 @@ export default function WelcomePage() {
     }, 200);
   };
 
-  const handleSkip = () => changeStep(SLIDES.length - 1);
+  const handleSkip = () => {
+    if (user) localStorage.setItem(`onboarding_seen_${user.id}`, "true");
+    changeStep(SLIDES.length - 1);
+  };
   const handleNext = () => changeStep(step + 1);
   const handleGetStarted = () => {
     if (user) localStorage.setItem(`onboarding_seen_${user.id}`, "true");

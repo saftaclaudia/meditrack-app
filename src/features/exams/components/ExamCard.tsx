@@ -16,9 +16,10 @@ interface ExamCardProps {
   exam: Exam;
   onEdit: (exam: Exam) => void;
   onDelete: (id: string) => void;
+  onView?: (exam: Exam) => void;
 }
 
-export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
+export function ExamCard({ exam, onEdit, onDelete, onView }: ExamCardProps) {
   const status = getExamStatus(exam.nextDate, exam.lastDate) as StatusKey;
   const cfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.soon;
 
@@ -71,7 +72,10 @@ export function ExamCard({ exam, onEdit, onDelete }: ExamCardProps) {
           </div>
 
           {/* title */}
-          <h3 className="font-serif text-xl font-light text-text-primary dark:text-text-darkPrimary leading-tight mb-3">
+          <h3
+            onClick={() => onView?.(exam)}
+            className={`font-serif text-xl font-light text-text-primary dark:text-text-darkPrimary leading-tight mb-3 ${onView ? "cursor-pointer hover:text-primary transition-colors" : ""}`}
+          >
             {exam.name}
           </h3>
 

@@ -7,6 +7,7 @@ import { ExamsPage } from "../features/exams/pages/ExamsPage";
 import AppLayout from "../pages/AppLayout";
 import { AddExamPage } from "../features/exams/pages/AddExamPage";
 import { EditExamPage } from "../features/exams/pages/EditExamPage";
+import { ExamDetailPage } from "../features/exams/pages/ExamDetailPage";
 import { SettingsPage } from "../features/settings/pages/SettingsPage";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
@@ -36,6 +37,7 @@ export default function Router() {
 
             <Route path="/exams" element={<ExamsPage />} />
             <Route path="/exams/new" element={<AddExamPage />} />
+            <Route path="/exams/:id" element={<ExamDetailPage />} />
             <Route path="/exams/:id/edit" element={<EditExamPage />} />
             <Route path="/calories" element={<CaloriesPage />} />
             <Route path="*" element={<NotFoundPage />} />

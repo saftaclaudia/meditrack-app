@@ -129,6 +129,9 @@ export function ExamsPage() {
             <ExamCard
               key={(exam as ExamWithMongoId)._id ?? exam.id}
               exam={exam}
+              onView={(exam) =>
+                navigate(`/exams/${(exam as ExamWithMongoId)._id ?? exam.id}`)
+              }
               onEdit={(exam) =>
                 navigate(
                   `/exams/${(exam as ExamWithMongoId)._id ?? exam.id}/edit`,
