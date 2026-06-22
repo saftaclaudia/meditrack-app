@@ -30,6 +30,9 @@ const authSlice = createSlice({
   initialState: getInitialState(),
   reducers: {
     logout(state) {
+      if (state.user) {
+        localStorage.removeItem(`onboarding_seen_${state.user.id}`);
+      }
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;

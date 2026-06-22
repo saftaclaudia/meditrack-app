@@ -38,7 +38,7 @@ export default function RegisterPage() {
 
     dispatch(registerUser({ name, email, password }))
       .unwrap()
-      .then(() => navigate("/"))
+      .then(() => navigate("/welcome"))
       .catch(() => {});
   };
 

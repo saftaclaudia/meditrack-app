@@ -44,7 +44,7 @@ export default function LoginPage() {
       );
       console.log("localStorage token:", localStorage.getItem("auth_token"));
 
-      const seen = localStorage.getItem("onboarding_seen");
+      const seen = localStorage.getItem(`onboarding_seen_${result.user.id}`);
       navigate(seen ? "/" : "/welcome", { replace: true });
       console.log("navigate() a fost apelat");
     } catch (err: unknown) {

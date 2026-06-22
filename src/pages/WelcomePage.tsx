@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
+import { selectAuthUser } from "../features/auth/authSelectors";
 import { useTranslation } from "react-i18next";
 import { ClipboardList, Flame, CheckCircle } from "lucide-react";
 import { Button } from "../components/ui/Button";
@@ -60,6 +61,7 @@ export default function WelcomePage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const theme = useAppSelector((state) => state.settings.theme);
+  const user = useAppSelector(selectAuthUser);
 
   const [step, setStep] = useState(0);
   const [visible, setVisible] = useState(true);
@@ -84,7 +86,7 @@ export default function WelcomePage() {
   const handleSkip = () => changeStep(SLIDES.length - 1);
   const handleNext = () => changeStep(step + 1);
   const handleGetStarted = () => {
-    localStorage.setItem("onboarding_seen", "true");
+    if (user) localStorage.setItem(`onboarding_seen_${user.id}`, "true");
     navigate("/", { replace: true });
   };
 
