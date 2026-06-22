@@ -101,5 +101,19 @@
     "mark_all": "Mark all as read",
     "empty": "You're all caught up",
     "loading": "Loading..."
+  },
+  "welcome": {
+    "skip": "Skip",
+    "next": "Next →",
+    "get_started": "Get Started →",
+    "setup_profile": "Set up health profile →",
+    "slide1_title": "Welcome to MediTrack",
+    "slide1_desc": "Your personal health companion. Track exams, log meals, and stay on top of your wellbeing.",
+    "slide2_title": "Track Your Exams",
+    "slide2_desc": "Schedule and monitor your medical check-ups. Never miss an appointment with smart reminders.",
+    "slide3_title": "Log Your Nutrition",
+    "slide3_desc": "Track daily calories and meals. Get a personalized calorie goal based on your health profile.",
+    "slide4_title": "You're all set!",
+    "slide4_desc": "Everything's ready for you. Explore your dashboard and start taking control of your health."
   }
 }

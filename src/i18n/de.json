@@ -101,5 +101,19 @@
     "mark_all": "Alle als gelesen markieren",
     "empty": "Du bist auf dem neuesten Stand",
     "loading": "Wird geladen..."
+  },
+  "welcome": {
+    "skip": "Überspringen",
+    "next": "Weiter →",
+    "get_started": "Loslegen →",
+    "setup_profile": "Gesundheitsprofil einrichten →",
+    "slide1_title": "Willkommen bei MediTrack",
+    "slide1_desc": "Dein persönlicher Gesundheitsbegleiter. Verfolge Untersuchungen, protokolliere Mahlzeiten und bleib gesund.",
+    "slide2_title": "Untersuchungen verfolgen",
+    "slide2_desc": "Plane und überwache medizinische Kontrolluntersuchungen. Verpasse keinen Termin mit smarten Erinnerungen.",
+    "slide3_title": "Ernährung protokollieren",
+    "slide3_desc": "Verfolge tägliche Kalorien und Mahlzeiten. Erhalte ein personalisiertes Kalorienziel für dein Gesundheitsprofil.",
+    "slide4_title": "Alles bereit!",
+    "slide4_desc": "Alles ist vorbereitet. Entdecke dein Dashboard und übernimm die Kontrolle über deine Gesundheit."
   }
 }

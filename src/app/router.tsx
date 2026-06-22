@@ -15,6 +15,7 @@ import { PublicRoute } from "../routes/PublicRoute";
 
 import ForgotPasswordPage from "../features/auth/pages/ForgotPasswordPage";
 import CaloriesPage from "../features/calories/CaloriesPage";
+import WelcomePage from "../pages/WelcomePage";
 
 export default function Router() {
   return (
@@ -27,6 +28,7 @@ export default function Router() {
         </Route>
 
         <Route element={<ProtectedRoute />}>
+          <Route path="/welcome" element={<WelcomePage />} />
           <Route element={<AppLayout />}>
             <Route path="/" element={<DashBoard />} />
             <Route path="/settings" element={<SettingsPage />} />
