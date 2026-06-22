@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
   sex: { type: String, enum: ["male", "female"] },
   heightCm: { type: Number },
   weightKg: { type: Number },
+  targetWeightKg: { type: Number },
   activityLevel: {
     type: String,
     enum: ["sedentary", "light", "moderate", "active", "very_active"],
