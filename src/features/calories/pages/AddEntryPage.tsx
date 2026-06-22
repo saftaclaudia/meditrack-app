@@ -38,11 +38,12 @@ export function AddEntryPage() {
 
   const searchRef = useRef<HTMLDivElement>(null);
 
+  const normalize = (s: string) =>
+    s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
   const results = query.trim()
     ? foodDatabase
-        .filter((f) =>
-          f.name.toLowerCase().includes(query.trim().toLowerCase())
-        )
+        .filter((f) => normalize(f.name).includes(normalize(query.trim())))
         .slice(0, 8)
     : [];
 
