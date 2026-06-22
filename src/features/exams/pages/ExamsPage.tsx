@@ -88,8 +88,8 @@ export function ExamsPage() {
           </h1>
         </div>
 
-        {/* Desktop buttons */}
-        <div className="hidden md:flex md:items-center md:gap-2">
+        {/* Header actions */}
+        <div className="flex items-center gap-2">
           <Button
             variant="outline"
             size="sm"
@@ -98,7 +98,9 @@ export function ExamsPage() {
             <FolderOpen size={13} className="inline mr-1.5" />
             {t("dossier.open_btn")}
           </Button>
-          <Button onClick={() => navigate("/exams/new")}>{t("exams.add")}</Button>
+          <div className="hidden md:block">
+            <Button onClick={() => navigate("/exams/new")}>{t("exams.add")}</Button>
+          </div>
         </div>
       </div>
 
