@@ -86,18 +86,21 @@ export function ExamsPage() {
           <h1 className="font-serif font-light text-3xl text-primary">
             {t("exams.title")}
           </h1>
-          <button
-            onClick={() => navigate("/exams/dossier")}
-            className="flex items-center gap-1.5 text-xs font-light text-text-muted dark:text-text-darkMuted hover:text-primary transition-colors mt-1.5"
-          >
-            <FolderOpen size={13} />
-            {t("dossier.open_btn")}
-          </button>
         </div>
 
-        {/* Desktop button */}
-        <div className="hidden md:block">
-          <Button onClick={() => navigate("/exams/new")}>{t("exams.add")}</Button>
+        {/* Header actions */}
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate("/exams/dossier")}
+          >
+            <FolderOpen size={13} className="inline mr-1.5" />
+            {t("dossier.open_btn")}
+          </Button>
+          <div className="hidden md:block">
+            <Button onClick={() => navigate("/exams/new")}>{t("exams.add")}</Button>
+          </div>
         </div>
       </div>
 
