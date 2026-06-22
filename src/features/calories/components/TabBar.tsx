@@ -1,4 +1,4 @@
-export type TabId = "log" | "profile" | "history";
+export type TabId = "log" | "profile" | "history" | "recipes";
 
 interface Tab {
   id: TabId;
@@ -8,6 +8,7 @@ interface Tab {
 const TABS: Tab[] = [
   { id: "log", label: "Log" },
   { id: "history", label: "History" },
+  { id: "recipes", label: "Recipes" },
   { id: "profile", label: "Profile" },
 ];
 

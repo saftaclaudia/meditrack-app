@@ -7,8 +7,9 @@ import { TabBar, type TabId } from "./components/TabBar";
 import { LogContent } from "./components/LogContent";
 import { ProfilePage } from "../profile/pages/ProfilePage";
 import { HistoryContent } from "./components/HistoryContent";
+import { RecipesPage } from "../recipes/pages/RecipesPage";
 
-const VALID_TABS: TabId[] = ["log", "history", "profile"];
+const VALID_TABS: TabId[] = ["log", "history", "profile", "recipes"];
 
 export default function CaloriesPage() {
   const dispatch = useAppDispatch();
@@ -49,6 +50,7 @@ export default function CaloriesPage() {
         />
       )}
       {activeTab === "history" && <HistoryContent dailyGoal={dailyGoal} />}
+      {activeTab === "recipes" && <RecipesPage />}
       {activeTab === "profile" && <ProfilePage />}
     </div>
   );
