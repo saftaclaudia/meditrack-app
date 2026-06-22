@@ -16,6 +16,7 @@ import { PublicRoute } from "../routes/PublicRoute";
 import ForgotPasswordPage from "../features/auth/pages/ForgotPasswordPage";
 import CaloriesPage from "../features/calories/CaloriesPage";
 import WelcomePage from "../pages/WelcomePage";
+import NotFoundPage from "../pages/NotFoundPage";
 
 export default function Router() {
   return (
@@ -37,6 +38,7 @@ export default function Router() {
             <Route path="/exams/new" element={<AddExamPage />} />
             <Route path="/exams/:id/edit" element={<EditExamPage />} />
             <Route path="/calories" element={<CaloriesPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Route>
       </Routes>

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { User, Shield, Sliders, Bell, LogOut, Trash2, AlertTriangle } from "lucide-react";
-import { useAppDispatch } from "../../../app/hooks";
+import { User, Shield, Sliders, Bell, LogOut, Trash2, AlertTriangle, RotateCcw } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { logout } from "../../auth/authSlice";
+import { selectAuthUser } from "../../auth/authSelectors";
 import { deleteAccountThunk } from "../../auth/authThunks";
 import { AccountSection } from "../components/AccountSection";
 import { SecuritySection } from "../components/SecuritySection";
@@ -38,9 +39,17 @@ export function SettingsPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const user = useAppSelector(selectAuthUser);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [onboardingReset, setOnboardingReset] = useState(false);
+
+  const handleResetOnboarding = () => {
+    if (user) localStorage.removeItem(`onboarding_seen_${user.id}`);
+    setOnboardingReset(true);
+    setTimeout(() => setOnboardingReset(false), 2000);
+  };
 
   const handleLogout = () => {
     dispatch(logout());
@@ -82,6 +91,23 @@ export function SettingsPage() {
         <div className="space-y-2">
           <ThemeToggle />
           <LanguageSelect />
+          <div className="flex items-center justify-between pt-1">
+            <div>
+              <p className="text-sm text-text-primary dark:text-text-darkPrimary">
+                {t("settings.reset_onboarding")}
+              </p>
+              <p className="text-xs text-text-muted dark:text-text-darkMuted">
+                {t("settings.reset_onboarding_hint")}
+              </p>
+            </div>
+            <button
+              onClick={handleResetOnboarding}
+              className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-primary border border-primary/40 hover:bg-soft-light dark:hover:bg-soft-dark transition-colors"
+            >
+              <RotateCcw size={13} />
+              {onboardingReset ? t("settings.reset_onboarding_done") : t("settings.reset_onboarding")}
+            </button>
+          </div>
         </div>
       </SettingsCard>
 

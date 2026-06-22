@@ -63,7 +63,10 @@
     "delete_confirm_btn": "Da, șterge contul meu",
     "cancel": "Anulează",
     "deleting": "Se șterge...",
-    "version": "Versiune"
+    "version": "Versiune",
+    "reset_onboarding": "Resetează onboarding-ul",
+    "reset_onboarding_hint": "Vei vedea din nou tutorialul la next login",
+    "reset_onboarding_done": "Resetat!"
   },
   "exams": {
     "title": "Analizele mele",
@@ -101,6 +104,11 @@
     "mark_all": "Marchează toate ca citite",
     "empty": "Ești la zi cu totul",
     "loading": "Se încarcă..."
+  },
+  "not_found": {
+    "title": "Pagina nu a fost găsită",
+    "desc": "Pagina pe care o cauți nu există.",
+    "back": "← Înapoi la Dashboard"
   },
   "welcome": {
     "skip": "Sari",

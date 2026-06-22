@@ -63,7 +63,10 @@
     "delete_confirm_btn": "Ja, mein Konto löschen",
     "cancel": "Abbrechen",
     "deleting": "Wird gelöscht...",
-    "version": "Version"
+    "version": "Version",
+    "reset_onboarding": "Onboarding zurücksetzen",
+    "reset_onboarding_hint": "Beim nächsten Login wird das Tutorial erneut angezeigt",
+    "reset_onboarding_done": "Zurückgesetzt!"
   },
   "exams": {
     "title": "Meine Untersuchungen",
@@ -101,6 +104,11 @@
     "mark_all": "Alle als gelesen markieren",
     "empty": "Du bist auf dem neuesten Stand",
     "loading": "Wird geladen..."
+  },
+  "not_found": {
+    "title": "Seite nicht gefunden",
+    "desc": "Die gesuchte Seite existiert nicht.",
+    "back": "← Zurück zum Dashboard"
   },
   "welcome": {
     "skip": "Überspringen",
