@@ -21,6 +21,11 @@ export const loginRequest = async (
   console.log("LOGIN RESPONSE DATA:", response.data);
 };
 
+export const deleteAccountRequest = async (): Promise<{ message: string }> => {
+  const response = await api.delete("/auth/delete-account");
+  return response.data;
+};
+
 export const changePasswordRequest = async (
   currentPassword: string,
   newPassword: string,
