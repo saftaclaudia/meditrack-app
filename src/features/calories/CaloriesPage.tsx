@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { fetchProfile } from "../profile/profileThunks";
@@ -7,12 +8,18 @@ import { LogContent } from "./components/LogContent";
 import { ProfilePage } from "../profile/pages/ProfilePage";
 import { HistoryContent } from "./components/HistoryContent";
 
+const VALID_TABS: TabId[] = ["log", "history", "profile"];
+
 export default function CaloriesPage() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { profile } = useAppSelector((s) => s.profile);
 
-  const [activeTab, setActiveTab] = useState<TabId>("log");
+  const [searchParams] = useSearchParams();
+  const tabParam = searchParams.get("tab") as TabId | null;
+  const initialTab: TabId = tabParam && VALID_TABS.includes(tabParam) ? tabParam : "log";
+
+  const [activeTab, setActiveTab] = useState<TabId>(initialTab);
 
   useEffect(() => {
     dispatch(fetchProfile());
