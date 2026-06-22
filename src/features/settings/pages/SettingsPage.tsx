@@ -21,7 +21,7 @@ interface SettingsCardProps {
 
 function SettingsCard({ icon, label, children }: SettingsCardProps) {
   return (
-    <div className="rounded-2xl border border-border-light dark:border-border-dark bg-surface-cardLight dark:bg-surface-cardDark overflow-hidden">
+    <div className="rounded-2xl border border-border-light dark:border-border-dark bg-surface-cardLight dark:bg-surface-cardDark">
       <div className="flex items-center gap-2 px-5 pt-4 pb-3">
         <span className="text-primary">{icon}</span>
         <p className="text-[10px] font-semibold tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
