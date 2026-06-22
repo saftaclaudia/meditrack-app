@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { FolderOpen } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 
 import { Button } from "../../../components/ui/Button";
@@ -85,6 +86,13 @@ export function ExamsPage() {
           <h1 className="font-serif font-light text-3xl text-primary">
             {t("exams.title")}
           </h1>
+          <button
+            onClick={() => navigate("/exams/dossier")}
+            className="flex items-center gap-1.5 text-xs font-light text-text-muted dark:text-text-darkMuted hover:text-primary transition-colors mt-1.5"
+          >
+            <FolderOpen size={13} />
+            {t("dossier.open_btn")}
+          </button>
         </div>
 
         {/* Desktop button */}

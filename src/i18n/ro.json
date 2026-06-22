@@ -206,6 +206,16 @@
     "portion_unit": "porție",
     "added_to_log": "Adăugat în jurnal"
   },
+  "dossier": {
+    "title": "Dosar Medical",
+    "subtitle": "Toate documentele",
+    "back": "← Înapoi",
+    "empty": "Niciun document în dosar",
+    "empty_hint": "Încarcă PDF-uri la adăugarea sau editarea unei analize",
+    "open_btn": "Dosar Medical",
+    "view": "Vizualizează",
+    "from_exam": "Din"
+  },
   "notifications": {
     "title": "Notificări",
     "mark_all": "Marchează toate ca citite",

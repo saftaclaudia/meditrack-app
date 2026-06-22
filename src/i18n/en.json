@@ -206,6 +206,16 @@
     "portion_unit": "portion",
     "added_to_log": "Added to log"
   },
+  "dossier": {
+    "title": "Medical Dossier",
+    "subtitle": "All documents",
+    "back": "← Back",
+    "empty": "No documents in your dossier",
+    "empty_hint": "Upload PDFs when adding or editing an exam",
+    "open_btn": "Medical Dossier",
+    "view": "View",
+    "from_exam": "From"
+  },
   "notifications": {
     "title": "Notifications",
     "mark_all": "Mark all as read",
