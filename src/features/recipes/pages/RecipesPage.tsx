@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Plus, Pencil, Trash2, ChevronDown, ChevronUp, UtensilsCrossed } from "lucide-react";
+import { Plus, Pencil, Trash2, ChevronDown, ChevronUp, UtensilsCrossed, PlusCircle } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { fetchRecipes, deleteRecipe } from "../recipesThunks";
 import { addCalorieEntry } from "../../calories/caloriesThunks";
@@ -124,7 +124,14 @@ export function RecipesPage() {
                 </button>
 
                 {/* Actions */}
-                <div className="flex items-center gap-2 ml-3">
+                <div className="flex items-center gap-1 ml-3">
+                  <button
+                    onClick={() => { setAddingId(addingId === recipe._id ? null : recipe._id); setDeleteConfirmId(null); setPortions("1"); }}
+                    title={t("recipes.add_to_log")}
+                    className={`p-1.5 rounded-full transition ${addingId === recipe._id ? "bg-primary/10 text-primary" : "hover:bg-black/5 dark:hover:bg-white/5 text-primary"}`}
+                  >
+                    <PlusCircle size={15} />
+                  </button>
                   <button
                     onClick={() => navigate(`/recipes/${recipe._id}/edit`)}
                     className="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition text-text-muted dark:text-text-darkMuted"
@@ -186,7 +193,7 @@ export function RecipesPage() {
               )}
 
               {/* Add to log panel */}
-              {addingId === recipe._id ? (
+              {addingId === recipe._id && (
                 <div className="px-4 pb-4 pt-3 border-t border-border-light dark:border-border-dark space-y-3">
                   <p className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
                     {t("recipes.add_to_log")}
@@ -229,15 +236,6 @@ export function RecipesPage() {
                       {t("recipes.add_confirm")}
                     </button>
                   </div>
-                </div>
-              ) : (
-                <div className="px-4 pb-4">
-                  <button
-                    onClick={() => { setAddingId(recipe._id); setDeleteConfirmId(null); }}
-                    className="text-xs text-primary hover:underline transition"
-                  >
-                    + {t("recipes.add_to_log")}
-                  </button>
                 </div>
               )}
             </div>
