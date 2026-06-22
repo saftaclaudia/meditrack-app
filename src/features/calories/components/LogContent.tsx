@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import type { MealType, NewEntry } from "../../../types/calorie";
+import type { MealType } from "../../../types/calorie";
 import { useEffect, useState } from "react";
 import {
-  addCalorieEntry,
   deleteCaloryEntry,
   fetchDayLog,
   updateDailyGoal,
@@ -44,10 +43,6 @@ export function LogContent({ dailyGoal, profileIncomplete }: LogContentProps) {
         total + meal.entries.reduce((sum, e) => sum + e.calories, 0),
       0,
     ) ?? 0;
-
-  const handleAddEntry = (mealType: MealType, entry: NewEntry) => {
-    dispatch(addCalorieEntry({ date: todayStr(), mealType, entry, dailyGoal }));
-  };
 
   const handleDeleteEntry = (meal: MealType, entryId: string) => {
     dispatch(deleteCaloryEntry({ date: todayStr(), meal, entryId }));
@@ -137,7 +132,6 @@ export function LogContent({ dailyGoal, profileIncomplete }: LogContentProps) {
           <MealCard
             key={meal._id}
             meal={meal}
-            onAddEntry={handleAddEntry}
             onDeleteEntry={handleDeleteEntry}
           />
         ))}

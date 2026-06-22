@@ -1,27 +1,22 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import type { Meal, MealType, NewEntry } from "../../../types/calorie";
+import type { Meal, MealType } from "../../../types/calorie";
 import { ChevronDown, ChevronUp, Plus } from "lucide-react";
 import EntryItem from "./EntryItem";
-import AddEntryModal from "./AddEntryModal";
 
 interface MealCardProps {
   meal: Meal;
-  onAddEntry: (mealType: MealType, entry: NewEntry) => void;
   onDeleteEntry: (mealType: MealType, entryId: string) => void;
 }
 
 const getMealTotal = (meal: Meal) =>
   meal.entries.reduce((acc, entry) => acc + entry.calories, 0);
 
-export default function MealCard({
-  meal,
-  onAddEntry,
-  onDeleteEntry,
-}: MealCardProps) {
+export default function MealCard({ meal, onDeleteEntry }: MealCardProps) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(true);
-  const [showModal, setShowModal] = useState(false);
 
   const total = getMealTotal(meal);
   const mealLabel = t(`nutrition.${meal.type}`);
@@ -64,7 +59,7 @@ export default function MealCard({
             )}
 
             <button
-              onClick={() => setShowModal(true)}
+              onClick={() => navigate(`/calories/add?meal=${meal.type}`)}
               className="mt-2 flex items-center gap-1.5 text-xs text-primary hover:underline transition"
             >
               <Plus size={13} />
@@ -73,14 +68,6 @@ export default function MealCard({
           </div>
         )}
       </div>
-
-      {showModal && (
-        <AddEntryModal
-          mealType={meal.type}
-          onAdd={(entry) => onAddEntry(meal.type, entry)}
-          onClose={() => setShowModal(false)}
-        />
-      )}
     </>
   );
 }

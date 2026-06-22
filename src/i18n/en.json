@@ -126,7 +126,20 @@
     "cancel": "Cancel",
     "get_goal": "Get your personalized calorie goal",
     "get_goal_desc": "Complete your health profile → we calculate the rest",
-    "set_up": "Set up →"
+    "set_up": "Set up →",
+    "add_entry_title": "Add to {{meal}}",
+    "search_placeholder": "Search food...",
+    "no_results": "No results — fill in manually below",
+    "food_name": "Food name",
+    "food_name_placeholder": "e.g. Boiled egg",
+    "quantity": "Quantity",
+    "calories_kcal": "Calories (kcal)",
+    "calories_auto": "auto",
+    "per_100g": "100g",
+    "per_piece": "piece",
+    "per_100ml": "100ml",
+    "add_entry_btn": "Add to {{meal}}",
+    "back": "Back"
   },
   "notifications": {
     "title": "Notifications",
