@@ -11,6 +11,23 @@ const VALID_MEAL_TYPES: MealType[] = ["breakfast", "lunch", "dinner", "snack"];
 
 const todayStr = () => new Date().toISOString().split("T")[0];
 
+const CUSTOM_FOODS_KEY = "meditrack_custom_foods";
+
+const loadCustomFoods = (): FoodItem[] => {
+  try {
+    return JSON.parse(localStorage.getItem(CUSTOM_FOODS_KEY) ?? "[]");
+  } catch {
+    return [];
+  }
+};
+
+const saveCustomFood = (food: FoodItem) => {
+  const existing = loadCustomFoods().filter(
+    (f) => f.name.toLowerCase() !== food.name.toLowerCase()
+  );
+  localStorage.setItem(CUSTOM_FOODS_KEY, JSON.stringify([food, ...existing]));
+};
+
 export function AddEntryPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -27,22 +44,28 @@ export function AddEntryPage() {
   const dailyGoal =
     todayLog?.dailyGoal ?? profile?.recommendedCalories ?? 2000;
 
+  const [customFoods, setCustomFoods] = useState<FoodItem[]>(() => loadCustomFoods());
+
   const [query, setQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("100");
   const [unit, setUnit] = useState<"g" | "buc" | "ml">("g");
   const [calories, setCalories] = useState("");
+  const [calsPer, setCalsPer] = useState("");
   const [isAutoCalc, setIsAutoCalc] = useState(false);
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
 
   const searchRef = useRef<HTMLDivElement>(null);
 
+  const normalize = (s: string) =>
+    s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+  const allFoods = [...customFoods, ...foodDatabase];
+
   const results = query.trim()
-    ? foodDatabase
-        .filter((f) =>
-          f.name.toLowerCase().includes(query.trim().toLowerCase())
-        )
+    ? allFoods
+        .filter((f) => normalize(f.name).includes(normalize(query.trim())))
         .slice(0, 8)
     : [];
 
@@ -64,14 +87,25 @@ export function AddEntryPage() {
     setQuantity(String(qty));
     const calc = Math.round((food.caloriesPer * qty) / food.baseQty);
     setCalories(String(calc));
+    setCalsPer("");
     setIsAutoCalc(true);
     setQuery(food.name);
     setShowDropdown(false);
   };
 
+  const recalcFromPer = (per: string, qty: string, u: "g" | "buc" | "ml") => {
+    const perNum = Number(per);
+    const qtyNum = Number(qty);
+    if (perNum > 0 && qtyNum > 0) {
+      const base = u === "buc" ? 1 : 100;
+      setCalories(String(Math.round((perNum * qtyNum) / base)));
+      setIsAutoCalc(true);
+    }
+  };
+
   const handleQuantityChange = (val: string) => {
     setQuantity(val);
-    if (isAutoCalc && selectedFood) {
+    if (selectedFood) {
       const qty = Number(val);
       if (qty > 0) {
         const calc = Math.round(
@@ -79,16 +113,45 @@ export function AddEntryPage() {
         );
         setCalories(String(calc));
       }
+    } else if (calsPer) {
+      recalcFromPer(calsPer, val, unit);
     }
+  };
+
+  const handleUnitChange = (val: "g" | "buc" | "ml") => {
+    setUnit(val);
+    if (!selectedFood && calsPer) {
+      recalcFromPer(calsPer, quantity, val);
+    }
+  };
+
+  const handleCalsPerChange = (val: string) => {
+    setCalsPer(val);
+    recalcFromPer(val, quantity, unit);
   };
 
   const handleCaloriesChange = (val: string) => {
     setCalories(val);
+    setCalsPer("");
     setIsAutoCalc(false);
   };
 
   const handleSubmit = () => {
     if (!name.trim() || !calories) return;
+
+    if (!selectedFood && calsPer) {
+      const custom: FoodItem = {
+        id: `custom-${name.trim().toLowerCase().replace(/\s+/g, "-")}`,
+        name: name.trim(),
+        caloriesPer: Number(calsPer),
+        baseQty: unit === "buc" ? 1 : 100,
+        unit,
+        defaultQty: Number(quantity),
+      };
+      saveCustomFood(custom);
+      setCustomFoods(loadCustomFoods());
+    }
+
     dispatch(
       addCalorieEntry({
         date: todayStr(),
@@ -219,7 +282,7 @@ export function AddEntryPage() {
             />
             <select
               value={unit}
-              onChange={(e) => setUnit(e.target.value as "g" | "buc" | "ml")}
+              onChange={(e) => handleUnitChange(e.target.value as "g" | "buc" | "ml")}
               className={inputClass}
             >
               <option value="g">g</option>
@@ -228,6 +291,25 @@ export function AddEntryPage() {
             </select>
           </div>
         </div>
+
+        {/* Calorii per bază — doar intrare manuală */}
+        {!selectedFood && (
+          <div className="space-y-1.5">
+            <label className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
+              {unit === "buc"
+                ? `kcal / ${t("nutrition.per_piece")}`
+                : `kcal / 100${unit}`}
+            </label>
+            <input
+              type="number"
+              min="0"
+              placeholder="ex. 52"
+              value={calsPer}
+              onChange={(e) => handleCalsPerChange(e.target.value)}
+              className={inputClass}
+            />
+          </div>
+        )}
 
         {/* Calories */}
         <div className="space-y-1.5">
