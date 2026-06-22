@@ -12,7 +12,6 @@ import {
 } from "../examsSelectors";
 import { useEffect, useMemo, useState } from "react";
 import { getDueExams } from "../utils/getRecommendedStatus";
-import { ExamsBadgeSummary } from "../components/ExamsBadgeSummary";
 import { ExamSection } from "../components/ExamSection";
 import { RecommendedExamCard } from "../components/RecommendedExamCard";
 import { ExamCard } from "../components/ExamCard";
@@ -93,9 +92,6 @@ export function ExamsPage() {
           <Button onClick={() => navigate("/exams/new")}>{t("exams.add")}</Button>
         </div>
       </div>
-
-      {/* Summary */}
-      <ExamsBadgeSummary />
 
       {/* Filter bar */}
       <ExamFilterBar
