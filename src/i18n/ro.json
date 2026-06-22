@@ -101,5 +101,19 @@
     "mark_all": "Marchează toate ca citite",
     "empty": "Ești la zi cu totul",
     "loading": "Se încarcă..."
+  },
+  "welcome": {
+    "skip": "Sari",
+    "next": "Înainte →",
+    "get_started": "Începe →",
+    "setup_profile": "Configurează profilul de sănătate →",
+    "slide1_title": "Bun venit la MediTrack",
+    "slide1_desc": "Însoțitorul tău personal de sănătate. Urmărește analize, loghează mese și monitorizează starea ta.",
+    "slide2_title": "Urmărește-ți analizele",
+    "slide2_desc": "Programează și monitorizează controalele medicale. Nu rata nicio programare cu remindere inteligente.",
+    "slide3_title": "Jurnalizează nutriția",
+    "slide3_desc": "Urmărește caloriile și mesele zilnice. Obține un obiectiv personalizat pe baza profilului de sănătate.",
+    "slide4_title": "Ești pregătit!",
+    "slide4_desc": "Totul este gata pentru tine. Explorează tabloul de bord și preia controlul asupra sănătății tale."
   }
 }

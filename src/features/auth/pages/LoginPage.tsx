@@ -44,7 +44,7 @@ export default function LoginPage() {
       );
       console.log("localStorage token:", localStorage.getItem("auth_token"));
 
-      navigate("/", { replace: true });
+      navigate("/welcome", { replace: true });
       console.log("navigate() a fost apelat");
     } catch (err: unknown) {
       console.error("Login error:", err);
