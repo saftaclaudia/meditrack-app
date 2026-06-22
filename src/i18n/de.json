@@ -126,7 +126,20 @@
     "cancel": "Abbrechen",
     "get_goal": "Hol dir dein persönliches Kalorienziel",
     "get_goal_desc": "Gesundheitsprofil ausfüllen → wir berechnen den Rest",
-    "set_up": "Einrichten →"
+    "set_up": "Einrichten →",
+    "add_entry_title": "Zu {{meal}} hinzufügen",
+    "search_placeholder": "Lebensmittel suchen...",
+    "no_results": "Keine Ergebnisse — unten manuell eingeben",
+    "food_name": "Lebensmittelname",
+    "food_name_placeholder": "z.B. Gekochtes Ei",
+    "quantity": "Menge",
+    "calories_kcal": "Kalorien (kcal)",
+    "calories_auto": "auto",
+    "per_100g": "100g",
+    "per_piece": "Stück",
+    "per_100ml": "100ml",
+    "add_entry_btn": "Zu {{meal}} hinzufügen",
+    "back": "Zurück"
   },
   "notifications": {
     "title": "Benachrichtigungen",

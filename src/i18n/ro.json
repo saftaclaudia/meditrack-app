@@ -126,7 +126,20 @@
     "cancel": "Anulează",
     "get_goal": "Obține obiectivul tău personalizat de calorii",
     "get_goal_desc": "Completează profilul de sănătate → calculăm restul",
-    "set_up": "Configurează →"
+    "set_up": "Configurează →",
+    "add_entry_title": "Adaugă la {{meal}}",
+    "search_placeholder": "Caută aliment...",
+    "no_results": "Niciun rezultat — completează manual mai jos",
+    "food_name": "Denumire aliment",
+    "food_name_placeholder": "ex. Ou fiert",
+    "quantity": "Cantitate",
+    "calories_kcal": "Calorii (kcal)",
+    "calories_auto": "auto",
+    "per_100g": "100g",
+    "per_piece": "bucată",
+    "per_100ml": "100ml",
+    "add_entry_btn": "Adaugă la {{meal}}",
+    "back": "Înapoi"
   },
   "notifications": {
     "title": "Notificări",
