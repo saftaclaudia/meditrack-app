@@ -5,6 +5,7 @@ import { Plus, Pencil, Trash2, ChevronDown, ChevronUp, UtensilsCrossed, PlusCirc
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { fetchRecipes, deleteRecipe } from "../recipesThunks";
 import { addCalorieEntry } from "../../calories/caloriesThunks";
+import { useToast } from "../../../context/ToastContext";
 import type { Recipe } from "../../../types/recipe";
 import type { MealType } from "../../../types/calorie";
 
@@ -19,6 +20,7 @@ export function RecipesPage() {
   const { recipes, loading } = useAppSelector((s) => s.recipes);
   const { todayLog } = useAppSelector((s) => s.calories);
   const { profile } = useAppSelector((s) => s.profile);
+  const { showToast } = useToast();
 
   const dailyGoal = todayLog?.dailyGoal ?? profile?.recommendedCalories ?? 2000;
 
@@ -49,6 +51,7 @@ export function RecipesPage() {
     );
     setAddingId(null);
     setPortions("1");
+    showToast(t("recipes.added_to_log"));
   };
 
   const handleDelete = (id: string) => {
