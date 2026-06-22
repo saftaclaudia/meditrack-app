@@ -83,7 +83,10 @@ export default function WelcomePage() {
 
   const handleSkip = () => changeStep(SLIDES.length - 1);
   const handleNext = () => changeStep(step + 1);
-  const handleGetStarted = () => navigate("/", { replace: true });
+  const handleGetStarted = () => {
+    localStorage.setItem("onboarding_seen", "true");
+    navigate("/", { replace: true });
+  };
 
   const isLast = step === SLIDES.length - 1;
   const slide = SLIDES[step];
