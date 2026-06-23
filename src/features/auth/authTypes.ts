@@ -9,6 +9,10 @@ export interface AuthResponse {
   token: string;
 }
 
+export interface RegisterResponse {
+  message: string;
+}
+
 export interface AuthState {
   user: User | null;
   token: string | null;

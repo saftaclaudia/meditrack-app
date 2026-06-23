@@ -18,7 +18,6 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -38,14 +37,13 @@ export default function RegisterPage() {
 
     dispatch(registerUser({ name, email, password }))
       .unwrap()
-      .then(() => navigate("/welcome"))
+      .then(() => navigate("/check-email", { state: { email } }))
       .catch(() => {});
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark px-4 transition-colors duration-300">
       <div className="w-full max-w-md bg-surface-cardLight dark:bg-surface-cardDark rounded-3xl shadow-lg border border-border-light dark:border-border-dark p-8 space-y-8">
-        {/* Header */}
         <div className="text-center space-y-2">
           <h1 className="text-2xl font-semibold text-text-primary dark:text-text-darkPrimary">
             Create your account
@@ -55,9 +53,7 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Name */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-text-secondary dark:text-text-darkSecondary">
               Full Name
@@ -70,7 +66,6 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* Email */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-text-secondary dark:text-text-darkSecondary">
               Email
@@ -89,7 +84,6 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* Password */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-text-secondary dark:text-text-darkSecondary">
               Password
@@ -108,7 +102,6 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* Confirm Password */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-text-secondary dark:text-text-darkSecondary">
               Confirm Password
@@ -127,20 +120,6 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* Remember Me */}
-          <div className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={() => setRememberMe((prev) => !prev)}
-              className="rounded border-border-light dark:border-border-dark text-primary focus:ring-primary"
-            />
-            <span className="text-text-secondary dark:text-text-darkSecondary">
-              Remember me
-            </span>
-          </div>
-
-          {/* Errors */}
           {error && (
             <p className="text-sm text-danger text-center font-medium">
               {error}
@@ -153,13 +132,11 @@ export default function RegisterPage() {
             </p>
           )}
 
-          {/* Submit */}
           <Button type="submit" fullWidth disabled={!isFormValid || loading}>
             {loading ? "Creating account..." : "Create account"}
           </Button>
         </form>
 
-        {/* Footer */}
         <p className="text-center text-sm text-text-muted dark:text-text-darkMuted">
           Already have an account?{" "}
           <span

@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { loginUser } from "../authThunks";
+import { loginUser, loginWithGoogle } from "../authThunks";
 import { clearError } from "../authSlice";
 import { selectAuthError, selectAuthLoading } from "../authSelectors";
 import { Button } from "../../../components/ui/Button";
+import { GoogleLogin } from "@react-oauth/google";
+import { resendVerificationRequest } from "../../../api/authApi";
 
 export default function LoginPage() {
   const dispatch = useAppDispatch();
@@ -17,8 +19,22 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [googleError, setGoogleError] = useState<string | null>(null);
+  const [resendStatus, setResendStatus] = useState<"idle" | "sending" | "sent">("idle");
 
-  // Clear errors on unmount
+  const isVerificationError = error?.toLowerCase().includes("verify your email");
+
+  const handleResend = async () => {
+    if (!email || resendStatus !== "idle") return;
+    setResendStatus("sending");
+    try {
+      await resendVerificationRequest(email);
+      setResendStatus("sent");
+    } catch {
+      setResendStatus("idle");
+    }
+  };
+
   useEffect(() => {
     return () => {
       dispatch(clearError());
@@ -34,21 +50,23 @@ export default function LoginPage() {
     if (!isFormValid) return;
 
     try {
-      const result = await dispatch(
-        loginUser({ email, password, rememberMe }),
-      ).unwrap();
-      console.log("Login success", result);
-      console.log(
-        "sessionStorage token:",
-        sessionStorage.getItem("auth_token"),
-      );
-      console.log("localStorage token:", localStorage.getItem("auth_token"));
-
+      const result = await dispatch(loginUser({ email, password, rememberMe })).unwrap();
       const seen = localStorage.getItem(`onboarding_seen_${result.user.id}`);
       navigate(seen ? "/" : "/welcome", { replace: true });
-      console.log("navigate() a fost apelat");
-    } catch (err: unknown) {
-      console.error("Login error:", err);
+    } catch {
+      // error shown via redux state
+    }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse: { credential?: string }) => {
+    if (!credentialResponse.credential) return;
+    setGoogleError(null);
+    try {
+      const result = await dispatch(loginWithGoogle({ credential: credentialResponse.credential })).unwrap();
+      const seen = localStorage.getItem(`onboarding_seen_${result.user.id}`);
+      navigate(seen ? "/" : "/welcome", { replace: true });
+    } catch {
+      setGoogleError("Google sign-in failed. Please try again.");
     }
   };
 
@@ -62,6 +80,23 @@ export default function LoginPage() {
           <p className="text-sm text-text-secondary dark:text-text-darkSecondary">
             Access your personal health space.
           </p>
+        </div>
+
+        <div className="flex justify-center">
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => setGoogleError("Google sign-in failed. Please try again.")}
+            useOneTap={false}
+            width="368"
+            text="continue_with"
+            shape="rectangular"
+          />
+        </div>
+
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-px bg-border-light dark:bg-border-dark" />
+          <span className="text-xs text-text-muted dark:text-text-darkMuted">or sign in with email</span>
+          <div className="flex-1 h-px bg-border-light dark:bg-border-dark" />
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -128,10 +163,28 @@ export default function LoginPage() {
             </span>
           </div>
 
-          {error && (
-            <p className="text-sm text-danger text-center font-medium">
-              {error}
-            </p>
+          {(error || googleError) && (
+            <div className="space-y-2 text-center">
+              <p className="text-sm text-danger font-medium">
+                {error || googleError}
+              </p>
+              {isVerificationError && (
+                resendStatus === "sent" ? (
+                  <p className="text-sm text-primary font-medium">
+                    Verification email sent! Check your inbox.
+                  </p>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleResend}
+                    disabled={resendStatus === "sending" || !email}
+                    className="text-sm text-primary underline cursor-pointer disabled:opacity-50"
+                  >
+                    {resendStatus === "sending" ? "Sending..." : "Resend verification email"}
+                  </button>
+                )
+              )}
+            </div>
           )}
 
           <Button type="submit" fullWidth disabled={!isFormValid || loading}>

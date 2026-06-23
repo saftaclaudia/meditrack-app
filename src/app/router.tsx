@@ -17,6 +17,8 @@ import { PublicRoute } from "../routes/PublicRoute";
 
 import ForgotPasswordPage from "../features/auth/pages/ForgotPasswordPage";
 import ResetPasswordPage from "../features/auth/pages/ResetPasswordPage";
+import CheckEmailPage from "../features/auth/pages/CheckEmailPage";
+import VerifyEmailPage from "../features/auth/pages/VerifyEmailPage";
 import CaloriesPage from "../features/calories/CaloriesPage";
 import { AddEntryPage } from "../features/calories/pages/AddEntryPage";
 import { AddRecipePage } from "../features/recipes/pages/AddRecipePage";
@@ -32,6 +34,8 @@ export default function Router() {
           <Route path="/login" element={<LoginPage key="login-page" />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+          <Route path="/check-email" element={<CheckEmailPage />} />
+          <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
         </Route>
 
         <Route element={<ProtectedRoute />}>

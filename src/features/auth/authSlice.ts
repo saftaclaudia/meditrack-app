@@ -1,7 +1,7 @@
 // src/features/auth/authSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { registerUser, loginUser, changePasswordThunk } from "./authThunks";
+import { registerUser, loginUser, changePasswordThunk, loginWithGoogle } from "./authThunks";
 import type { AuthState, User } from "./authTypes";
 
 function getInitialState(): AuthState {
@@ -44,6 +44,20 @@ function getInitialState(): AuthState {
   };
 }
 
+function storeAuth(user: User, token: string, rememberMe: boolean) {
+  const decoded = JSON.parse(atob(token.split(".")[1]));
+  const expiresAt = decoded.exp * 1000;
+  const storage = rememberMe ? localStorage : sessionStorage;
+  const other = rememberMe ? sessionStorage : localStorage;
+
+  storage.setItem("auth_user", JSON.stringify(user));
+  storage.setItem("auth_token", token);
+  storage.setItem("auth_expires_at", String(expiresAt));
+  other.removeItem("auth_user");
+  other.removeItem("auth_token");
+  other.removeItem("auth_expires_at");
+}
+
 const authSlice = createSlice({
   name: "auth",
   initialState: getInitialState(),
@@ -81,18 +95,12 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // REGISTER
+      // REGISTER — no auto-login anymore
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
-        localStorage.setItem("auth_user", JSON.stringify(action.payload.user));
-        localStorage.setItem("auth_token", action.payload.token);
-
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        state.isAuthenticated = true;
+      .addCase(registerUser.fulfilled, (state) => {
         state.loading = false;
       })
       .addCase(registerUser.rejected, (state, action) => {
@@ -106,39 +114,34 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        const payload = action.payload;
-        if (payload && payload.user && payload.token) {
-          const decoded = JSON.parse(atob(payload.token.split(".")[1]));
-          const expiresAt = decoded.exp * 1000;
-
-          if (payload.rememberMe) {
-            localStorage.setItem("auth_user", JSON.stringify(payload.user));
-            localStorage.setItem("auth_token", payload.token);
-            localStorage.setItem("auth_expires_at", String(expiresAt));
-            sessionStorage.removeItem("auth_user");
-            sessionStorage.removeItem("auth_token");
-            sessionStorage.removeItem("auth_expires_at");
-          } else {
-            sessionStorage.setItem("auth_user", JSON.stringify(payload.user));
-            sessionStorage.setItem("auth_token", payload.token);
-            sessionStorage.setItem("auth_expires_at", String(expiresAt));
-            localStorage.removeItem("auth_user");
-            localStorage.removeItem("auth_token");
-            localStorage.removeItem("auth_expires_at");
-          }
-
-          state.user = payload.user;
-          state.token = payload.token;
-          state.isAuthenticated = true;
-          state.loading = false;
-        } else {
-          state.loading = false;
-          state.error = "Login failed";
-        }
+        const { user, token, rememberMe } = action.payload;
+        storeAuth(user, token, rememberMe);
+        state.user = user;
+        state.token = token;
+        state.isAuthenticated = true;
+        state.loading = false;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Login failed";
+      })
+
+      // GOOGLE LOGIN — always treated as "remember me"
+      .addCase(loginWithGoogle.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginWithGoogle.fulfilled, (state, action) => {
+        const { user, token } = action.payload;
+        storeAuth(user, token, true);
+        state.user = user;
+        state.token = token;
+        state.isAuthenticated = true;
+        state.loading = false;
+      })
+      .addCase(loginWithGoogle.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Google sign-in failed";
       })
 
       // CHANGE PASSWORD
