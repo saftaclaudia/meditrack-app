@@ -47,6 +47,7 @@ export default function CaloriesPage() {
         <LogContent
           dailyGoal={dailyGoal}
           profileIncomplete={profileIncomplete}
+          onNavigateToProfile={() => setActiveTab("profile")}
         />
       )}
       {activeTab === "history" && <HistoryContent dailyGoal={dailyGoal} />}

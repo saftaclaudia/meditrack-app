@@ -4,6 +4,9 @@ export interface CalorieEntry {
   calories: number;
   quantity: number;
   unit: string;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
 }
 
 export type MealType = "breakfast" | "lunch" | "dinner" | "snack";

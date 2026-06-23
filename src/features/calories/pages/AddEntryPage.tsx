@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, Search, Lock, Zap } from "lucide-react";
+import { ArrowLeft, Search, Lock, Zap, ChevronDown, ChevronUp } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import type { MealType } from "../../../types/calorie";
+import type { MealType, CalorieEntry } from "../../../types/calorie";
 import { addCalorieEntry } from "../caloriesThunks";
 import { foodDatabase, type FoodItem } from "../data/foodDatabase";
 
@@ -34,15 +34,14 @@ export function AddEntryPage() {
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
 
-  const { todayLog } = useAppSelector((s) => s.calories);
+  const { todayLog, history } = useAppSelector((s) => s.calories);
   const { profile } = useAppSelector((s) => s.profile);
 
   const mealParam = searchParams.get("meal") as MealType | null;
   const mealType: MealType =
     mealParam && VALID_MEAL_TYPES.includes(mealParam) ? mealParam : "breakfast";
 
-  const dailyGoal =
-    todayLog?.dailyGoal ?? profile?.recommendedCalories ?? 2000;
+  const dailyGoal = todayLog?.dailyGoal ?? profile?.recommendedCalories ?? 2000;
 
   const [customFoods, setCustomFoods] = useState<FoodItem[]>(() => loadCustomFoods());
 
@@ -56,18 +55,43 @@ export function AddEntryPage() {
   const [isAutoCalc, setIsAutoCalc] = useState(false);
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
 
+  const [showMacros, setShowMacros] = useState(false);
+  const [protein, setProtein] = useState("");
+  const [carbs, setCarbs] = useState("");
+  const [fat, setFat] = useState("");
+
   const searchRef = useRef<HTMLDivElement>(null);
 
   const normalize = (s: string) =>
-    s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
   const allFoods = [...customFoods, ...foodDatabase];
 
   const results = query.trim()
-    ? allFoods
-        .filter((f) => normalize(f.name).includes(normalize(query.trim())))
-        .slice(0, 8)
+    ? allFoods.filter((f) => normalize(f.name).includes(normalize(query.trim()))).slice(0, 8)
     : [];
+
+  // Recent unique entries from today + history
+  const recentEntries: CalorieEntry[] = (() => {
+    const seen = new Set<string>();
+    const entries: CalorieEntry[] = [];
+    const sources = [
+      ...(todayLog?.meals ?? []),
+      ...(history ?? []).flatMap((log) => log.meals),
+    ];
+    for (const meal of sources) {
+      for (const entry of [...meal.entries].reverse()) {
+        const key = entry.name.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          entries.push(entry);
+        }
+        if (entries.length >= 6) break;
+      }
+      if (entries.length >= 6) break;
+    }
+    return entries;
+  })();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -79,18 +103,55 @@ export function AddEntryPage() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const fillForm = (
+    foodName: string,
+    foodCalories: string,
+    foodUnit: "g" | "buc" | "ml",
+    foodQuantity: string,
+    macros?: { protein?: number; carbs?: number; fat?: number }
+  ) => {
+    setName(foodName);
+    setCalories(foodCalories);
+    setUnit(foodUnit);
+    setQuantity(foodQuantity);
+    setQuery(foodName);
+    setShowDropdown(false);
+    setIsAutoCalc(true);
+    if (macros) {
+      setProtein(macros.protein != null ? String(macros.protein) : "");
+      setCarbs(macros.carbs != null ? String(macros.carbs) : "");
+      setFat(macros.fat != null ? String(macros.fat) : "");
+      if (macros.protein != null || macros.carbs != null || macros.fat != null) {
+        setShowMacros(true);
+      }
+    }
+  };
+
   const handleSelectFood = (food: FoodItem) => {
     setSelectedFood(food);
-    setName(food.name);
-    setUnit(food.unit);
     const qty = food.defaultQty;
-    setQuantity(String(qty));
     const calc = Math.round((food.caloriesPer * qty) / food.baseQty);
-    setCalories(String(calc));
+    const macros = food.proteinPer != null
+      ? {
+          protein: Math.round((food.proteinPer * qty) / food.baseQty),
+          carbs: food.carbsPer != null ? Math.round((food.carbsPer * qty) / food.baseQty) : undefined,
+          fat: food.fatPer != null ? Math.round((food.fatPer * qty) / food.baseQty) : undefined,
+        }
+      : undefined;
+    fillForm(food.name, String(calc), food.unit, String(qty), macros);
     setCalsPer("");
-    setIsAutoCalc(true);
-    setQuery(food.name);
-    setShowDropdown(false);
+  };
+
+  const handleSelectRecent = (entry: CalorieEntry) => {
+    setSelectedFood(null);
+    fillForm(
+      entry.name,
+      String(entry.calories),
+      entry.unit as "g" | "buc" | "ml",
+      String(entry.quantity),
+      { protein: entry.protein, carbs: entry.carbs, fat: entry.fat }
+    );
+    setCalsPer("");
   };
 
   const recalcFromPer = (per: string, qty: string, u: "g" | "buc" | "ml") => {
@@ -108,10 +169,13 @@ export function AddEntryPage() {
     if (selectedFood) {
       const qty = Number(val);
       if (qty > 0) {
-        const calc = Math.round(
-          (selectedFood.caloriesPer * qty) / selectedFood.baseQty
-        );
-        setCalories(String(calc));
+        setCalories(String(Math.round((selectedFood.caloriesPer * qty) / selectedFood.baseQty)));
+        if (selectedFood.proteinPer != null)
+          setProtein(String(Math.round((selectedFood.proteinPer * qty) / selectedFood.baseQty)));
+        if (selectedFood.carbsPer != null)
+          setCarbs(String(Math.round((selectedFood.carbsPer * qty) / selectedFood.baseQty)));
+        if (selectedFood.fatPer != null)
+          setFat(String(Math.round((selectedFood.fatPer * qty) / selectedFood.baseQty)));
       }
     } else if (calsPer) {
       recalcFromPer(calsPer, val, unit);
@@ -120,9 +184,7 @@ export function AddEntryPage() {
 
   const handleUnitChange = (val: "g" | "buc" | "ml") => {
     setUnit(val);
-    if (!selectedFood && calsPer) {
-      recalcFromPer(calsPer, quantity, val);
-    }
+    if (!selectedFood && calsPer) recalcFromPer(calsPer, quantity, val);
   };
 
   const handleCalsPerChange = (val: string) => {
@@ -161,6 +223,9 @@ export function AddEntryPage() {
           calories: Number(calories),
           quantity: Number(quantity),
           unit,
+          ...(protein && { protein: Number(protein) }),
+          ...(carbs && { carbs: Number(carbs) }),
+          ...(fat && { fat: Number(fat) }),
         },
         dailyGoal,
       })
@@ -181,7 +246,6 @@ export function AddEntryPage() {
 
   return (
     <div className="space-y-6 pb-24">
-      {/* Header */}
       <div className="flex items-center gap-3">
         <button
           onClick={() => navigate("/calories")}
@@ -199,24 +263,38 @@ export function AddEntryPage() {
         </div>
       </div>
 
-      {/* Divider */}
       <div className="border-t border-border-light dark:border-border-dark" />
+
+      {/* Quick re-add */}
+      {recentEntries.length > 0 && !name && (
+        <div className="space-y-2">
+          <p className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
+            Recent
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {recentEntries.map((entry) => (
+              <button
+                key={entry._id}
+                onClick={() => handleSelectRecent(entry)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border-light dark:border-border-dark text-xs text-text-secondary dark:text-text-darkSecondary hover:border-primary hover:text-primary transition"
+              >
+                <span>{entry.name}</span>
+                <span className="text-text-muted dark:text-text-darkMuted">{entry.calories} kcal</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Search */}
       <div ref={searchRef} className="relative">
         <div className="relative">
-          <Search
-            size={15}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted dark:text-text-darkMuted"
-          />
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted dark:text-text-darkMuted" />
           <input
             type="text"
             placeholder={t("nutrition.search_placeholder")}
             value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setShowDropdown(true);
-            }}
+            onChange={(e) => { setQuery(e.target.value); setShowDropdown(true); }}
             onFocus={() => setShowDropdown(true)}
             className={`${inputClass} pl-9`}
           />
@@ -238,9 +316,16 @@ export function AddEntryPage() {
                   <span className="text-sm text-text-primary dark:text-text-darkPrimary">
                     {food.name}
                   </span>
-                  <span className="text-xs text-text-muted dark:text-text-darkMuted">
-                    {food.caloriesPer} kcal/{unitLabel(food.unit)}
-                  </span>
+                  <div className="text-right">
+                    <span className="text-xs text-text-muted dark:text-text-darkMuted block">
+                      {food.caloriesPer} kcal/{unitLabel(food.unit)}
+                    </span>
+                    {food.proteinPer != null && (
+                      <span className="text-[10px] text-text-muted dark:text-text-darkMuted">
+                        P {food.proteinPer}g · C {food.carbsPer ?? 0}g · F {food.fatPer ?? 0}g
+                      </span>
+                    )}
+                  </div>
                 </button>
               ))
             )}
@@ -248,12 +333,9 @@ export function AddEntryPage() {
         )}
       </div>
 
-      {/* Divider */}
       <div className="border-t border-border-light dark:border-border-dark" />
 
-      {/* Form */}
       <div className="space-y-4">
-        {/* Food name */}
         <div className="space-y-1.5">
           <label className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
             {t("nutrition.food_name")}
@@ -267,7 +349,6 @@ export function AddEntryPage() {
           />
         </div>
 
-        {/* Quantity + Unit */}
         <div className="space-y-1.5">
           <label className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
             {t("nutrition.quantity")}
@@ -292,13 +373,10 @@ export function AddEntryPage() {
           </div>
         </div>
 
-        {/* Calorii per bază — doar intrare manuală */}
         {!selectedFood && (
           <div className="space-y-1.5">
             <label className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
-              {unit === "buc"
-                ? `kcal / ${t("nutrition.per_piece")}`
-                : `kcal / 100${unit}`}
+              {unit === "buc" ? `kcal / ${t("nutrition.per_piece")}` : `kcal / 100${unit}`}
             </label>
             <input
               type="number"
@@ -311,7 +389,6 @@ export function AddEntryPage() {
           </div>
         )}
 
-        {/* Calories */}
         <div className="space-y-1.5">
           <label className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
             {t("nutrition.calories_kcal")}
@@ -337,9 +414,43 @@ export function AddEntryPage() {
             )}
           </div>
         </div>
+
+        {/* Macros — collapsible */}
+        <button
+          type="button"
+          onClick={() => setShowMacros((v) => !v)}
+          className="flex items-center gap-1.5 text-xs text-text-muted dark:text-text-darkMuted hover:text-primary transition"
+        >
+          {showMacros ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+          Macros (optional)
+        </button>
+
+        {showMacros && (
+          <div className="grid grid-cols-3 gap-3">
+            {[
+              { label: "Protein (g)", value: protein, set: setProtein },
+              { label: "Carbs (g)", value: carbs, set: setCarbs },
+              { label: "Fat (g)", value: fat, set: setFat },
+            ].map(({ label, value, set }) => (
+              <div key={label} className="space-y-1.5">
+                <label className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
+                  {label}
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.1"
+                  placeholder="0"
+                  value={value}
+                  onChange={(e) => set(e.target.value)}
+                  className={inputClass}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Submit */}
       <button
         onClick={handleSubmit}
         disabled={!name.trim() || !calories}

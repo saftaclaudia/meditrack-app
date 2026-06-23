@@ -112,6 +112,9 @@ export function HistoryContent({ dailyGoal }: HistoryContentProps) {
     return count;
   })();
 
+  const daysOnTarget = daysWithData.filter((d) => d.pct >= 85 && d.pct <= 110).length;
+  const totalConsumed = daysWithData.reduce((sum, d) => sum + d.calories, 0);
+
   const getBarColor = (pct: number) => {
     if (pct === 0) return "#888780";
     if (pct > 110) return "#e24b4a";
@@ -145,20 +148,31 @@ export function HistoryContent({ dailyGoal }: HistoryContentProps) {
           </button>
         ))}
       </div>
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-3 sm:grid-cols-3">
         {[
           {
             label: "Daily avg",
             value: avgCalories ? `${avgCalories} kcal` : "-",
           },
           {
-            label: "Best day",
-            value:
-              bestDay.label !== "-" ? `${bestDay.label}  ̇ ${bestDay.pct}` : "-",
+            label: "On target",
+            value: daysWithData.length > 0 ? `${daysOnTarget}/${daysWithData.length}d` : "-",
           },
           {
             label: "Streak",
             value: streak > 0 ? `${streak}d` : "-",
+          },
+          {
+            label: "Best day",
+            value: bestDay.label !== "-" ? `${bestDay.label} · ${bestDay.pct}%` : "-",
+          },
+          {
+            label: "Total",
+            value: totalConsumed > 0 ? `${totalConsumed} kcal` : "-",
+          },
+          {
+            label: "Logged days",
+            value: daysWithData.length > 0 ? `${daysWithData.length}/${range}d` : "-",
           },
         ].map(({ label, value }) => (
           <div

@@ -5,6 +5,9 @@ const entrySchema = new mongoose.Schema({
   calories: { type: Number, required: true },
   quantity: { type: Number, default: 1 },
   unit: { type: String, default: "buc" },
+  protein: { type: Number },
+  carbs: { type: Number },
+  fat: { type: Number },
 });
 
 const mealSchema = new mongoose.Schema({
