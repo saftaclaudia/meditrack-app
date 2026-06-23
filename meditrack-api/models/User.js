@@ -16,6 +16,8 @@ const userSchema = new mongoose.Schema({
     enum: ["sedentary", "light", "moderate", "active", "very_active"],
     default: "sedentary",
   },
+  resetPasswordToken: { type: String },
+  resetPasswordExpire: { type: Date },
 });
 
 // Encrypt password before save
