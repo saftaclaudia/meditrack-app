@@ -36,3 +36,18 @@ export const changePasswordRequest = async (
   });
   return response.data;
 };
+
+export const forgotPasswordRequest = async (
+  email: string,
+): Promise<{ message: string }> => {
+  const response = await api.post("/auth/forgot-password", { email });
+  return response.data;
+};
+
+export const resetPasswordRequest = async (
+  token: string,
+  password: string,
+): Promise<{ message: string }> => {
+  const response = await api.put(`/auth/reset-password/${token}`, { password });
+  return response.data;
+};

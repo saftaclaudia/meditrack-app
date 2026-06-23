@@ -1,20 +1,32 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
+import { forgotPasswordRequest } from "../../../api/authApi";
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const isEmailValid = /\S+@\S+\.\S+/.test(email);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isEmailValid) return;
 
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+    try {
+      await forgotPasswordRequest(email);
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -47,9 +59,12 @@ export default function ForgotPasswordPage() {
               />
             </div>
 
-            <Button type="submit" fullWidth disabled={!isEmailValid}>
-              {" "}
-              Send Reset Link
+            {error && (
+              <p className="text-sm text-danger text-center">{error}</p>
+            )}
+
+            <Button type="submit" fullWidth disabled={!isEmailValid || loading}>
+              {loading ? "Sending..." : "Send Reset Link"}
             </Button>
           </form>
         )}
