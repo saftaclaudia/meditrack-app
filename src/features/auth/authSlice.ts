@@ -5,14 +5,33 @@ import { registerUser, loginUser, changePasswordThunk } from "./authThunks";
 import type { AuthState, User } from "./authTypes";
 
 function getInitialState(): AuthState {
-  const token =
-    localStorage.getItem("auth_token") ||
-    sessionStorage.getItem("auth_token") ||
-    null;
+  const now = Date.now();
+
+  const lsToken = localStorage.getItem("auth_token");
+  const lsExpiry = Number(localStorage.getItem("auth_expires_at") || 0);
+  const lsValid = lsToken && lsExpiry > now;
+
+  const ssToken = sessionStorage.getItem("auth_token");
+  const ssExpiry = Number(sessionStorage.getItem("auth_expires_at") || 0);
+  const ssValid = ssToken && ssExpiry > now;
+
+  if (lsToken && !lsValid) {
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("auth_user");
+    localStorage.removeItem("auth_expires_at");
+  }
+
+  if (ssToken && !ssValid) {
+    sessionStorage.removeItem("auth_token");
+    sessionStorage.removeItem("auth_user");
+    sessionStorage.removeItem("auth_expires_at");
+  }
+
+  const token = (lsValid && lsToken) || (ssValid && ssToken) || null;
 
   const user = JSON.parse(
-    localStorage.getItem("auth_user") ||
-      sessionStorage.getItem("auth_user") ||
+    (lsValid && localStorage.getItem("auth_user")) ||
+      (ssValid && sessionStorage.getItem("auth_user")) ||
       "null",
   );
 
@@ -96,10 +115,16 @@ const authSlice = createSlice({
             localStorage.setItem("auth_user", JSON.stringify(payload.user));
             localStorage.setItem("auth_token", payload.token);
             localStorage.setItem("auth_expires_at", String(expiresAt));
+            sessionStorage.removeItem("auth_user");
+            sessionStorage.removeItem("auth_token");
+            sessionStorage.removeItem("auth_expires_at");
           } else {
             sessionStorage.setItem("auth_user", JSON.stringify(payload.user));
             sessionStorage.setItem("auth_token", payload.token);
             sessionStorage.setItem("auth_expires_at", String(expiresAt));
+            localStorage.removeItem("auth_user");
+            localStorage.removeItem("auth_token");
+            localStorage.removeItem("auth_expires_at");
           }
 
           state.user = payload.user;
