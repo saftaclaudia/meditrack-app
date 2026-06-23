@@ -1,4 +1,5 @@
 const CalorieLog = require("../models/CalorieLog");
+const { createIfNotExists } = require("../services/notificationService");
 
 const toDateString = (date) => new Date(date).toISOString().split("T")[0];
 
@@ -41,8 +42,24 @@ const addEntry = async (req, res) => {
     if (!meal) {
       return res.status(400).json({ message: "Invalid meal type" });
     }
+
+    const prevTotal = log.meals.reduce(
+      (sum, m) => sum + m.entries.reduce((s, e) => s + (e.calories || 0), 0), 0
+    );
+
     meal.entries.push(entry);
     await log.save();
+
+    const newTotal = prevTotal + (entry.calories || 0);
+    if (newTotal >= log.dailyGoal && prevTotal < log.dailyGoal) {
+      await createIfNotExists({
+        user: req.user._id,
+        title: "Daily goal reached!",
+        message: `You've logged ${newTotal} kcal — your daily goal of ${log.dailyGoal} kcal has been reached.`,
+        type: "result",
+      });
+    }
+
     res.json(log);
   } catch (err) {
     console.error(err);

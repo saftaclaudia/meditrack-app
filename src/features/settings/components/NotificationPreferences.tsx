@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { setNotificationPref } from "../settingsSlice";
 import type { NotificationPrefs } from "../settingsSlice";
+import { notificationsApi } from "../../../api/notificationsApi";
 
 interface ToggleRowProps {
   label: string;
@@ -40,8 +42,21 @@ export function NotificationPreferences() {
   const { t } = useTranslation();
   const prefs = useAppSelector((s) => s.settings.notificationPrefs);
 
+  // Load prefs from backend on mount, sync to Redux
+  useEffect(() => {
+    notificationsApi.getPrefs().then((serverPrefs) => {
+      if (serverPrefs.exams !== prefs.exams) {
+        dispatch(setNotificationPref({ key: "exams", value: serverPrefs.exams }));
+      }
+      if (serverPrefs.calories !== prefs.calories) {
+        dispatch(setNotificationPref({ key: "calories", value: serverPrefs.calories }));
+      }
+    }).catch(() => {});
+  }, []);
+
   const handleChange = (key: keyof NotificationPrefs, value: boolean) => {
     dispatch(setNotificationPref({ key, value }));
+    notificationsApi.updatePrefs({ ...prefs, [key]: value }).catch(() => {});
   };
 
   return (

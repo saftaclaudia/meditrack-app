@@ -3,16 +3,20 @@ import type { Notification } from "../../types/notification";
 import { notificationsApi } from "../../api/notificationsApi";
 import type { ApiError } from "../../types/api";
 
+const rejectMsg = (err: unknown, fallback: string) => {
+  const e = err as ApiError;
+  return e.response?.data?.message || fallback;
+};
+
 export const fetchNotifications = createAsyncThunk<Notification[], void>(
   "notifications/fetch",
   async (_, { rejectWithValue }) => {
     try {
       return await notificationsApi.fetchAll();
     } catch (err) {
-      const error = err as ApiError;
-      return rejectWithValue(error.response?.data?.message || "Fetch failed");
+      return rejectWithValue(rejectMsg(err, "Fetch failed"));
     }
-  },
+  }
 );
 
 export const markNotificationAsRead = createAsyncThunk<Notification, string>(
@@ -21,10 +25,9 @@ export const markNotificationAsRead = createAsyncThunk<Notification, string>(
     try {
       return await notificationsApi.markAsRead(id);
     } catch (err) {
-      const error = err as ApiError;
-      return rejectWithValue(error.response?.data?.message || "Update failed");
+      return rejectWithValue(rejectMsg(err, "Update failed"));
     }
-  },
+  }
 );
 
 export const markAllNotificationsAsRead = createAsyncThunk<void, void>(
@@ -33,10 +36,32 @@ export const markAllNotificationsAsRead = createAsyncThunk<void, void>(
     try {
       await notificationsApi.markAllAsRead();
     } catch (err) {
-      const error = err as ApiError;
-      return rejectWithValue(error.response?.data?.message || "Update failed");
+      return rejectWithValue(rejectMsg(err, "Update failed"));
     }
-  },
+  }
+);
+
+export const deleteNotification = createAsyncThunk<string, string>(
+  "notifications/delete",
+  async (id, { rejectWithValue }) => {
+    try {
+      await notificationsApi.deleteOne(id);
+      return id;
+    } catch (err) {
+      return rejectWithValue(rejectMsg(err, "Delete failed"));
+    }
+  }
+);
+
+export const clearAllNotifications = createAsyncThunk<void, void>(
+  "notifications/clearAll",
+  async (_, { rejectWithValue }) => {
+    try {
+      await notificationsApi.clearAll();
+    } catch (err) {
+      return rejectWithValue(rejectMsg(err, "Clear failed"));
+    }
+  }
 );
 
 export const createNotification = createAsyncThunk<
@@ -46,7 +71,6 @@ export const createNotification = createAsyncThunk<
   try {
     return await notificationsApi.create(payload);
   } catch (err) {
-    const error = err as ApiError;
-    return rejectWithValue(error.response?.data?.message || "Create failed");
+    return rejectWithValue(rejectMsg(err, "Create failed"));
   }
 });
