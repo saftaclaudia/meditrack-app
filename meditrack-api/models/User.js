@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
   },
   resetPasswordToken: { type: String },
   resetPasswordExpire: { type: Date },
+  notificationPrefs: {
+    exams: { type: Boolean, default: true },
+    calories: { type: Boolean, default: true },
+  },
 });
 
 // Encrypt password before save

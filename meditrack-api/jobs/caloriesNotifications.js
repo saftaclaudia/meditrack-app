@@ -4,9 +4,13 @@ const { createIfNotExists } = require("../services/notificationService");
 
 const scheduleCaloriesReminder = () => {
   cron.schedule("0 20 * * *", async () => {
-    console.log("[CRON] Send reminder calories...");
+    console.log("[CRON] Sending calorie reminders...");
 
-    const users = await User.find({}, "_id");
+    // Only send to users who have calories notifications enabled (or have no pref set = default true)
+    const users = await User.find(
+      { "notificationPrefs.calories": { $ne: false } },
+      "_id"
+    );
 
     for (const user of users) {
       await createIfNotExists({
@@ -16,7 +20,9 @@ const scheduleCaloriesReminder = () => {
         type: "general",
       });
     }
-    console.log(`[CRON] Reminder calories send to ${users.length} users`);
+
+    console.log(`[CRON] Calorie reminders sent to ${users.length} users.`);
   });
 };
+
 module.exports = { scheduleCaloriesReminder };

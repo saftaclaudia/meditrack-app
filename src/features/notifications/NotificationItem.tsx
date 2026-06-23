@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { X } from "lucide-react";
 import type { NotificationType } from "../../types/notification";
 
 interface NotificationItemProps {
@@ -9,6 +10,7 @@ interface NotificationItemProps {
   read: boolean;
   type: NotificationType;
   onRead: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 export default function NotificationItem({
@@ -19,23 +21,23 @@ export default function NotificationItem({
   read,
   type,
   onRead,
+  onDelete,
 }: NotificationItemProps) {
   return (
     <div
       onClick={() => onRead(_id)}
       className={clsx(
-        "p-3 mb-1 cursor-pointer transition rounded-xl",
-
+        "p-3 mb-1 cursor-pointer transition rounded-xl group",
         !read && "bg-soft-light dark:bg-soft-dark",
         "hover:bg-soft-light dark:hover:bg-soft-hoverDark",
-        type === "appointment" && " border-primary",
-        type === "reminder" && " border-status-soon-dot",
-        type === "result" && " border-status-done-dot",
+        type === "appointment" && "border-primary",
+        type === "reminder" && "border-status-soon-dot",
+        type === "result" && "border-status-done-dot",
       )}
     >
-      <div className="flex justify-between items-start">
-        <div>
-          <p className="text-xs font-light  text-text-primary dark:text-text-darkPrimary">
+      <div className="flex justify-between items-start gap-2">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-light text-text-primary dark:text-text-darkPrimary">
             {title}
           </p>
           <p className="text-xs font-light text-text-muted dark:text-text-darkMuted mt-0.5">
@@ -45,17 +47,30 @@ export default function NotificationItem({
             {new Date(createdAt).toLocaleString()}
           </p>
         </div>
-        {!read && (
+
+        <div className="flex items-center gap-1.5 shrink-0">
+          {!read && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onRead(_id);
+              }}
+              className="text-[10px] text-primary hover:underline"
+            >
+              Mark as read
+            </button>
+          )}
           <button
             onClick={(e) => {
               e.stopPropagation();
-              onRead(_id);
+              onDelete(_id);
             }}
-            className="text-[10px] text-primary hover:underline"
+            className="opacity-0 group-hover:opacity-100 transition-opacity text-text-muted hover:text-danger"
+            aria-label="Delete notification"
           >
-            Mark as read
+            <X size={12} />
           </button>
-        )}
+        </div>
       </div>
     </div>
   );

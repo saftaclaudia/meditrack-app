@@ -1,4 +1,5 @@
 const Exam = require("../models/Exam");
+const { createIfNotExists } = require("../services/notificationService");
 
 const getExams = async (req, res) => {
   try {
@@ -14,6 +15,14 @@ const getExams = async (req, res) => {
 const createExam = async (req, res) => {
   try {
     const exam = await Exam.create({ ...req.body, user: req.user._id });
+
+    await createIfNotExists({
+      user: req.user._id,
+      title: "Exam added",
+      message: `"${exam.name}" has been added to your medical records.`,
+      type: "result",
+    });
+
     res.status(201).json(exam);
   } catch (err) {
     res.status(500).json({ message: err.message });

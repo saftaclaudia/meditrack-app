@@ -6,6 +6,8 @@ import {
   fetchNotifications,
   markAllNotificationsAsRead,
   markNotificationAsRead,
+  deleteNotification,
+  clearAllNotifications,
 } from "./notificationsThunks";
 
 interface NotificationsState {
@@ -26,7 +28,6 @@ export const notificationSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Fetch
       .addCase(fetchNotifications.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -39,19 +40,23 @@ export const notificationSlice = createSlice({
         state.error = action.payload as string;
         state.loading = false;
       })
-      // Mark one as read
       .addCase(markNotificationAsRead.fulfilled, (state, action) => {
         const idx = state.items.findIndex((n) => n._id === action.payload._id);
         if (idx !== -1) state.items[idx] = action.payload;
       })
-      // Mark all as read
       .addCase(markAllNotificationsAsRead.fulfilled, (state) => {
         state.items.forEach((n) => (n.read = true));
       })
-      // Create
+      .addCase(deleteNotification.fulfilled, (state, action) => {
+        state.items = state.items.filter((n) => n._id !== action.payload);
+      })
+      .addCase(clearAllNotifications.fulfilled, (state) => {
+        state.items = [];
+      })
       .addCase(createNotification.fulfilled, (state, action) => {
         state.items.unshift(action.payload);
       });
   },
 });
+
 export default notificationSlice.reducer;
