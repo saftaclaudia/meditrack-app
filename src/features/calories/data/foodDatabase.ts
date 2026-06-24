@@ -5,6 +5,9 @@ export interface FoodItem {
   baseQty: number;
   unit: "g" | "buc" | "ml";
   defaultQty: number;
+  proteinPer?: number;
+  carbsPer?: number;
+  fatPer?: number;
 }
 
 export const foodDatabase: FoodItem[] = [
@@ -30,26 +33,26 @@ export const foodDatabase: FoodItem[] = [
   { id: "dovlecel", name: "Dovlecel", caloriesPer: 17, baseQty: 100, unit: "g", defaultQty: 150 },
 
   // Proteine
-  { id: "ou", name: "Ou fiert", caloriesPer: 78, baseQty: 1, unit: "buc", defaultQty: 2 },
-  { id: "pui-piept", name: "Piept pui gătit", caloriesPer: 165, baseQty: 100, unit: "g", defaultQty: 150 },
-  { id: "somon", name: "Somon gătit", caloriesPer: 208, baseQty: 100, unit: "g", defaultQty: 150 },
-  { id: "ton-conserva", name: "Ton conservă", caloriesPer: 116, baseQty: 100, unit: "g", defaultQty: 80 },
+  { id: "ou", name: "Ou fiert", caloriesPer: 78, baseQty: 1, unit: "buc", defaultQty: 2, proteinPer: 6, carbsPer: 0.6, fatPer: 5 },
+  { id: "pui-piept", name: "Piept pui gătit", caloriesPer: 165, baseQty: 100, unit: "g", defaultQty: 150, proteinPer: 31, carbsPer: 0, fatPer: 3.6 },
+  { id: "somon", name: "Somon gătit", caloriesPer: 208, baseQty: 100, unit: "g", defaultQty: 150, proteinPer: 20, carbsPer: 0, fatPer: 13 },
+  { id: "ton-conserva", name: "Ton conservă", caloriesPer: 116, baseQty: 100, unit: "g", defaultQty: 80, proteinPer: 26, carbsPer: 0, fatPer: 1 },
   { id: "carne-vita", name: "Carne vită slabă", caloriesPer: 250, baseQty: 100, unit: "g", defaultQty: 150 },
-  { id: "naut", name: "Năut fiert", caloriesPer: 164, baseQty: 100, unit: "g", defaultQty: 150 },
+  { id: "naut", name: "Năut fiert", caloriesPer: 164, baseQty: 100, unit: "g", defaultQty: 150, proteinPer: 9, carbsPer: 27, fatPer: 2.6 },
   { id: "linte", name: "Linte fiartă", caloriesPer: 116, baseQty: 100, unit: "g", defaultQty: 150 },
 
   // Lactate
-  { id: "lapte", name: "Lapte 1.5%", caloriesPer: 46, baseQty: 100, unit: "ml", defaultQty: 200 },
-  { id: "iaurt-natural", name: "Iaurt natural", caloriesPer: 61, baseQty: 100, unit: "g", defaultQty: 150 },
-  { id: "branza-vaci", name: "Brânză de vaci", caloriesPer: 98, baseQty: 100, unit: "g", defaultQty: 100 },
+  { id: "lapte", name: "Lapte 1.5%", caloriesPer: 46, baseQty: 100, unit: "ml", defaultQty: 200, proteinPer: 3.4, carbsPer: 4.8, fatPer: 1.5 },
+  { id: "iaurt-natural", name: "Iaurt natural", caloriesPer: 61, baseQty: 100, unit: "g", defaultQty: 150, proteinPer: 3.5, carbsPer: 4.7, fatPer: 3.3 },
+  { id: "branza-vaci", name: "Brânză de vaci", caloriesPer: 98, baseQty: 100, unit: "g", defaultQty: 100, proteinPer: 11, carbsPer: 3.4, fatPer: 4.3 },
   { id: "cascaval", name: "Cașcaval", caloriesPer: 356, baseQty: 100, unit: "g", defaultQty: 30 },
   { id: "unt", name: "Unt", caloriesPer: 717, baseQty: 100, unit: "g", defaultQty: 10 },
 
   // Cereale / Pâine
-  { id: "paine-alba", name: "Pâine albă", caloriesPer: 265, baseQty: 100, unit: "g", defaultQty: 50 },
-  { id: "paine-integrala", name: "Pâine integrală", caloriesPer: 247, baseQty: 100, unit: "g", defaultQty: 50 },
-  { id: "orez-fiert", name: "Orez fiert", caloriesPer: 130, baseQty: 100, unit: "g", defaultQty: 200 },
-  { id: "paste-fierte", name: "Paste fierte", caloriesPer: 131, baseQty: 100, unit: "g", defaultQty: 200 },
+  { id: "paine-alba", name: "Pâine albă", caloriesPer: 265, baseQty: 100, unit: "g", defaultQty: 50, proteinPer: 9, carbsPer: 49, fatPer: 3.2 },
+  { id: "paine-integrala", name: "Pâine integrală", caloriesPer: 247, baseQty: 100, unit: "g", defaultQty: 50, proteinPer: 9, carbsPer: 41, fatPer: 4 },
+  { id: "orez-fiert", name: "Orez fiert", caloriesPer: 130, baseQty: 100, unit: "g", defaultQty: 200, proteinPer: 2.7, carbsPer: 28, fatPer: 0.3 },
+  { id: "paste-fierte", name: "Paste fierte", caloriesPer: 131, baseQty: 100, unit: "g", defaultQty: 200, proteinPer: 5, carbsPer: 25, fatPer: 1.1 },
   { id: "ovaz", name: "Fulgi de ovăz", caloriesPer: 389, baseQty: 100, unit: "g", defaultQty: 50 },
   { id: "musli", name: "Muesli", caloriesPer: 378, baseQty: 100, unit: "g", defaultQty: 50 },
 
@@ -60,8 +63,8 @@ export const foodDatabase: FoodItem[] = [
   { id: "ceai", name: "Ceai neîndulcit", caloriesPer: 1, baseQty: 100, unit: "ml", defaultQty: 250 },
 
   // Gustări
-  { id: "migdale", name: "Migdale", caloriesPer: 579, baseQty: 100, unit: "g", defaultQty: 30 },
-  { id: "nuci", name: "Nuci", caloriesPer: 654, baseQty: 100, unit: "g", defaultQty: 30 },
+  { id: "migdale", name: "Migdale", caloriesPer: 579, baseQty: 100, unit: "g", defaultQty: 30, proteinPer: 21, carbsPer: 22, fatPer: 49 },
+  { id: "nuci", name: "Nuci", caloriesPer: 654, baseQty: 100, unit: "g", defaultQty: 30, proteinPer: 15, carbsPer: 14, fatPer: 65 },
   { id: "ciocolata-neagra", name: "Ciocolată neagră", caloriesPer: 546, baseQty: 100, unit: "g", defaultQty: 20 },
   { id: "biscuiti", name: "Biscuiți", caloriesPer: 450, baseQty: 100, unit: "g", defaultQty: 30 },
 
