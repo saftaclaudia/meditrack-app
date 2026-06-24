@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Droplets } from "lucide-react";
 
 const TARGET = 8;
@@ -7,6 +8,8 @@ const ML_PER_GLASS = 250;
 const todayKey = () => `water_${new Date().toISOString().split("T")[0]}`;
 
 export function WaterTracker() {
+  const { t } = useTranslation();
+
   const [glasses, setGlasses] = useState(() =>
     Number(localStorage.getItem(todayKey()) || 0)
   );
@@ -24,16 +27,15 @@ export function WaterTracker() {
 
   return (
     <div className="rounded-2xl border border-border-light dark:border-border-dark p-4 space-y-3">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Droplets size={15} className={done ? "text-primary" : "text-text-muted dark:text-text-darkMuted"} />
           <div>
             <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-              Water intake
+              {t("nutrition.water_title")}
             </span>
             <p className="text-[10px] text-text-muted dark:text-text-darkMuted">
-              1 glass = {ML_PER_GLASS} ml · goal {goalMl} ml/day
+              {t("nutrition.water_subtitle", { ml: ML_PER_GLASS, goal: goalMl })}
             </p>
           </div>
         </div>
@@ -51,7 +53,7 @@ export function WaterTracker() {
               {totalMl} ml
             </p>
             <p className="text-[10px] text-text-muted dark:text-text-darkMuted">
-              of {goalMl} ml
+              {t("nutrition.water_of", { ml: goalMl })}
             </p>
           </div>
           <button
@@ -63,7 +65,6 @@ export function WaterTracker() {
         </div>
       </div>
 
-      {/* Progress bar */}
       <div className="h-1.5 rounded-full bg-border-light dark:bg-border-dark overflow-hidden">
         <div
           className="h-full rounded-full bg-primary transition-all duration-300"
@@ -71,7 +72,6 @@ export function WaterTracker() {
         />
       </div>
 
-      {/* Glass grid */}
       <div className="flex gap-1.5">
         {Array.from({ length: TARGET }, (_, i) => {
           const filled = i < glasses;
@@ -95,7 +95,7 @@ export function WaterTracker() {
 
       {done && (
         <p className="text-[10px] text-primary text-center tracking-wide">
-          Daily goal reached · {totalMl} ml
+          {t("nutrition.water_goal_reached", { ml: totalMl })}
         </p>
       )}
     </div>
