@@ -21,6 +21,7 @@ import CheckEmailPage from "../features/auth/pages/CheckEmailPage";
 import VerifyEmailPage from "../features/auth/pages/VerifyEmailPage";
 import CaloriesPage from "../features/calories/CaloriesPage";
 import { AddEntryPage } from "../features/calories/pages/AddEntryPage";
+import { AddActivityPage } from "../features/calories/pages/AddActivityPage";
 import { AddRecipePage } from "../features/recipes/pages/AddRecipePage";
 import WelcomePage from "../pages/WelcomePage";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -51,6 +52,7 @@ export default function Router() {
             <Route path="/exams/:id/edit" element={<EditExamPage />} />
             <Route path="/calories" element={<CaloriesPage />} />
             <Route path="/calories/add" element={<AddEntryPage />} />
+            <Route path="/calories/activity/add" element={<AddActivityPage />} />
             <Route path="/recipes/new" element={<AddRecipePage />} />
             <Route path="/recipes/:id/edit" element={<AddRecipePage />} />
             <Route path="*" element={<NotFoundPage />} />

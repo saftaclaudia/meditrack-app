@@ -9,6 +9,7 @@ const notificationRoutes = require("./routes/notificationRoutes");
 const calorieRoutes = require("./routes/calorieRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const recipeRoutes = require("./routes/recipeRoutes");
+const activityRoutes = require("./routes/activityRoutes");
 
 // Cron jobs
 const { scheduleExamNotifications } = require("./jobs/examNotifications");
@@ -31,6 +32,7 @@ app.use("/notifications", notificationRoutes);
 app.use("/calories", calorieRoutes);
 app.use("/profile", profileRoutes);
 app.use("/recipes", recipeRoutes);
+app.use("/activities", activityRoutes);
 
 // Start cron jobs after connecting to DB
 scheduleExamNotifications();

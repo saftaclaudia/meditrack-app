@@ -3,9 +3,11 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import type { MealType } from "../../../types/calorie";
 import { useEffect, useState } from "react";
 import { deleteCaloryEntry, fetchDayLog, updateDailyGoal } from "../caloriesThunks";
+import { fetchActivities } from "../activitiesThunks";
 import CalorieRing from "./CalorieRing";
 import MealCard from "./MealCard";
 import { WaterTracker } from "./WaterTracker";
+import { ActivityLog } from "./ActivityLog";
 
 interface LogContentProps {
   dailyGoal: number;
@@ -21,12 +23,15 @@ export function LogContent({ dailyGoal, profileIncomplete, onNavigateToProfile }
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { todayLog, loading, error } = useAppSelector((s) => s.calories);
+  const activities = useAppSelector((s) => s.activities.items);
 
   const [editingGoal, setEditingGoal] = useState(false);
   const [goalInput, setGoalInput] = useState(String(dailyGoal));
 
   useEffect(() => {
-    dispatch(fetchDayLog(todayStr()));
+    const today = todayStr();
+    dispatch(fetchDayLog(today));
+    dispatch(fetchActivities(today));
   }, [dispatch]);
 
   useEffect(() => {
@@ -38,6 +43,8 @@ export function LogContent({ dailyGoal, profileIncomplete, onNavigateToProfile }
       (total, meal) => total + meal.entries.reduce((sum, e) => sum + e.calories, 0),
       0,
     ) ?? 0;
+
+  const totalBurned = activities.reduce((sum, a) => sum + a.caloriesBurned, 0);
 
   const handleDeleteEntry = (meal: MealType, entryId: string) => {
     dispatch(deleteCaloryEntry({ date: todayStr(), meal, entryId }));
@@ -84,7 +91,7 @@ export function LogContent({ dailyGoal, profileIncomplete, onNavigateToProfile }
         </div>
       ) : (
         <div className="flex items-center gap-2">
-          <CalorieRing consumed={totalConsumed} goal={dailyGoal} />
+          <CalorieRing consumed={totalConsumed} goal={dailyGoal} burned={totalBurned} />
           <div className="flex flex-col gap-1">
             {editingGoal ? (
               <div className="flex items-center gap-2">
@@ -123,6 +130,10 @@ export function LogContent({ dailyGoal, profileIncomplete, onNavigateToProfile }
       </div>
 
       <WaterTracker />
+
+      <div className="border-t border-border-light dark:border-border-dark" />
+
+      <ActivityLog />
     </div>
   );
 }
