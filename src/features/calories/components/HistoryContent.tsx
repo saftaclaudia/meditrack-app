@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { fetchHistory } from "../caloriesThunks";
 import {
@@ -30,7 +31,7 @@ interface HistoryContentProps {
 
 export function HistoryContent({ dailyGoal }: HistoryContentProps) {
   const dispatch = useAppDispatch();
-
+  const { t, i18n } = useTranslation();
   const { history, loading } = useAppSelector((s) => s.calories);
 
   const [range, setRange] = useState<Range>(7);
@@ -69,7 +70,7 @@ export function HistoryContent({ dailyGoal }: HistoryContentProps) {
       );
 
       days.push({
-        label: date.toLocaleDateString("en-US", { weekday: "short" }),
+        label: date.toLocaleDateString(i18n.language, { weekday: "short" }),
         date: dateStr,
         calories,
         goal,
@@ -125,7 +126,7 @@ export function HistoryContent({ dailyGoal }: HistoryContentProps) {
     return (
       <div className="flex justify-center py-8">
         <p className="text-sm text-text-muted dark:text-text-darkMuted">
-          Loading...
+          {t("nutrition.loading")}
         </p>
       </div>
     );
@@ -151,27 +152,27 @@ export function HistoryContent({ dailyGoal }: HistoryContentProps) {
       <div className="grid grid-cols-3 gap-3 sm:grid-cols-3">
         {[
           {
-            label: "Daily avg",
+            label: t("nutrition.hist_avg"),
             value: avgCalories ? `${avgCalories} kcal` : "-",
           },
           {
-            label: "On target",
+            label: t("nutrition.hist_on_target"),
             value: daysWithData.length > 0 ? `${daysOnTarget}/${daysWithData.length}d` : "-",
           },
           {
-            label: "Streak",
+            label: t("nutrition.hist_streak"),
             value: streak > 0 ? `${streak}d` : "-",
           },
           {
-            label: "Best day",
+            label: t("nutrition.hist_best_day"),
             value: bestDay.label !== "-" ? `${bestDay.label} · ${bestDay.pct}%` : "-",
           },
           {
-            label: "Total",
+            label: t("nutrition.hist_total"),
             value: totalConsumed > 0 ? `${totalConsumed} kcal` : "-",
           },
           {
-            label: "Logged days",
+            label: t("nutrition.hist_logged"),
             value: daysWithData.length > 0 ? `${daysWithData.length}/${range}d` : "-",
           },
         ].map(({ label, value }) => (
@@ -225,10 +226,10 @@ export function HistoryContent({ dailyGoal }: HistoryContentProps) {
                       {d.date}
                     </p>
                     <p className="text-text-primary dark:text-text-darkPrimary font-light">
-                      {d.calories === 0 ? "No data" : `${d.calories} kcal`}
+                      {d.calories === 0 ? t("nutrition.hist_no_data") : `${d.calories} kcal`}
                     </p>
                     <p className="text-text-muted dark:text-text-darkMuted">
-                      {d.pct}% of goal
+                      {t("nutrition.hist_pct_of_goal", { pct: d.pct })}
                     </p>
                   </div>
                 );
@@ -244,10 +245,10 @@ export function HistoryContent({ dailyGoal }: HistoryContentProps) {
 
         <div className="flex gap-4 mt-3 justify-center">
           {[
-            { color: "#1d9e75", label: "On target" },
-            { color: "#ba7517", label: "Under" },
-            { color: "#e24b4a", label: "Over" },
-            { color: "#888780", label: "No data" },
+            { color: "#1d9e75", label: t("nutrition.hist_on_target") },
+            { color: "#ba7517", label: t("nutrition.hist_under") },
+            { color: "#e24b4a", label: t("nutrition.over") },
+            { color: "#888780", label: t("nutrition.hist_no_data") },
           ].map(({ color, label }) => (
             <div key={label} className="flex items-center gap-1.5">
               <div
