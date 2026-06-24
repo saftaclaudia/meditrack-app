@@ -8,6 +8,8 @@ export interface ExamFormData {
   lastDate: string;
   nextDate: string;
   result: string;
+  resultValue: string;
+  resultUnit: string;
   treatment: string;
   notes: string;
   documents: MedicalDocument[];

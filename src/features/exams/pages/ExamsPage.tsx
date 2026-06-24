@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { FolderOpen } from "lucide-react";
+import { FolderOpen, Search, ArrowUpDown } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 
 import { Button } from "../../../components/ui/Button";
@@ -24,6 +24,8 @@ export function ExamsPage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState<ExamFilter>("all");
+  const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState<"name" | "nextDate" | "lastDate">("nextDate");
 
   const exams = useAppSelector(selectExamsWithStatus);
   const rawExams = useAppSelector(selectExamsItems);
@@ -45,16 +47,32 @@ export function ExamsPage() {
     dispatch(fetchExams());
   }, [dispatch]);
 
-  // filtered exams
+  // filtered + searched + sorted exams
   const filteredExams = useMemo(() => {
-    if (activeFilter === "all") return exams;
-    if (activeFilter === "due") return [];
-    if (activeFilter === "upcoming")
-      return exams.filter(
-        (e) => e.status === "upcoming" || e.status === "soon",
+    let list = exams;
+    if (activeFilter !== "all" && activeFilter !== "due") {
+      if (activeFilter === "upcoming")
+        list = list.filter((e) => e.status === "upcoming" || e.status === "soon");
+      else
+        list = list.filter((e) => e.status === activeFilter);
+    }
+    if (search.trim()) {
+      const q = search.trim().toLowerCase();
+      list = list.filter(
+        (e) =>
+          e.name.toLowerCase().includes(q) ||
+          (e.doctor ?? "").toLowerCase().includes(q) ||
+          (e.clinic ?? "").toLowerCase().includes(q) ||
+          (e.speciality ?? "").toLowerCase().includes(q)
       );
-    return exams.filter((e) => e.status === activeFilter);
-  }, [exams, activeFilter]);
+    }
+    return [...list].sort((a, b) => {
+      if (sortBy === "name") return a.name.localeCompare(b.name);
+      const da = a[sortBy] ?? "";
+      const db = b[sortBy] ?? "";
+      return da < db ? -1 : da > db ? 1 : 0;
+    });
+  }, [exams, activeFilter, search, sortBy]);
 
   const showDueSection = activeFilter === "all" || activeFilter === "due";
   const showExamsSection = activeFilter !== "due";
@@ -104,12 +122,82 @@ export function ExamsPage() {
         </div>
       </div>
 
+      {/* Stats strip */}
+      {exams.length > 0 && (() => {
+        const nextUpcoming = [...exams]
+          .filter((e) => e.nextDate && new Date(e.nextDate) > new Date())
+          .sort((a, b) => a.nextDate.localeCompare(b.nextDate))[0];
+        const daysUntilNext = nextUpcoming
+          ? Math.ceil((new Date(nextUpcoming.nextDate).getTime() - Date.now()) / 86_400_000)
+          : null;
+        const lastDone = [...exams]
+          .filter((e) => e.lastDate)
+          .sort((a, b) => b.lastDate.localeCompare(a.lastDate))[0];
+        return (
+          <div className="grid grid-cols-3 gap-3">
+            {nextUpcoming && daysUntilNext !== null && (
+              <div className="rounded-xl border border-border-light dark:border-border-dark px-3 py-2.5 space-y-0.5">
+                <p className="text-[10px] font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
+                  {t("exams.stat_next")}
+                </p>
+                <p className="text-sm font-light text-text-primary dark:text-text-darkPrimary truncate">{nextUpcoming.name}</p>
+                <p className="text-[10px] text-primary">{t("exams.stat_days", { n: daysUntilNext })}</p>
+              </div>
+            )}
+            {sumary.overdue > 0 && (
+              <div className="rounded-xl border border-danger/30 bg-danger/5 px-3 py-2.5 space-y-0.5">
+                <p className="text-[10px] font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
+                  {t("exams.stat_overdue")}
+                </p>
+                <p className="text-2xl font-light text-danger">{sumary.overdue}</p>
+                <p className="text-[10px] text-danger">{t("exams.filter_overdue")}</p>
+              </div>
+            )}
+            {lastDone && (
+              <div className="rounded-xl border border-border-light dark:border-border-dark px-3 py-2.5 space-y-0.5">
+                <p className="text-[10px] font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
+                  {t("exams.stat_last")}
+                </p>
+                <p className="text-sm font-light text-text-primary dark:text-text-darkPrimary truncate">{lastDone.name}</p>
+                <p className="text-[10px] text-text-muted dark:text-text-darkMuted">{lastDone.lastDate}</p>
+              </div>
+            )}
+          </div>
+        );
+      })()}
+
       {/* Filter bar */}
       <ExamFilterBar
         active={activeFilter}
         onChange={setActiveFilter}
         counts={counts}
       />
+
+      {/* Search + sort */}
+      <div className="flex gap-2">
+        <div className="relative flex-1">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted dark:text-text-darkMuted" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder={t("exams.search_placeholder")}
+            className="w-full pl-9 pr-3 py-2 rounded-xl border border-border-light dark:border-border-dark bg-surface-cardLight dark:bg-surface-cardDark text-sm text-text-primary dark:text-text-darkPrimary placeholder:text-text-muted dark:placeholder:text-text-darkMuted focus:outline-none focus:border-primary transition"
+          />
+        </div>
+        <div className="relative">
+          <ArrowUpDown size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-text-muted dark:text-text-darkMuted pointer-events-none" />
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+            className="pl-8 pr-3 py-2 rounded-xl border border-border-light dark:border-border-dark bg-surface-cardLight dark:bg-surface-cardDark text-sm text-text-primary dark:text-text-darkPrimary focus:outline-none focus:border-primary transition appearance-none cursor-pointer"
+          >
+            <option value="nextDate">{t("exams.sort_next")}</option>
+            <option value="lastDate">{t("exams.sort_last")}</option>
+            <option value="name">{t("exams.sort_name")}</option>
+          </select>
+        </div>
+      </div>
 
       {/* Due section */}
       {showDueSection && dueExams.length > 0 && (
