@@ -65,7 +65,7 @@ export function AddActivityPage() {
 
   const filtered = query.trim()
     ? activityDatabase.filter((a) =>
-        normalize(a.name).includes(normalize(query.trim()))
+        normalize(t(a.nameKey)).includes(normalize(query.trim()))
       )
     : activityDatabase;
 
@@ -104,7 +104,7 @@ export function AddActivityPage() {
   const handleSelectActivity = (item: ActivityItem) => {
     const dur = Number(duration) || 30;
     fillForm(
-      item.name,
+      t(item.nameKey),
       item.category,
       item.kcalPerMin,
       String(dur),
@@ -228,6 +228,7 @@ export function AddActivityPage() {
                 <ActivityRow
                   key={item.id}
                   item={item}
+                  displayName={t(item.nameKey)}
                   categoryLabel={CATEGORY_LABELS[item.category]}
                   onSelect={() => handleSelectActivity(item)}
                 />
@@ -243,6 +244,7 @@ export function AddActivityPage() {
                     <ActivityRow
                       key={item.id}
                       item={item}
+                      displayName={t(item.nameKey)}
                       categoryLabel={CATEGORY_LABELS[item.category]}
                       onSelect={() => handleSelectActivity(item)}
                     />
@@ -373,10 +375,12 @@ export function AddActivityPage() {
 function ActivityRow({
   item,
   categoryLabel,
+  displayName,
   onSelect,
 }: {
   item: ActivityItem;
   categoryLabel: string;
+  displayName: string;
   onSelect: () => void;
 }) {
   return (
@@ -385,7 +389,7 @@ function ActivityRow({
       className="w-full flex items-center justify-between px-4 py-2.5 text-left hover:bg-surface-cardLight dark:hover:bg-surface-cardDark transition"
     >
       <span className="text-sm text-text-primary dark:text-text-darkPrimary">
-        {item.name}
+        {displayName}
       </span>
       <div className="text-right">
         <span className="text-xs text-text-muted dark:text-text-darkMuted block">
