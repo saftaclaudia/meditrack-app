@@ -198,10 +198,10 @@ export function ExamCard({ exam, onEdit, onDelete, onView }: ExamCardProps) {
 
       <ConfirmModal
         open={openConfirm}
-        title="Delete exam"
-        message="This action is permanent. The exam and all its data will be removed."
-        confirmText="Yes, delete"
-        cancelText="Cancel"
+        title={t("exams.delete_title")}
+        message={t("exams.delete_message")}
+        confirmText={t("exams.delete_confirm")}
+        cancelText={t("exams.delete_cancel")}
         onCancel={() => setOpenConfirm(false)}
         onConfirm={() => {
           const examId = (exam as ExamWithMongoId)._id ?? exam.id;
