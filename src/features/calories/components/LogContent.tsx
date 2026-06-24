@@ -4,10 +4,13 @@ import type { MealType } from "../../../types/calorie";
 import { useEffect, useState } from "react";
 import { deleteCaloryEntry, fetchDayLog, updateDailyGoal } from "../caloriesThunks";
 import { fetchActivities } from "../activitiesThunks";
+import { fetchMacroGoals } from "../favoritesSlice";
 import CalorieRing from "./CalorieRing";
 import MealCard from "./MealCard";
 import { WaterTracker } from "./WaterTracker";
 import { ActivityLog } from "./ActivityLog";
+import { MacroProgress } from "./MacroProgress";
+import { WeightCard } from "./WeightCard";
 
 interface LogContentProps {
   dailyGoal: number;
@@ -24,6 +27,7 @@ export function LogContent({ dailyGoal, profileIncomplete, onNavigateToProfile }
   const { t } = useTranslation();
   const { todayLog, loading, error } = useAppSelector((s) => s.calories);
   const activities = useAppSelector((s) => s.activities.items);
+  const macroGoals = useAppSelector((s) => s.favorites.macroGoals);
 
   const [editingGoal, setEditingGoal] = useState(false);
   const [goalInput, setGoalInput] = useState(String(dailyGoal));
@@ -32,6 +36,7 @@ export function LogContent({ dailyGoal, profileIncomplete, onNavigateToProfile }
     const today = todayStr();
     dispatch(fetchDayLog(today));
     dispatch(fetchActivities(today));
+    dispatch(fetchMacroGoals());
   }, [dispatch]);
 
   useEffect(() => {
@@ -43,6 +48,10 @@ export function LogContent({ dailyGoal, profileIncomplete, onNavigateToProfile }
       (total, meal) => total + meal.entries.reduce((sum, e) => sum + e.calories, 0),
       0,
     ) ?? 0;
+
+  const totalProtein = todayLog?.meals.reduce((t, m) => t + m.entries.reduce((s, e) => s + (e.protein ?? 0), 0), 0) ?? 0;
+  const totalCarbs   = todayLog?.meals.reduce((t, m) => t + m.entries.reduce((s, e) => s + (e.carbs ?? 0), 0), 0) ?? 0;
+  const totalFat     = todayLog?.meals.reduce((t, m) => t + m.entries.reduce((s, e) => s + (e.fat ?? 0), 0), 0) ?? 0;
 
   const totalBurned = activities.reduce((sum, a) => sum + a.caloriesBurned, 0);
 
@@ -129,11 +138,17 @@ export function LogContent({ dailyGoal, profileIncomplete, onNavigateToProfile }
         ))}
       </div>
 
+      <MacroProgress protein={totalProtein} carbs={totalCarbs} fat={totalFat} goals={macroGoals} />
+
       <WaterTracker />
 
       <div className="border-t border-border-light dark:border-border-dark" />
 
       <ActivityLog />
+
+      <div className="border-t border-border-light dark:border-border-dark" />
+
+      <WeightCard />
     </div>
   );
 }
