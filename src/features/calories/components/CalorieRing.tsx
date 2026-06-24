@@ -8,13 +8,16 @@ interface CalorieRingProps {
 
 export default function CalorieRing({ consumed, goal, burned = 0 }: CalorieRingProps) {
   const { t } = useTranslation();
-  const percentage = Math.min((consumed / goal) * 100, 100);
+  // Remaining = Goal - Consumed + Burned
+  const budget = goal + burned;
+  const remaining = budget - consumed;
+  const isOver = remaining < 0;
+  const diff = Math.abs(remaining);
+  const percentage = Math.min((consumed / budget) * 100, 100);
   const radius = 54;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
-  const isOver = consumed > goal;
   const color = isOver ? "#ef4444" : percentage >= 75 ? "#F5B800" : "#00AEBB";
-  const diff = Math.abs(goal - consumed);
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -90,7 +93,7 @@ export default function CalorieRing({ consumed, goal, burned = 0 }: CalorieRingP
             {diff}
           </p>
           <p className={`text-[10px] uppercase tracking-widest ${isOver ? "text-danger" : "text-text-muted dark:text-text-darkMuted"}`}>
-            {isOver ? "Over" : "Remaining"}
+            {isOver ? t("nutrition.over") : t("nutrition.remaining")}
           </p>
         </div>
       </div>

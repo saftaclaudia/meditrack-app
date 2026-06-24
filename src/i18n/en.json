@@ -165,7 +165,9 @@
     "cat_strength": "Strength",
     "cat_sport": "Sport",
     "cat_daily": "Daily activity",
-    "ring_burned": "Burned"
+    "ring_burned": "Burned",
+    "remaining": "Remaining",
+    "over": "Over"
   },
   "profile": {
     "title": "Health Profile",

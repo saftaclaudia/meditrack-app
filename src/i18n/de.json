@@ -165,7 +165,9 @@
     "cat_strength": "Kraft",
     "cat_sport": "Sport",
     "cat_daily": "Alltägliche Aktivität",
-    "ring_burned": "Verbrannt"
+    "ring_burned": "Verbrannt",
+    "remaining": "Verbleibend",
+    "over": "Überschritten"
   },
   "profile": {
     "title": "Gesundheitsprofil",

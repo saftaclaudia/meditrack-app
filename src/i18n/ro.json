@@ -165,7 +165,9 @@
     "cat_strength": "Forță",
     "cat_sport": "Sport",
     "cat_daily": "Activitate zilnică",
-    "ring_burned": "Arse"
+    "ring_burned": "Arse",
+    "remaining": "Rămase",
+    "over": "Depășit"
   },
   "profile": {
     "title": "Profil de sănătate",
