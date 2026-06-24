@@ -161,6 +161,7 @@
     "activity_estimated": "estimated",
     "activity_estimate_note": "Estimate based on ~{{kcal}} kcal/min for 70 kg",
     "activity_add_btn": "Add activity",
+    "cat_all": "All",
     "cat_cardio": "Cardio",
     "cat_strength": "Strength",
     "cat_sport": "Sport",

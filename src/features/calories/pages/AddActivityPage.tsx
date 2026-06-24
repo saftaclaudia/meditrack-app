@@ -8,7 +8,6 @@ import { activityDatabase, type ActivityItem } from "../data/activityDatabase";
 import type { ActivityCategory } from "../../../types/activity";
 
 const todayStr = () => new Date().toISOString().split("T")[0];
-
 const RECENT_KEY = "meditrack_recent_activities";
 
 interface RecentActivity {
@@ -20,11 +19,8 @@ interface RecentActivity {
 }
 
 const loadRecent = (): RecentActivity[] => {
-  try {
-    return JSON.parse(localStorage.getItem(RECENT_KEY) ?? "[]");
-  } catch {
-    return [];
-  }
+  try { return JSON.parse(localStorage.getItem(RECENT_KEY) ?? "[]"); }
+  catch { return []; }
 };
 
 const saveRecent = (entry: RecentActivity) => {
@@ -49,8 +45,14 @@ export function AddActivityPage() {
   };
 
   const [recent, setRecent] = useState<RecentActivity[]>(() => loadRecent());
+
+  // filterCat: filter the dropdown (null = All)
+  const [filterCat, setFilterCat] = useState<ActivityCategory | null>(null);
+
   const [query, setQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+
+  // form fields
   const [name, setName] = useState("");
   const [duration, setDuration] = useState("30");
   const [caloriesBurned, setCaloriesBurned] = useState("");
@@ -63,17 +65,12 @@ export function AddActivityPage() {
   const normalize = (s: string) =>
     s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
-  const filtered = query.trim()
-    ? activityDatabase.filter((a) =>
-        normalize(t(a.nameKey)).includes(normalize(query.trim()))
-      )
-    : activityDatabase;
-
-  // Group by category for the empty-query dropdown
-  const grouped = CATEGORIES.map((cat) => ({
-    cat,
-    items: filtered.filter((a) => a.category === cat),
-  })).filter((g) => g.items.length > 0);
+  // Filter by name AND filterCat
+  const filtered = activityDatabase.filter((a) => {
+    const matchesName = !query.trim() || normalize(t(a.nameKey)).includes(normalize(query.trim()));
+    const matchesCat = filterCat === null || a.category === filterCat;
+    return matchesName && matchesCat;
+  });
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -131,26 +128,10 @@ export function AddActivityPage() {
 
   const handleSubmit = () => {
     if (!name.trim() || !duration || !caloriesBurned) return;
-
-    const entry: RecentActivity = {
-      name: name.trim(),
-      duration: Number(duration),
-      caloriesBurned: Number(caloriesBurned),
-      category,
-      kcalPerMin,
-    };
+    const entry: RecentActivity = { name: name.trim(), duration: Number(duration), caloriesBurned: Number(caloriesBurned), category, kcalPerMin };
     saveRecent(entry);
     setRecent(loadRecent());
-
-    dispatch(
-      addActivity({
-        name: name.trim(),
-        duration: Number(duration),
-        caloriesBurned: Number(caloriesBurned),
-        category,
-        date: todayStr(),
-      })
-    );
+    dispatch(addActivity({ name: name.trim(), duration: Number(duration), caloriesBurned: Number(caloriesBurned), category, date: todayStr() }));
     navigate("/calories");
   };
 
@@ -202,6 +183,33 @@ export function AddActivityPage() {
         </div>
       )}
 
+      {/* Category filter tabs — filter the search dropdown */}
+      <div className="flex gap-2 overflow-x-auto pb-0.5 scrollbar-hide">
+        <button
+          onClick={() => setFilterCat(null)}
+          className={`px-3 py-1.5 rounded-xl text-xs font-light border whitespace-nowrap transition ${
+            filterCat === null
+              ? "border-primary bg-primary/10 text-primary"
+              : "border-border-light dark:border-border-dark text-text-muted dark:text-text-darkMuted hover:border-primary hover:text-primary"
+          }`}
+        >
+          {t("nutrition.cat_all")}
+        </button>
+        {CATEGORIES.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setFilterCat(filterCat === cat ? null : cat)}
+            className={`px-3 py-1.5 rounded-xl text-xs font-light border whitespace-nowrap transition ${
+              filterCat === cat
+                ? "border-primary bg-primary/10 text-primary"
+                : "border-border-light dark:border-border-dark text-text-muted dark:text-text-darkMuted hover:border-primary hover:text-primary"
+            }`}
+          >
+            {CATEGORY_LABELS[cat]}
+          </button>
+        ))}
+      </div>
+
       {/* Search */}
       <div ref={searchRef} className="relative">
         <div className="relative">
@@ -222,8 +230,7 @@ export function AddActivityPage() {
               <p className="px-4 py-3 text-sm text-text-muted dark:text-text-darkMuted">
                 {t("nutrition.activity_no_results")}
               </p>
-            ) : query.trim() ? (
-              // Flat filtered list when searching
+            ) : (
               filtered.map((item) => (
                 <ActivityRow
                   key={item.id}
@@ -232,24 +239,6 @@ export function AddActivityPage() {
                   categoryLabel={CATEGORY_LABELS[item.category]}
                   onSelect={() => handleSelectActivity(item)}
                 />
-              ))
-            ) : (
-              // Grouped by category when browsing
-              grouped.map(({ cat, items }) => (
-                <div key={cat}>
-                  <p className="px-4 py-1.5 text-[10px] font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted bg-surface-cardLight dark:bg-surface-cardDark">
-                    {CATEGORY_LABELS[cat]}
-                  </p>
-                  {items.map((item) => (
-                    <ActivityRow
-                      key={item.id}
-                      item={item}
-                      displayName={t(item.nameKey)}
-                      categoryLabel={CATEGORY_LABELS[item.category]}
-                      onSelect={() => handleSelectActivity(item)}
-                    />
-                  ))}
-                </div>
               ))
             )}
           </div>
@@ -273,7 +262,7 @@ export function AddActivityPage() {
           />
         </div>
 
-        {/* Category */}
+        {/* Category (form field — set automatically from selection, editable manually) */}
         <div className="space-y-1.5">
           <label className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
             {t("nutrition.activity_category_label")}
