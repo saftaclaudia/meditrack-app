@@ -7,6 +7,10 @@ import caloriesReducer from "../features/calories/caloriesSlice";
 import profileReducer from "../features/profile/profileSlice";
 import recipesReducer from "../features/recipes/recipesSlice";
 import activitiesReducer from "../features/calories/activitiesSlice";
+import waterReducer from "../features/calories/waterSlice";
+import weightReducer from "../features/calories/weightSlice";
+import mealTemplatesReducer from "../features/calories/mealTemplatesSlice";
+import favoritesReducer from "../features/calories/favoritesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +22,10 @@ export const store = configureStore({
     profile: profileReducer,
     recipes: recipesReducer,
     activities: activitiesReducer,
+    water: waterReducer,
+    weight: weightReducer,
+    mealTemplates: mealTemplatesReducer,
+    favorites: favoritesReducer,
   },
 });
 

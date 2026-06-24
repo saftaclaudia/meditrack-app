@@ -81,10 +81,21 @@ const getNotifPrefs = async (req, res) => {
 
 const updateNotifPrefs = async (req, res) => {
   try {
-    const { exams, calories } = req.body;
+    const { exams, calories, waterReminder, caloriesPacing, mealReminders } = req.body;
+    const update = {};
+    if (exams !== undefined) update["notificationPrefs.exams"] = exams;
+    if (calories !== undefined) update["notificationPrefs.calories"] = calories;
+    if (waterReminder !== undefined) update["notificationPrefs.waterReminder"] = waterReminder;
+    if (caloriesPacing !== undefined) update["notificationPrefs.caloriesPacing"] = caloriesPacing;
+    if (mealReminders) {
+      for (const [meal, cfg] of Object.entries(mealReminders)) {
+        if (cfg.enabled !== undefined) update[`notificationPrefs.mealReminders.${meal}.enabled`] = cfg.enabled;
+        if (cfg.time !== undefined) update[`notificationPrefs.mealReminders.${meal}.time`] = cfg.time;
+      }
+    }
     const user = await User.findByIdAndUpdate(
       req.user._id,
-      { $set: { "notificationPrefs.exams": exams, "notificationPrefs.calories": calories } },
+      { $set: update },
       { new: true }
     ).select("notificationPrefs");
     res.json(user.notificationPrefs);

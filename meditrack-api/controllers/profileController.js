@@ -106,4 +106,72 @@ const updateProfile = async (req, res) => {
   }
 };
 
-module.exports = { getProfile, updateProfile };
+// GET /profile/macros
+const getMacroGoals = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("macroGoals");
+    res.json(user?.macroGoals ?? {});
+  } catch {
+    res.status(500).json({ message: "Failed to fetch macro goals" });
+  }
+};
+
+// PATCH /profile/macros
+const updateMacroGoals = async (req, res) => {
+  try {
+    const { protein, carbs, fat } = req.body;
+    const user = await User.findById(req.user._id);
+    if (!user.macroGoals) user.macroGoals = {};
+    if (protein !== undefined) user.macroGoals.protein = protein;
+    if (carbs !== undefined) user.macroGoals.carbs = carbs;
+    if (fat !== undefined) user.macroGoals.fat = fat;
+    user.markModified("macroGoals");
+    await user.save();
+    res.json(user.macroGoals);
+  } catch {
+    res.status(500).json({ message: "Failed to update macro goals" });
+  }
+};
+
+// GET /profile/favorites
+const getFavorites = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("favoriteFoods");
+    res.json(user?.favoriteFoods ?? []);
+  } catch {
+    res.status(500).json({ message: "Failed to fetch favorites" });
+  }
+};
+
+// POST /profile/favorites
+const addFavorite = async (req, res) => {
+  try {
+    const { name, calories, quantity, unit, protein, carbs, fat } = req.body;
+    const user = await User.findById(req.user._id);
+    const already = user.favoriteFoods.find(
+      (f) => f.name.toLowerCase() === name.toLowerCase()
+    );
+    if (already) return res.status(409).json({ message: "Already in favorites" });
+    user.favoriteFoods.push({ name, calories, quantity, unit, protein, carbs, fat });
+    await user.save();
+    res.status(201).json(user.favoriteFoods);
+  } catch {
+    res.status(500).json({ message: "Failed to add favorite" });
+  }
+};
+
+// DELETE /profile/favorites/:name
+const removeFavorite = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    user.favoriteFoods = user.favoriteFoods.filter(
+      (f) => f.name.toLowerCase() !== decodeURIComponent(req.params.name).toLowerCase()
+    );
+    await user.save();
+    res.json(user.favoriteFoods);
+  } catch {
+    res.status(500).json({ message: "Failed to remove favorite" });
+  }
+};
+
+module.exports = { getProfile, updateProfile, getMacroGoals, updateMacroGoals, getFavorites, addFavorite, removeFavorite };

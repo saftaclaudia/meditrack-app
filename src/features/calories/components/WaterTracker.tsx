@@ -1,23 +1,25 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Droplets } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { fetchWater, setWaterGlasses } from "../waterSlice";
 
 const TARGET = 8;
 const ML_PER_GLASS = 250;
 
-const todayKey = () => `water_${new Date().toISOString().split("T")[0]}`;
+const todayDate = () => new Date().toISOString().split("T")[0];
 
 export function WaterTracker() {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const glasses = useAppSelector((s) => s.water.glasses);
 
-  const [glasses, setGlasses] = useState(() =>
-    Number(localStorage.getItem(todayKey()) || 0)
-  );
+  useEffect(() => {
+    dispatch(fetchWater(todayDate()));
+  }, [dispatch]);
 
   const update = (n: number) => {
-    const clamped = Math.max(0, n);
-    setGlasses(clamped);
-    localStorage.setItem(todayKey(), String(clamped));
+    dispatch(setWaterGlasses({ date: todayDate(), glasses: Math.max(0, n) }));
   };
 
   const totalMl = glasses * ML_PER_GLASS;

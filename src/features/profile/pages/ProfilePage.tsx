@@ -7,15 +7,20 @@ import type {
   UpdateProfilePayload,
 } from "../../../types/profile";
 import { fetchProfile, updateProfile } from "../profileThunks";
-import { Activity, Flame, Ruler, Target, User } from "lucide-react";
+import { Activity, Flame, Ruler, Target, User, Dumbbell } from "lucide-react";
 import { Button } from "../../../components/ui/Button";
+import { fetchMacroGoals, updateMacroGoals } from "../../calories/favoritesSlice";
 
 export function ProfilePage() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { profile, loading, error } = useAppSelector((s) => s.profile);
+  const macroGoals = useAppSelector((s) => s.favorites.macroGoals);
   const [saved, setSaved] = useState(false);
   const [overrides, setOverrides] = useState<Partial<typeof baseForm>>({});
+  const [macroProtein, setMacroProtein] = useState("");
+  const [macroCarbs, setMacroCarbs] = useState("");
+  const [macroFat, setMacroFat] = useState("");
 
   const baseForm = {
     name: profile?.name ?? "",
@@ -30,7 +35,14 @@ export function ProfilePage() {
 
   useEffect(() => {
     dispatch(fetchProfile());
+    dispatch(fetchMacroGoals());
   }, [dispatch]);
+
+  useEffect(() => {
+    setMacroProtein(macroGoals.protein != null ? String(macroGoals.protein) : "");
+    setMacroCarbs(macroGoals.carbs != null ? String(macroGoals.carbs) : "");
+    setMacroFat(macroGoals.fat != null ? String(macroGoals.fat) : "");
+  }, [macroGoals]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -55,6 +67,12 @@ export function ProfilePage() {
     const result = await dispatch(updateProfile(payload));
 
     if (updateProfile.fulfilled.match(result)) {
+      // Save macro goals
+      await dispatch(updateMacroGoals({
+        ...(macroProtein && { protein: Number(macroProtein) }),
+        ...(macroCarbs && { carbs: Number(macroCarbs) }),
+        ...(macroFat && { fat: Number(macroFat) }),
+      }));
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     }
@@ -240,6 +258,38 @@ export function ProfilePage() {
               max={300}
               className={`${inputClass} bg-transparent`}
             />
+          </div>
+        </div>
+
+        {/* Macro Goals */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 mb-1">
+            <Dumbbell size={14} className="text-text-muted dark:text-text-darkMuted" />
+            <p className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
+              {t("profile.section_macros")}
+            </p>
+          </div>
+          <p className="text-xs text-text-muted dark:text-text-darkMuted -mt-1">
+            {t("profile.section_macros_desc")}
+          </p>
+          <div className="grid grid-cols-3 gap-3">
+            {[
+              { label: t("nutrition.macro_protein"), value: macroProtein, set: setMacroProtein },
+              { label: t("nutrition.macro_carbs"),   value: macroCarbs,   set: setMacroCarbs },
+              { label: t("nutrition.macro_fat"),     value: macroFat,     set: setMacroFat },
+            ].map(({ label, value, set }) => (
+              <div key={label} className="space-y-1">
+                <label className="text-xs text-text-muted dark:text-text-darkMuted">{label} (g)</label>
+                <input
+                  type="number"
+                  min="0"
+                  placeholder="—"
+                  value={value}
+                  onChange={(e) => set(e.target.value)}
+                  className={inputClass}
+                />
+              </div>
+            ))}
           </div>
         </div>
 

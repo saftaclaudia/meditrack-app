@@ -5,9 +5,21 @@ import { loadLanguage } from "../../utils/languageStorage";
 
 export type Theme = "light" | "dark";
 
+export interface MealReminderConfig {
+  enabled: boolean;
+  time: string;
+}
+
 export interface NotificationPrefs {
   exams: boolean;
   calories: boolean;
+  waterReminder?: boolean;
+  caloriesPacing?: boolean;
+  mealReminders?: {
+    breakfast: MealReminderConfig;
+    lunch: MealReminderConfig;
+    dinner: MealReminderConfig;
+  };
 }
 
 interface SettingsState {
@@ -49,16 +61,17 @@ const settingsSlice = createSlice({
       state,
       action: PayloadAction<{ key: keyof NotificationPrefs; value: boolean }>,
     ) {
-      state.notificationPrefs[action.payload.key] = action.payload.value;
-      localStorage.setItem(
-        "notificationPrefs",
-        JSON.stringify(state.notificationPrefs),
-      );
+      (state.notificationPrefs as Record<string, unknown>)[action.payload.key as string] = action.payload.value;
+      localStorage.setItem("notificationPrefs", JSON.stringify(state.notificationPrefs));
+    },
+    setNotificationPrefs(state, action: PayloadAction<NotificationPrefs>) {
+      state.notificationPrefs = { ...state.notificationPrefs, ...action.payload };
+      localStorage.setItem("notificationPrefs", JSON.stringify(state.notificationPrefs));
     },
   },
 });
 
-export const { setLanguage, toggleTheme, setAvatarColor, setNotificationPref } =
+export const { setLanguage, toggleTheme, setAvatarColor, setNotificationPref, setNotificationPrefs } =
   settingsSlice.actions;
 
 export default settingsSlice.reducer;

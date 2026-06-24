@@ -1,11 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, Search, Lock, Zap, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowLeft, Search, Lock, Zap, ChevronDown, ChevronUp, Star } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import type { MealType, CalorieEntry } from "../../../types/calorie";
 import { addCalorieEntry } from "../caloriesThunks";
 import { foodDatabase, type FoodItem } from "../data/foodDatabase";
+import { fetchFavorites, addFavorite, removeFavorite } from "../favoritesSlice";
+import type { FavoriteFood } from "../../../types/favorites";
+import { MealTemplatesPanel, SaveAsTemplateButton } from "../components/MealTemplatesPanel";
 
 const VALID_MEAL_TYPES: MealType[] = ["breakfast", "lunch", "dinner", "snack"];
 
@@ -36,6 +39,7 @@ export function AddEntryPage() {
 
   const { todayLog, history } = useAppSelector((s) => s.calories);
   const { profile } = useAppSelector((s) => s.profile);
+  const favorites = useAppSelector((s) => s.favorites.items);
 
   const mealParam = searchParams.get("meal") as MealType | null;
   const mealType: MealType =
@@ -61,6 +65,43 @@ export function AddEntryPage() {
   const [fat, setFat] = useState("");
 
   const searchRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [dispatch]);
+
+  const isFavorite = (foodName: string) =>
+    favorites.some((f) => f.name.toLowerCase() === foodName.toLowerCase());
+
+  const toggleFavorite = () => {
+    if (!name.trim() || !calories) return;
+    const food: FavoriteFood = {
+      name: name.trim(),
+      calories: Number(calories),
+      quantity: Number(quantity),
+      unit,
+      ...(protein && { protein: Number(protein) }),
+      ...(carbs && { carbs: Number(carbs) }),
+      ...(fat && { fat: Number(fat) }),
+    };
+    if (isFavorite(name)) {
+      dispatch(removeFavorite(name.trim()));
+    } else {
+      dispatch(addFavorite(food));
+    }
+  };
+
+  const handleSelectFavorite = (fav: FavoriteFood) => {
+    setSelectedFood(null);
+    fillForm(
+      fav.name,
+      String(fav.calories),
+      fav.unit as "g" | "buc" | "ml",
+      String(fav.quantity),
+      { protein: fav.protein, carbs: fav.carbs, fat: fav.fat }
+    );
+    setCalsPer("");
+  };
 
   const normalize = (s: string) =>
     s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
@@ -233,6 +274,31 @@ export function AddEntryPage() {
     navigate("/calories");
   };
 
+  // Existing entries for current meal (for template save)
+  const currentMealEntries = todayLog?.meals.find((m) => m.type === mealType)?.entries ?? [];
+
+  const handleApplyTemplate = (template: import("../../../types/mealTemplate").MealTemplate) => {
+    for (const entry of template.entries) {
+      dispatch(
+        addCalorieEntry({
+          date: todayStr(),
+          mealType,
+          entry: {
+            name: entry.name,
+            calories: entry.calories,
+            quantity: entry.quantity,
+            unit: entry.unit as "g" | "buc" | "ml",
+            ...(entry.protein != null && { protein: entry.protein }),
+            ...(entry.carbs != null && { carbs: entry.carbs }),
+            ...(entry.fat != null && { fat: entry.fat }),
+          },
+          dailyGoal,
+        })
+      );
+    }
+    navigate("/calories");
+  };
+
   const mealLabel = t(`nutrition.${mealType}`);
 
   const unitLabel = (u: "g" | "buc" | "ml") => {
@@ -264,6 +330,29 @@ export function AddEntryPage() {
       </div>
 
       <div className="border-t border-border-light dark:border-border-dark" />
+
+      {/* Favorites */}
+      {favorites.length > 0 && !name && (
+        <div className="space-y-2">
+          <p className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted flex items-center gap-1.5">
+            <Star size={11} className="text-amber-400 fill-amber-400" />
+            {t("nutrition.favorites_title")}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {favorites.map((fav) => (
+              <button
+                key={fav.name}
+                onClick={() => handleSelectFavorite(fav)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-300/40 dark:border-amber-400/20 bg-amber-50/50 dark:bg-amber-400/5 text-xs text-text-secondary dark:text-text-darkSecondary hover:border-amber-400 transition"
+              >
+                <Star size={9} className="text-amber-400 fill-amber-400" />
+                <span>{fav.name}</span>
+                <span className="text-text-muted dark:text-text-darkMuted">{fav.calories} kcal</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Quick re-add */}
       {recentEntries.length > 0 && !name && (
@@ -340,13 +429,28 @@ export function AddEntryPage() {
           <label className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
             {t("nutrition.food_name")}
           </label>
-          <input
-            type="text"
-            placeholder={t("nutrition.food_name_placeholder")}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className={inputClass}
-          />
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              placeholder={t("nutrition.food_name_placeholder")}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className={`${inputClass} flex-1`}
+            />
+            {name.trim() && calories && (
+              <button
+                type="button"
+                onClick={toggleFavorite}
+                title={isFavorite(name) ? t("nutrition.favorites_remove") : t("nutrition.favorites_add")}
+                className="shrink-0 p-2 rounded-xl border border-border-light dark:border-border-dark hover:border-amber-400 transition"
+              >
+                <Star
+                  size={15}
+                  className={isFavorite(name) ? "text-amber-400 fill-amber-400" : "text-text-muted dark:text-text-darkMuted"}
+                />
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="space-y-1.5">
@@ -450,6 +554,13 @@ export function AddEntryPage() {
           </div>
         )}
       </div>
+
+      {/* Meal templates */}
+      <MealTemplatesPanel onApply={handleApplyTemplate} />
+
+      {currentMealEntries.length > 0 && (
+        <SaveAsTemplateButton entries={currentMealEntries} />
+      )}
 
       <button
         onClick={handleSubmit}

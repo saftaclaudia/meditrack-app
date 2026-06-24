@@ -24,7 +24,30 @@ const userSchema = new mongoose.Schema({
   notificationPrefs: {
     exams: { type: Boolean, default: true },
     calories: { type: Boolean, default: true },
+    mealReminders: {
+      breakfast: { enabled: { type: Boolean, default: false }, time: { type: String, default: "08:00" } },
+      lunch:     { enabled: { type: Boolean, default: false }, time: { type: String, default: "13:00" } },
+      dinner:    { enabled: { type: Boolean, default: false }, time: { type: String, default: "19:00" } },
+    },
+    waterReminder:    { type: Boolean, default: false },
+    caloriesPacing:   { type: Boolean, default: false },
   },
+  macroGoals: {
+    protein: { type: Number },
+    carbs:   { type: Number },
+    fat:     { type: Number },
+  },
+  favoriteFoods: [
+    {
+      name:     { type: String },
+      calories: { type: Number },
+      quantity: { type: Number },
+      unit:     { type: String },
+      protein:  { type: Number },
+      carbs:    { type: Number },
+      fat:      { type: Number },
+    },
+  ],
 });
 
 // Encrypt password before save
