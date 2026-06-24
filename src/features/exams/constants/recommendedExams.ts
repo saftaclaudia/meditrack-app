@@ -1,94 +1,23 @@
 export interface RecommendedExam {
   id: string;
-  name: string;
+  name: string;       // English name used for matching against user exam names
+  nameKey: string;    // i18n key for display
+  descriptionKey: string;
   frequencyMonths: number;
-  description: string;
-  specialist: string;
+  specialistKey: string;
 }
 
 export const RECOMMENDED_EXAMS: RecommendedExam[] = [
-  {
-    id: "mammography",
-    name: "Mammography",
-    frequencyMonths: 12,
-    description: "Early detection of breast cancer",
-    specialist: "Radiologist",
-  },
-  {
-    id: "bone-density",
-    name: "Bone Density Scan",
-    frequencyMonths: 24,
-    description: "Osteoporosis screening",
-    specialist: "Rheumatologist",
-  },
-  {
-    id: "blood-work",
-    name: "Complete Blood Work",
-    frequencyMonths: 6,
-    description: "Full blood panel including iron, vitamins and hormones",
-    specialist: "General Practitioner",
-  },
-  {
-    id: "abdominal-ultrasound",
-    name: "Abdominal Ultrasound",
-    frequencyMonths: 12,
-    description: "Liver, kidneys and abdominal organs check",
-    specialist: "Internal Medicine",
-  },
-  {
-    id: "gynecology",
-    name: "Gynecological Exam",
-    frequencyMonths: 12,
-    description: "Pap smear and pelvic examination",
-    specialist: "Gynecologist",
-  },
-  {
-    id: "blood-pressure",
-    name: "Blood Pressure",
-    frequencyMonths: 6,
-    description: "Cardiovascular risk monitoring",
-    specialist: "General Practitioner",
-  },
-  {
-    id: "blood-sugar",
-    name: "Blood Sugar",
-    frequencyMonths: 6,
-    description: "Diabetes and insulin resistance screening",
-    specialist: "General Practitioner",
-  },
-  {
-    id: "cholesterol",
-    name: "Cholesterol Panel",
-    frequencyMonths: 12,
-    description: "LDL, HDL and triglycerides",
-    specialist: "General Practitioner",
-  },
-  {
-    id: "ophthalmology",
-    name: "Eye Examination",
-    frequencyMonths: 12,
-    description: "Vision and eye pressure check",
-    specialist: "Ophthalmologist",
-  },
-  {
-    id: "dermatology",
-    name: "Skin Check",
-    frequencyMonths: 12,
-    description: "Mole and skin cancer screening",
-    specialist: "Dermatologist",
-  },
-  {
-    id: "thyroid",
-    name: "Thyroid Panel",
-    frequencyMonths: 12,
-    description: "TSH, T3, T4 hormone levels",
-    specialist: "Endocrinologist",
-  },
-  {
-    id: "colonoscopy",
-    name: "Colonoscopy",
-    frequencyMonths: 60,
-    description: "Colorectal cancer screening — every 5 years after 45",
-    specialist: "Gastroenterologist",
-  },
+  { id: "mammography",          name: "Mammography",          nameKey: "exams.rec_mammography",    descriptionKey: "exams.rec_mammography_desc",    frequencyMonths: 12, specialistKey: "exams.spec_radiologist" },
+  { id: "bone-density",         name: "Bone Density Scan",    nameKey: "exams.rec_bone_density",   descriptionKey: "exams.rec_bone_density_desc",   frequencyMonths: 24, specialistKey: "exams.spec_rheumatologist" },
+  { id: "blood-work",           name: "Blood Work",           nameKey: "exams.rec_blood_work",     descriptionKey: "exams.rec_blood_work_desc",     frequencyMonths: 6,  specialistKey: "exams.spec_gp" },
+  { id: "abdominal-ultrasound", name: "Abdominal Ultrasound", nameKey: "exams.rec_abdominal_us",   descriptionKey: "exams.rec_abdominal_us_desc",   frequencyMonths: 12, specialistKey: "exams.spec_internal" },
+  { id: "gynecology",           name: "Gynecological Exam",   nameKey: "exams.rec_gynecology",     descriptionKey: "exams.rec_gynecology_desc",     frequencyMonths: 12, specialistKey: "exams.spec_gynecologist" },
+  { id: "blood-pressure",       name: "Blood Pressure",       nameKey: "exams.rec_blood_pressure", descriptionKey: "exams.rec_blood_pressure_desc", frequencyMonths: 6,  specialistKey: "exams.spec_gp" },
+  { id: "blood-sugar",          name: "Blood Sugar",          nameKey: "exams.rec_blood_sugar",    descriptionKey: "exams.rec_blood_sugar_desc",    frequencyMonths: 6,  specialistKey: "exams.spec_gp" },
+  { id: "cholesterol",          name: "Cholesterol Panel",    nameKey: "exams.rec_cholesterol",    descriptionKey: "exams.rec_cholesterol_desc",    frequencyMonths: 12, specialistKey: "exams.spec_gp" },
+  { id: "ophthalmology",        name: "Eye Examination",      nameKey: "exams.rec_ophthalmology",  descriptionKey: "exams.rec_ophthalmology_desc",  frequencyMonths: 12, specialistKey: "exams.spec_ophthalmologist" },
+  { id: "dermatology",          name: "Skin Check",           nameKey: "exams.rec_dermatology",    descriptionKey: "exams.rec_dermatology_desc",    frequencyMonths: 12, specialistKey: "exams.spec_dermatologist" },
+  { id: "thyroid",              name: "Thyroid Panel",        nameKey: "exams.rec_thyroid",        descriptionKey: "exams.rec_thyroid_desc",        frequencyMonths: 12, specialistKey: "exams.spec_endocrinologist" },
+  { id: "colonoscopy",          name: "Colonoscopy",          nameKey: "exams.rec_colonoscopy",    descriptionKey: "exams.rec_colonoscopy_desc",    frequencyMonths: 60, specialistKey: "exams.spec_gastroenterologist" },
 ];
