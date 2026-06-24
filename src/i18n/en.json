@@ -217,6 +217,8 @@
     "act_cleaning": "Cleaning",
     "act_gardening": "Gardening",
     "act_shopping": "Shopping",
+    "activity_edit": "Edit activity",
+    "activity_delete": "Delete activity",
     "macro_title": "Macronutrients",
     "macro_protein": "Protein",
     "macro_carbs": "Carbs",

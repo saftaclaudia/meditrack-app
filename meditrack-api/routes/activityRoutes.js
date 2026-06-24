@@ -3,7 +3,7 @@ const router = express.Router();
 const { protect } = require("../middleware/authMiddleware");
 const { body } = require("express-validator");
 const validate = require("../middleware/validate");
-const { getActivities, addActivity, deleteActivity } = require("../controllers/activityController");
+const { getActivities, addActivity, updateActivity, deleteActivity } = require("../controllers/activityController");
 
 router.use(protect);
 
@@ -19,6 +19,7 @@ router.post(
   addActivity
 );
 
+router.patch("/:id", updateActivity);
 router.delete("/:id", deleteActivity);
 
 module.exports = router;
