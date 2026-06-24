@@ -27,6 +27,21 @@ const addActivity = async (req, res) => {
   }
 };
 
+const updateActivity = async (req, res) => {
+  try {
+    const { name, duration, caloriesBurned, category } = req.body;
+    const activity = await Activity.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
+      { ...(name && { name }), ...(duration && { duration }), ...(caloriesBurned != null && { caloriesBurned }), ...(category && { category }) },
+      { new: true }
+    );
+    if (!activity) return res.status(404).json({ message: "Not found" });
+    res.json(activity);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to update activity" });
+  }
+};
+
 const deleteActivity = async (req, res) => {
   try {
     const activity = await Activity.findOneAndDelete({
@@ -40,4 +55,4 @@ const deleteActivity = async (req, res) => {
   }
 };
 
-module.exports = { getActivities, addActivity, deleteActivity };
+module.exports = { getActivities, addActivity, updateActivity, deleteActivity };

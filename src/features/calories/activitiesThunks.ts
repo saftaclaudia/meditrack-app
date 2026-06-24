@@ -24,6 +24,17 @@ export const addActivity = createAsyncThunk(
   }
 );
 
+export const updateActivity = createAsyncThunk(
+  "activities/update",
+  async ({ id, payload }: { id: string; payload: Partial<NewActivity> }, { rejectWithValue }) => {
+    try {
+      return await activitiesApi.update(id, payload);
+    } catch {
+      return rejectWithValue("Failed to update activity");
+    }
+  }
+);
+
 export const deleteActivity = createAsyncThunk(
   "activities/delete",
   async (id: string, { rejectWithValue }) => {

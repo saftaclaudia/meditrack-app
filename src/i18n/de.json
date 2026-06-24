@@ -217,6 +217,8 @@
     "act_cleaning": "Putzen",
     "act_gardening": "Gartenarbeit",
     "act_shopping": "Einkaufen",
+    "activity_edit": "Aktivität bearbeiten",
+    "activity_delete": "Aktivität löschen",
     "macro_title": "Makronährstoffe",
     "macro_protein": "Protein",
     "macro_carbs": "Kohlenhydrate",

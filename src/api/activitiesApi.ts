@@ -8,6 +8,9 @@ export const activitiesApi = {
   add: (payload: NewActivity) =>
     api.post<Activity>("/activities", payload).then((r) => r.data),
 
+  update: (id: string, payload: Partial<NewActivity>) =>
+    api.patch<Activity>(`/activities/${id}`, payload).then((r) => r.data),
+
   delete: (id: string) =>
     api.delete(`/activities/${id}`).then((r) => r.data),
 };
