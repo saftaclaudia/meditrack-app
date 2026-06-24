@@ -1,9 +1,10 @@
 interface CalorieRingProps {
   consumed: number;
   goal: number;
+  burned?: number;
 }
 
-export default function CalorieRing({ consumed, goal }: CalorieRingProps) {
+export default function CalorieRing({ consumed, goal, burned = 0 }: CalorieRingProps) {
   const percentage = Math.min((consumed / goal) * 100, 100);
   const radius = 54;
   const circumference = 2 * Math.PI * radius;
@@ -69,6 +70,17 @@ export default function CalorieRing({ consumed, goal }: CalorieRingProps) {
             Goal
           </p>
         </div>
+        {burned > 0 && (
+          <>
+            <div className="w-px bg-border-light dark:bg-border-dark" />
+            <div>
+              <p className="text-lg font-light text-danger">−{burned}</p>
+              <p className="text-[10px] uppercase tracking-widest text-danger">
+                Arse
+              </p>
+            </div>
+          </>
+        )}
         <div className="w-px bg-border-light dark:bg-border-dark" />
         <div>
           <p className={`text-lg font-light ${isOver ? "text-danger" : "text-primary"}`}>
