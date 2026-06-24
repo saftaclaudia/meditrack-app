@@ -1,5 +1,6 @@
 import { Flame, Timer, Trash2, Plus, Dumbbell, Heart, Trophy, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { deleteActivity } from "../activitiesThunks";
 import type { ActivityCategory } from "../../../types/activity";
@@ -11,19 +12,20 @@ const categoryIcon = (cat: ActivityCategory) => {
   return <Home size={12} />;
 };
 
-const categoryLabel = (cat: ActivityCategory) => {
-  if (cat === "cardio") return "Cardio";
-  if (cat === "strength") return "Forță";
-  if (cat === "sport") return "Sport";
-  return "Zilnic";
-};
-
 export function ActivityLog() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const activities = useAppSelector((s) => s.activities.items);
 
   const totalBurned = activities.reduce((sum, a) => sum + a.caloriesBurned, 0);
+
+  const categoryLabel = (cat: ActivityCategory) => {
+    if (cat === "cardio") return t("nutrition.cat_cardio");
+    if (cat === "strength") return t("nutrition.cat_strength");
+    if (cat === "sport") return t("nutrition.cat_sport");
+    return t("nutrition.cat_daily");
+  };
 
   return (
     <div className="space-y-3">
@@ -32,11 +34,11 @@ export function ActivityLog() {
           <Flame size={15} className={totalBurned > 0 ? "text-danger" : "text-text-muted dark:text-text-darkMuted"} />
           <div>
             <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-              Activitate fizică
+              {t("nutrition.activity_title")}
             </span>
             {totalBurned > 0 && (
               <p className="text-[10px] text-danger">
-                {totalBurned} kcal arse astăzi
+                {t("nutrition.activity_burned_today", { count: totalBurned })}
               </p>
             )}
           </div>
@@ -46,7 +48,7 @@ export function ActivityLog() {
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border-light dark:border-border-dark text-xs text-text-muted dark:text-text-darkMuted hover:border-primary hover:text-primary transition"
         >
           <Plus size={12} />
-          Adaugă
+          {t("nutrition.activity_add")}
         </button>
       </div>
 
@@ -55,7 +57,7 @@ export function ActivityLog() {
           onClick={() => navigate("/calories/activity/add")}
           className="w-full py-6 rounded-2xl border border-dashed border-border-light dark:border-border-dark text-text-muted dark:text-text-darkMuted text-sm font-light hover:border-primary hover:text-primary transition"
         >
-          + Adaugă activitate fizică
+          {t("nutrition.activity_add_cta")}
         </button>
       ) : (
         <div className="space-y-2">
@@ -97,7 +99,7 @@ export function ActivityLog() {
           {activities.length > 1 && (
             <div className="flex justify-end px-1">
               <span className="text-xs text-danger font-light">
-                Total: −{totalBurned} kcal
+                {t("nutrition.activity_total", { count: totalBurned })}
               </span>
             </div>
           )}

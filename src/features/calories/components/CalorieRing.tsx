@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 interface CalorieRingProps {
   consumed: number;
   goal: number;
@@ -5,6 +7,7 @@ interface CalorieRingProps {
 }
 
 export default function CalorieRing({ consumed, goal, burned = 0 }: CalorieRingProps) {
+  const { t } = useTranslation();
   const percentage = Math.min((consumed / goal) * 100, 100);
   const radius = 54;
   const circumference = 2 * Math.PI * radius;
@@ -76,7 +79,7 @@ export default function CalorieRing({ consumed, goal, burned = 0 }: CalorieRingP
             <div>
               <p className="text-lg font-light text-danger">−{burned}</p>
               <p className="text-[10px] uppercase tracking-widest text-danger">
-                Arse
+                {t("nutrition.ring_burned")}
               </p>
             </div>
           </>

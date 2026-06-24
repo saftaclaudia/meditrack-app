@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowLeft, Search, Zap, Lock } from "lucide-react";
 import { useAppDispatch } from "../../../app/hooks";
 import { addActivity } from "../activitiesThunks";
@@ -8,16 +9,17 @@ import type { ActivityCategory } from "../../../types/activity";
 
 const todayStr = () => new Date().toISOString().split("T")[0];
 
-const CATEGORY_LABELS: Record<ActivityCategory, string> = {
-  cardio: "Cardio",
-  strength: "Forță",
-  sport: "Sport",
-  daily: "Activitate zilnică",
-};
-
 export function AddActivityPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
+  const CATEGORY_LABELS: Record<ActivityCategory, string> = {
+    cardio: t("nutrition.cat_cardio"),
+    strength: t("nutrition.cat_strength"),
+    sport: t("nutrition.cat_sport"),
+    daily: t("nutrition.cat_daily"),
+  };
 
   const [query, setQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -100,10 +102,10 @@ export function AddActivityPage() {
         </button>
         <div>
           <p className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
-            Înapoi
+            {t("nutrition.back")}
           </p>
           <h1 className="font-serif text-xl font-light text-primary">
-            Adaugă activitate
+            {t("nutrition.activity_page_title")}
           </h1>
         </div>
       </div>
@@ -116,7 +118,7 @@ export function AddActivityPage() {
           <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted dark:text-text-darkMuted" />
           <input
             type="text"
-            placeholder="Caută activitate (ex. alergare, înot...)"
+            placeholder={t("nutrition.activity_search_placeholder")}
             value={query}
             onChange={(e) => { setQuery(e.target.value); setShowDropdown(true); }}
             onFocus={() => setShowDropdown(true)}
@@ -128,7 +130,7 @@ export function AddActivityPage() {
           <div className="absolute z-20 mt-1 w-full rounded-xl border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark shadow-lg overflow-hidden">
             {results.length === 0 ? (
               <p className="px-4 py-3 text-sm text-text-muted dark:text-text-darkMuted">
-                Niciun rezultat
+                {t("nutrition.activity_no_results")}
               </p>
             ) : (
               results.map((item) => (
@@ -161,11 +163,11 @@ export function AddActivityPage() {
         {/* Name */}
         <div className="space-y-1.5">
           <label className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
-            Activitate
+            {t("nutrition.activity_name_label")}
           </label>
           <input
             type="text"
-            placeholder="ex. Alergare în parc"
+            placeholder={t("nutrition.activity_name_placeholder")}
             value={name}
             onChange={(e) => setName(e.target.value)}
             className={inputClass}
@@ -175,7 +177,7 @@ export function AddActivityPage() {
         {/* Category */}
         <div className="space-y-1.5">
           <label className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
-            Categorie
+            {t("nutrition.activity_category_label")}
           </label>
           <div className="grid grid-cols-4 gap-2">
             {(Object.keys(CATEGORY_LABELS) as ActivityCategory[]).map((cat) => (
@@ -198,7 +200,7 @@ export function AddActivityPage() {
         {/* Duration */}
         <div className="space-y-1.5">
           <label className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
-            Durată (minute)
+            {t("nutrition.activity_duration_label")}
           </label>
           <div className="flex items-center gap-2">
             <input
@@ -230,7 +232,7 @@ export function AddActivityPage() {
         {/* Calories burned */}
         <div className="space-y-1.5">
           <label className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
-            Calorii arse (kcal)
+            {t("nutrition.activity_calories_burned_label")}
           </label>
           <div className="flex items-center gap-2">
             <input
@@ -243,7 +245,7 @@ export function AddActivityPage() {
             {isAutoCalc ? (
               <span className="flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs bg-danger/10 text-danger whitespace-nowrap">
                 <Zap size={11} />
-                estimat
+                {t("nutrition.activity_estimated")}
               </span>
             ) : (
               <span className="flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs bg-surface-cardLight dark:bg-surface-cardDark text-text-muted whitespace-nowrap">
@@ -254,7 +256,7 @@ export function AddActivityPage() {
           </div>
           {kcalPerMin !== null && (
             <p className="text-[10px] text-text-muted dark:text-text-darkMuted">
-              Estimare bazată pe ~{kcalPerMin} kcal/min pentru 70 kg
+              {t("nutrition.activity_estimate_note", { kcal: kcalPerMin })}
             </p>
           )}
         </div>
@@ -265,7 +267,7 @@ export function AddActivityPage() {
         disabled={!name.trim() || !duration || !caloriesBurned}
         className="w-full py-3 rounded-2xl bg-danger text-white text-sm font-light tracking-wider disabled:opacity-40 hover:opacity-90 transition"
       >
-        Adaugă activitate
+        {t("nutrition.activity_add_btn")}
       </button>
     </div>
   );
