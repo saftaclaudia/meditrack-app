@@ -1,13 +1,40 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, Search, Zap, Lock } from "lucide-react";
+import { ArrowLeft, Search, Zap, Lock, Clock } from "lucide-react";
 import { useAppDispatch } from "../../../app/hooks";
 import { addActivity } from "../activitiesThunks";
 import { activityDatabase, type ActivityItem } from "../data/activityDatabase";
 import type { ActivityCategory } from "../../../types/activity";
 
 const todayStr = () => new Date().toISOString().split("T")[0];
+
+const RECENT_KEY = "meditrack_recent_activities";
+
+interface RecentActivity {
+  name: string;
+  duration: number;
+  caloriesBurned: number;
+  category: ActivityCategory;
+  kcalPerMin: number | null;
+}
+
+const loadRecent = (): RecentActivity[] => {
+  try {
+    return JSON.parse(localStorage.getItem(RECENT_KEY) ?? "[]");
+  } catch {
+    return [];
+  }
+};
+
+const saveRecent = (entry: RecentActivity) => {
+  const existing = loadRecent().filter(
+    (r) => r.name.toLowerCase() !== entry.name.toLowerCase()
+  );
+  localStorage.setItem(RECENT_KEY, JSON.stringify([entry, ...existing].slice(0, 8)));
+};
+
+const CATEGORIES: ActivityCategory[] = ["cardio", "strength", "sport", "daily"];
 
 export function AddActivityPage() {
   const navigate = useNavigate();
@@ -21,6 +48,7 @@ export function AddActivityPage() {
     daily: t("nutrition.cat_daily"),
   };
 
+  const [recent, setRecent] = useState<RecentActivity[]>(() => loadRecent());
   const [query, setQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [name, setName] = useState("");
@@ -35,11 +63,17 @@ export function AddActivityPage() {
   const normalize = (s: string) =>
     s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
-  const results = query.trim()
-    ? activityDatabase
-        .filter((a) => normalize(a.name).includes(normalize(query.trim())))
-        .slice(0, 8)
-    : [];
+  const filtered = query.trim()
+    ? activityDatabase.filter((a) =>
+        normalize(a.name).includes(normalize(query.trim()))
+      )
+    : activityDatabase;
+
+  // Group by category for the empty-query dropdown
+  const grouped = CATEGORIES.map((cat) => ({
+    cat,
+    items: filtered.filter((a) => a.category === cat),
+  })).filter((g) => g.items.length > 0);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -50,15 +84,36 @@ export function AddActivityPage() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const handleSelectActivity = (item: ActivityItem) => {
-    setName(item.name);
-    setCategory(item.category);
-    setKcalPerMin(item.kcalPerMin);
-    setQuery(item.name);
+  const fillForm = (
+    actName: string,
+    actCategory: ActivityCategory,
+    actKcalPerMin: number | null,
+    actDuration: string,
+    actCalories: string
+  ) => {
+    setName(actName);
+    setCategory(actCategory);
+    setKcalPerMin(actKcalPerMin);
+    setQuery(actName);
     setShowDropdown(false);
+    setDuration(actDuration);
+    setCaloriesBurned(actCalories);
+    setIsAutoCalc(actKcalPerMin !== null);
+  };
+
+  const handleSelectActivity = (item: ActivityItem) => {
     const dur = Number(duration) || 30;
-    setCaloriesBurned(String(Math.round(item.kcalPerMin * dur)));
-    setIsAutoCalc(true);
+    fillForm(
+      item.name,
+      item.category,
+      item.kcalPerMin,
+      String(dur),
+      String(Math.round(item.kcalPerMin * dur))
+    );
+  };
+
+  const handleSelectRecent = (r: RecentActivity) => {
+    fillForm(r.name, r.category, r.kcalPerMin, String(r.duration), String(r.caloriesBurned));
   };
 
   const handleDurationChange = (val: string) => {
@@ -76,6 +131,17 @@ export function AddActivityPage() {
 
   const handleSubmit = () => {
     if (!name.trim() || !duration || !caloriesBurned) return;
+
+    const entry: RecentActivity = {
+      name: name.trim(),
+      duration: Number(duration),
+      caloriesBurned: Number(caloriesBurned),
+      category,
+      kcalPerMin,
+    };
+    saveRecent(entry);
+    setRecent(loadRecent());
+
     dispatch(
       addActivity({
         name: name.trim(),
@@ -112,6 +178,30 @@ export function AddActivityPage() {
 
       <div className="border-t border-border-light dark:border-border-dark" />
 
+      {/* Recent activities */}
+      {recent.length > 0 && !name && (
+        <div className="space-y-2">
+          <p className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted flex items-center gap-1.5">
+            <Clock size={11} />
+            Recent
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {recent.map((r) => (
+              <button
+                key={r.name}
+                onClick={() => handleSelectRecent(r)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border-light dark:border-border-dark text-xs text-text-secondary dark:text-text-darkSecondary hover:border-primary hover:text-primary transition"
+              >
+                <span>{r.name}</span>
+                <span className="text-text-muted dark:text-text-darkMuted">
+                  {r.duration}min · {r.caloriesBurned} kcal
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Search */}
       <div ref={searchRef} className="relative">
         <div className="relative">
@@ -126,31 +216,38 @@ export function AddActivityPage() {
           />
         </div>
 
-        {showDropdown && query.trim().length > 0 && (
-          <div className="absolute z-20 mt-1 w-full rounded-xl border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark shadow-lg overflow-hidden">
-            {results.length === 0 ? (
+        {showDropdown && (
+          <div className="absolute z-20 mt-1 w-full rounded-xl border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark shadow-lg overflow-hidden max-h-72 overflow-y-auto">
+            {filtered.length === 0 ? (
               <p className="px-4 py-3 text-sm text-text-muted dark:text-text-darkMuted">
                 {t("nutrition.activity_no_results")}
               </p>
-            ) : (
-              results.map((item) => (
-                <button
+            ) : query.trim() ? (
+              // Flat filtered list when searching
+              filtered.map((item) => (
+                <ActivityRow
                   key={item.id}
-                  onMouseDown={() => handleSelectActivity(item)}
-                  className="w-full flex items-center justify-between px-4 py-2.5 text-left hover:bg-surface-cardLight dark:hover:bg-surface-cardDark transition"
-                >
-                  <span className="text-sm text-text-primary dark:text-text-darkPrimary">
-                    {item.name}
-                  </span>
-                  <div className="text-right">
-                    <span className="text-xs text-text-muted dark:text-text-darkMuted block">
-                      ~{item.kcalPerMin} kcal/min
-                    </span>
-                    <span className="text-[10px] text-text-muted dark:text-text-darkMuted">
-                      {CATEGORY_LABELS[item.category]}
-                    </span>
-                  </div>
-                </button>
+                  item={item}
+                  categoryLabel={CATEGORY_LABELS[item.category]}
+                  onSelect={() => handleSelectActivity(item)}
+                />
+              ))
+            ) : (
+              // Grouped by category when browsing
+              grouped.map(({ cat, items }) => (
+                <div key={cat}>
+                  <p className="px-4 py-1.5 text-[10px] font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted bg-surface-cardLight dark:bg-surface-cardDark">
+                    {CATEGORY_LABELS[cat]}
+                  </p>
+                  {items.map((item) => (
+                    <ActivityRow
+                      key={item.id}
+                      item={item}
+                      categoryLabel={CATEGORY_LABELS[item.category]}
+                      onSelect={() => handleSelectActivity(item)}
+                    />
+                  ))}
+                </div>
               ))
             )}
           </div>
@@ -180,7 +277,7 @@ export function AddActivityPage() {
             {t("nutrition.activity_category_label")}
           </label>
           <div className="grid grid-cols-4 gap-2">
-            {(Object.keys(CATEGORY_LABELS) as ActivityCategory[]).map((cat) => (
+            {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 type="button"
@@ -270,5 +367,34 @@ export function AddActivityPage() {
         {t("nutrition.activity_add_btn")}
       </button>
     </div>
+  );
+}
+
+function ActivityRow({
+  item,
+  categoryLabel,
+  onSelect,
+}: {
+  item: ActivityItem;
+  categoryLabel: string;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      onMouseDown={onSelect}
+      className="w-full flex items-center justify-between px-4 py-2.5 text-left hover:bg-surface-cardLight dark:hover:bg-surface-cardDark transition"
+    >
+      <span className="text-sm text-text-primary dark:text-text-darkPrimary">
+        {item.name}
+      </span>
+      <div className="text-right">
+        <span className="text-xs text-text-muted dark:text-text-darkMuted block">
+          ~{item.kcalPerMin} kcal/min
+        </span>
+        <span className="text-[10px] text-text-muted dark:text-text-darkMuted">
+          {categoryLabel}
+        </span>
+      </div>
+    </button>
   );
 }
