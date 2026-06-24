@@ -10,6 +10,8 @@ export function examToFormData(exam: Exam): ExamFormData {
     lastDate: exam.lastDate ?? "",
     nextDate: exam.nextDate ?? "",
     result: exam.result ?? "",
+    resultValue: exam.resultValue != null ? String(exam.resultValue) : "",
+    resultUnit: exam.resultUnit ?? "",
     treatment: exam.treatment ?? "",
     notes: exam.notes ?? "",
     documents: exam.documents ?? [],

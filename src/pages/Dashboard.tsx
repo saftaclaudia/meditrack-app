@@ -6,6 +6,8 @@ import { selectAuthUser } from "../features/auth/authSelectors";
 import { fetchDayLog } from "../features/calories/caloriesThunks";
 import { fetchActivities } from "../features/calories/activitiesThunks";
 import { fetchWater } from "../features/calories/waterSlice";
+import { fetchExams } from "../features/exams/examsThunks";
+import { selectExamsItems } from "../features/exams/examsSelectors";
 import { ClipboardList, Flame, ArrowRight, Droplets } from "lucide-react";
 
 const todayStr = () => new Date().toISOString().split("T")[0];
@@ -19,6 +21,7 @@ export default function DashBoard() {
   const activities = useAppSelector((s) => s.activities.items);
   const profile = useAppSelector((s) => s.profile.profile);
   const glasses = useAppSelector((s) => s.water.glasses);
+  const exams = useAppSelector(selectExamsItems);
 
   const firstName = user?.name?.split(" ")[0] ?? "there";
 
@@ -35,7 +38,19 @@ export default function DashBoard() {
     dispatch(fetchDayLog(today));
     dispatch(fetchActivities(today));
     dispatch(fetchWater(today));
+    dispatch(fetchExams());
   }, [dispatch]);
+
+  const nextExam = [...exams]
+    .filter((e) => e.nextDate && new Date(e.nextDate) > new Date())
+    .sort((a, b) => a.nextDate.localeCompare(b.nextDate))[0] ?? null;
+  const daysUntilNext = nextExam
+    ? Math.ceil((new Date(nextExam.nextDate).getTime() - Date.now()) / 86_400_000)
+    : null;
+  const overdueCount = exams.filter((e) => {
+    if (!e.nextDate) return false;
+    return new Date(e.nextDate) < new Date() && e.lastDate !== e.nextDate;
+  }).length;
 
   const totalConsumed =
     todayLog?.meals.reduce(
@@ -92,9 +107,27 @@ export default function DashBoard() {
             <h2 className="font-sans text-xl font-bold text-white leading-snug">
               {t("dashboard.exams_title")}
             </h2>
-            <p className="text-sm text-white/70 mt-1 leading-relaxed">
-              {t("dashboard.exams_desc")}
-            </p>
+            {nextExam && daysUntilNext !== null ? (
+              <div className="mt-1 space-y-0.5">
+                <p className="text-sm text-white/80 truncate">{nextExam.name}</p>
+                <p className="text-xs text-white/60">
+                  {t("dashboard.exams_in_days", { n: daysUntilNext })}
+                </p>
+                {overdueCount > 0 && (
+                  <p className="text-xs text-yellow-200">
+                    {t("dashboard.exams_overdue_count", { n: overdueCount })}
+                  </p>
+                )}
+              </div>
+            ) : overdueCount > 0 ? (
+              <p className="text-sm text-yellow-200 mt-1">
+                {t("dashboard.exams_overdue_count", { n: overdueCount })}
+              </p>
+            ) : (
+              <p className="text-sm text-white/70 mt-1 leading-relaxed">
+                {t("dashboard.exams_desc")}
+              </p>
+            )}
           </div>
         </button>
 

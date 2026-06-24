@@ -31,7 +31,10 @@ const examSchema = new mongoose.Schema(
     },
 
     result: { type: String, default: "" },
+    resultValue: { type: Number },
+    resultUnit: { type: String, default: "" },
     treatment: { type: String, default: "" },
+    clinic: { type: String, default: "" },
     notes: { type: String, default: "" },
     documents: [documentSchema],
   },

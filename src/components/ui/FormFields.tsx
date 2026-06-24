@@ -8,13 +8,14 @@ interface BaseFieldProps {
 }
 interface InputProps extends BaseFieldProps {
   type?: string;
+  placeholder?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 interface TextareaProps extends BaseFieldProps {
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export function Input({ label, type = "text", ...props }: InputProps) {
+export function Input({ label, type = "text", placeholder, ...props }: InputProps) {
   return (
     <label className="flex flex-col gap-1 text-sm">
       <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
@@ -34,6 +35,7 @@ export function Input({ label, type = "text", ...props }: InputProps) {
           type === "date" && "cursor-pointer",
           "[color-scheme:light] dark:[color-scheme:dark]",
         )}
+        placeholder={placeholder}
         {...props}
       />
     </label>

@@ -120,6 +120,18 @@ export function ExamDetailPage() {
             )}
           </div>
 
+          {/* Numeric result */}
+          {exam.resultValue != null && (
+            <div className="flex justify-between">
+              <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
+                {t("exams.result_value")}
+              </span>
+              <span className="text-xs text-text-secondary dark:text-text-darkSecondary font-medium">
+                {exam.resultValue} {exam.resultUnit}
+              </span>
+            </div>
+          )}
+
           {/* Treatment */}
           {exam.treatment && (
             <>

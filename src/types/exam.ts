@@ -9,6 +9,8 @@ export interface Exam {
   lastDate: string;
   nextDate: string;
   result?: string;
+  resultValue?: number;
+  resultUnit?: string;
   treatment?: string;
   notes?: string;
   documents?: MedicalDocument[];
