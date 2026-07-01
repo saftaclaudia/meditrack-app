@@ -24,7 +24,11 @@ import type { ExamWithMongoId } from "../../../types/exam";
 export function ExamsPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const fmtDate = (d: string) =>
+    new Date(d + "T00:00:00").toLocaleDateString(i18n.language, {
+      day: "numeric", month: "short", year: "numeric",
+    });
   const { showToast } = useToast();
   const [activeFilter, setActiveFilter] = useState<ExamFilter>("all");
   const [search, setSearch] = useState("");
@@ -157,6 +161,7 @@ export function ExamsPage() {
                   {t("exams.stat_next")}
                 </p>
                 <p className="text-sm font-light text-text-primary dark:text-text-darkPrimary truncate">{nextUpcoming.name}</p>
+                <p className="text-[10px] text-text-muted dark:text-text-darkMuted">{fmtDate(nextUpcoming.nextDate)}</p>
                 <p className="text-[10px] text-primary">{t("exams.stat_days", { n: daysUntilNext })}</p>
               </div>
             )}
@@ -175,7 +180,7 @@ export function ExamsPage() {
                   {t("exams.stat_last")}
                 </p>
                 <p className="text-sm font-light text-text-primary dark:text-text-darkPrimary truncate">{lastDone.name}</p>
-                <p className="text-[10px] text-text-muted dark:text-text-darkMuted">{lastDone.lastDate}</p>
+                <p className="text-[10px] text-text-muted dark:text-text-darkMuted">{fmtDate(lastDone.lastDate)}</p>
               </div>
             )}
           </div>
