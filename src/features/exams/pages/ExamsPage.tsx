@@ -25,10 +25,14 @@ export function ExamsPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const fmtDate = (d: string) =>
-    new Date(d + "T00:00:00").toLocaleDateString(i18n.language, {
+  const fmtDate = (d: string) => {
+    if (!d) return "";
+    const date = new Date(d.slice(0, 10) + "T00:00:00");
+    if (isNaN(date.getTime())) return d;
+    return date.toLocaleDateString(i18n.language, {
       day: "numeric", month: "short", year: "numeric",
     });
+  };
   const { showToast } = useToast();
   const [activeFilter, setActiveFilter] = useState<ExamFilter>("all");
   const [search, setSearch] = useState("");
@@ -145,10 +149,10 @@ export function ExamsPage() {
         const todayMidnight = new Date();
         todayMidnight.setHours(0, 0, 0, 0);
         const nextUpcoming = [...exams]
-          .filter((e) => e.nextDate && new Date(e.nextDate + "T00:00:00") >= todayMidnight)
+          .filter((e) => e.nextDate && new Date(e.nextDate.slice(0, 10) + "T00:00:00") >= todayMidnight)
           .sort((a, b) => a.nextDate.localeCompare(b.nextDate))[0];
         const daysUntilNext = nextUpcoming
-          ? Math.round((new Date(nextUpcoming.nextDate + "T00:00:00").getTime() - todayMidnight.getTime()) / 86_400_000)
+          ? Math.round((new Date(nextUpcoming.nextDate.slice(0, 10) + "T00:00:00").getTime() - todayMidnight.getTime()) / 86_400_000)
           : null;
         const lastDone = [...exams]
           .filter((e) => e.lastDate)
