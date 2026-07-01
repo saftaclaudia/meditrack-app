@@ -39,7 +39,9 @@ function suggestNextDate(name: string, lastDate: string): string {
   if (!lastDate) return "";
   const norm = normalizeName(name);
   const match = RECOMMENDED_EXAMS.find(
-    (r) => normalizeName(r.name).includes(norm) || norm.includes(normalizeName(r.name))
+    (r) =>
+      normalizeName(r.name).includes(norm) ||
+      norm.includes(normalizeName(r.name)),
   );
   if (!match) return "";
   const d = new Date(lastDate);
@@ -53,15 +55,27 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
 
   const [form, setForm] = useState<ExamFormData>(() =>
     editingExam
-      ? { ...examToFormData(editingExam), documents: editingExam.documents ?? [],
-          resultValue: editingExam.resultValue != null ? String(editingExam.resultValue) : "",
-          resultUnit: editingExam.resultUnit ?? "" }
-      : { ...emptyForm, name: prefill?.name ?? "", speciality: prefill?.speciality ?? "" }
+      ? {
+          ...examToFormData(editingExam),
+          documents: editingExam.documents ?? [],
+          resultValue:
+            editingExam.resultValue != null
+              ? String(editingExam.resultValue)
+              : "",
+          resultUnit: editingExam.resultUnit ?? "",
+        }
+      : {
+          ...emptyForm,
+          name: prefill?.name ?? "",
+          speciality: prefill?.speciality ?? "",
+        },
   );
 
   const [nextSuggestion, setNextSuggestion] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => {
       const updated = { ...prev, [name]: value };
@@ -78,11 +92,16 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
   const handleSubmit = async () => {
     const payload = {
       ...form,
-      resultValue: form.resultValue !== "" ? Number(form.resultValue) : undefined,
+      resultValue:
+        form.resultValue !== "" ? Number(form.resultValue) : undefined,
     };
     if (editingExam) {
       const examId = (editingExam as ExamWithMongoId)._id ?? editingExam.id;
-      await dispatch(updateExam({ ...editingExam, ...payload, id: examId } as Exam & { id: string }));
+      await dispatch(
+        updateExam({ ...editingExam, ...payload, id: examId } as Exam & {
+          id: string;
+        }),
+      );
     } else {
       await dispatch(createExam(payload as Parameters<typeof createExam>[0]));
     }
@@ -97,21 +116,56 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input label={t("exams.form_name")} name="name" value={form.name} onChange={handleChange} />
-        <Input label={t("exams.clinic")} name="clinic" value={form.clinic} onChange={handleChange} />
-        <Input label={t("exams.doctor")} name="doctor" value={form.doctor} onChange={handleChange} />
-        <Input label={t("exams.speciality")} name="speciality" value={form.speciality} onChange={handleChange} />
+        <Input
+          label={t("exams.form_name")}
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+        />
+        <Input
+          label={t("exams.clinic")}
+          name="clinic"
+          value={form.clinic}
+          onChange={handleChange}
+        />
+        <Input
+          label={t("exams.doctor")}
+          name="doctor"
+          value={form.doctor}
+          onChange={handleChange}
+        />
+        <Input
+          label={t("exams.speciality")}
+          name="speciality"
+          value={form.speciality}
+          onChange={handleChange}
+        />
 
         <div className="space-y-1">
-          <Input type="date" label={t("exams.last_visit")} name="lastDate" value={form.lastDate} onChange={handleChange} />
+          <Input
+            type="date"
+            label={t("exams.last_visit")}
+            name="lastDate"
+            value={form.lastDate}
+            onChange={handleChange}
+          />
         </div>
 
         <div className="space-y-1">
-          <Input type="date" label={t("exams.form_next_visit")} name="nextDate" value={form.nextDate} onChange={handleChange} />
+          <Input
+            type="date"
+            label={t("exams.form_next_visit")}
+            name="nextDate"
+            value={form.nextDate}
+            onChange={handleChange}
+          />
           {nextSuggestion && !form.nextDate && (
             <button
               type="button"
-              onClick={() => { setForm((p) => ({ ...p, nextDate: nextSuggestion })); setNextSuggestion(null); }}
+              onClick={() => {
+                setForm((p) => ({ ...p, nextDate: nextSuggestion }));
+                setNextSuggestion(null);
+              }}
               className="text-[11px] text-primary hover:underline"
             >
               {t("exams.form_next_suggestion", { date: nextSuggestion })}
@@ -138,8 +192,18 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
           />
         </div>
 
-        <Textarea label={t("exams.treatment")} name="treatment" value={form.treatment} onChange={handleChange} />
-        <Textarea label={t("exams.notes")} name="notes" value={form.notes} onChange={handleChange} />
+        <Textarea
+          label={t("exams.treatment")}
+          name="treatment"
+          value={form.treatment}
+          onChange={handleChange}
+        />
+        <Textarea
+          label={t("exams.notes")}
+          name="notes"
+          value={form.notes}
+          onChange={handleChange}
+        />
 
         <FileUploadField
           label={t("exams.form_documents")}
@@ -148,7 +212,9 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
         />
 
         <div className="flex flex-col-reverse md:flex-row justify-end gap-2 md:col-span-2">
-          <Button variant="secondary" onClick={onFinish} fullWidth>{t("exams.form_cancel")}</Button>
+          <Button variant="secondary" onClick={onFinish} fullWidth>
+            {t("exams.form_cancel")}
+          </Button>
           <Button onClick={handleSubmit} fullWidth>
             {editingExam ? t("exams.form_update_btn") : t("exams.form_add_btn")}
           </Button>
