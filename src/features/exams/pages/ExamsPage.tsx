@@ -29,7 +29,7 @@ export function ExamsPage() {
 
   const exams = useAppSelector(selectExamsWithStatus);
   const rawExams = useAppSelector(selectExamsItems);
-  const sumary = useAppSelector(selectExamsSummary);
+  const summary = useAppSelector(selectExamsSummary);
   const dueExams = useMemo(() => getDueExams(rawExams), [rawExams]);
 
   const loading = useAppSelector((state) => state.exams.loading);
@@ -37,10 +37,10 @@ export function ExamsPage() {
   // counts for filter bar
   const counts: Record<ExamFilter, number> = {
     all: exams.length,
-    upcoming: sumary.upcoming,
+    upcoming: summary.upcoming,
     due: dueExams.length,
-    done: sumary.done,
-    overdue: sumary.overdue,
+    done: summary.done,
+    overdue: summary.overdue,
   };
 
   useEffect(() => {
@@ -98,7 +98,7 @@ export function ExamsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-ex font-light tracking-widest upercase text-text-muted dark:text-text-darkMuted mb-1">
+          <p className="text-ex font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted mb-1">
             {t("exams.subtitle")}
           </p>
           <h1 className="font-serif font-light text-3xl text-primary">
@@ -144,12 +144,12 @@ export function ExamsPage() {
                 <p className="text-[10px] text-primary">{t("exams.stat_days", { n: daysUntilNext })}</p>
               </div>
             )}
-            {sumary.overdue > 0 && (
+            {summary.overdue > 0 && (
               <div className="rounded-xl border border-danger/30 bg-danger/5 px-3 py-2.5 space-y-0.5">
                 <p className="text-[10px] font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
                   {t("exams.stat_overdue")}
                 </p>
-                <p className="text-2xl font-light text-danger">{sumary.overdue}</p>
+                <p className="text-2xl font-light text-danger">{summary.overdue}</p>
                 <p className="text-[10px] text-danger">{t("exams.filter_overdue")}</p>
               </div>
             )}

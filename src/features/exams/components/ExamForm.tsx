@@ -72,6 +72,7 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
   );
 
   const [nextSuggestion, setNextSuggestion] = useState<string | null>(null);
+  const [errors, setErrors] = useState<{ name?: string }>({});
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -90,6 +91,16 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
   };
 
   const handleSubmit = async () => {
+    const newErrors: { name?: string } = {};
+    if (!form.name.trim()) {
+      newErrors.name = t("exams.form_error_name_required");
+    }
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    setErrors({});
+
     const payload = {
       ...form,
       resultValue:
@@ -116,12 +127,17 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input
-          label={t("exams.form_name")}
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-        />
+        <div className="space-y-1">
+          <Input
+            label={t("exams.form_name")}
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+          />
+          {errors.name && (
+            <p className="text-xs text-danger">{errors.name}</p>
+          )}
+        </div>
         <Input
           label={t("exams.clinic")}
           name="clinic"
@@ -172,6 +188,13 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
             </button>
           )}
         </div>
+
+        <Textarea
+          label={t("exams.form_result_text")}
+          name="result"
+          value={form.result}
+          onChange={handleChange}
+        />
 
         {/* Numeric result */}
         <div className="md:col-span-2 grid grid-cols-2 gap-4">

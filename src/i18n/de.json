@@ -182,7 +182,9 @@
     "form_result_value_placeholder": "z.B. 95",
     "form_result_unit": "Einheit",
     "form_result_unit_placeholder": "z.B. mg/dL",
-    "result_value": "Ergebnis"
+    "result_value": "Ergebnis",
+    "form_result_text": "Fazit / Ergebnis",
+    "form_error_name_required": "Name der Untersuchung ist erforderlich"
   },
   "nutrition": {
     "title": "Ernährung",
