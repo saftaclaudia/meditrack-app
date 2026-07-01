@@ -138,11 +138,13 @@ export function ExamsPage() {
 
       {/* Stats strip */}
       {exams.length > 0 && (() => {
+        const todayMidnight = new Date();
+        todayMidnight.setHours(0, 0, 0, 0);
         const nextUpcoming = [...exams]
-          .filter((e) => e.nextDate && new Date(e.nextDate) > new Date())
+          .filter((e) => e.nextDate && new Date(e.nextDate + "T00:00:00") >= todayMidnight)
           .sort((a, b) => a.nextDate.localeCompare(b.nextDate))[0];
         const daysUntilNext = nextUpcoming
-          ? Math.ceil((new Date(nextUpcoming.nextDate).getTime() - Date.now()) / 86_400_000)
+          ? Math.round((new Date(nextUpcoming.nextDate + "T00:00:00").getTime() - todayMidnight.getTime()) / 86_400_000)
           : null;
         const lastDone = [...exams]
           .filter((e) => e.lastDate)
