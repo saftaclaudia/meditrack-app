@@ -184,7 +184,12 @@
     "form_result_unit_placeholder": "e.g. mg/dL",
     "result_value": "Result",
     "form_result_text": "Conclusion / Result",
-    "form_error_name_required": "Exam name is required"
+    "form_error_name_required": "Exam name is required",
+    "add_success": "Exam added successfully",
+    "update_success": "Exam updated successfully",
+    "delete_success": "Exam deleted",
+    "save_error": "Failed to save exam",
+    "delete_error": "Failed to delete exam"
   },
   "nutrition": {
     "title": "Nutrition",

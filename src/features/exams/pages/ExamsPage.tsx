@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FolderOpen, Search, ArrowUpDown } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useToast } from "../../../context/ToastContext";
 
 import { Button } from "../../../components/ui/Button";
 import { FabButton } from "../../../components/ui/FabButton";
@@ -23,6 +24,7 @@ export function ExamsPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { showToast } = useToast();
   const [activeFilter, setActiveFilter] = useState<ExamFilter>("all");
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<"name" | "nextDate" | "lastDate">("nextDate");
@@ -232,7 +234,14 @@ export function ExamsPage() {
                   `/exams/${(exam as ExamWithMongoId)._id ?? exam.id}/edit`,
                 )
               }
-              onDelete={(id) => dispatch(deleteExam(id))}
+              onDelete={async (id) => {
+                try {
+                  await dispatch(deleteExam(id)).unwrap();
+                  showToast(t("exams.delete_success"));
+                } catch {
+                  showToast(t("exams.delete_error"), "error");
+                }
+              }}
             />
           ))}
         </ExamSection>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../../../app/hooks";
+import { useToast } from "../../../context/ToastContext";
 import type { Exam, ExamWithMongoId } from "../../../types/exam";
 import { Button } from "../../../components/ui/Button";
 import { examToFormData } from "../utils/examMappers";
@@ -52,6 +53,7 @@ function suggestNextDate(name: string, lastDate: string): string {
 export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const { showToast } = useToast();
 
   const [form, setForm] = useState<ExamFormData>(() =>
     editingExam
@@ -106,18 +108,24 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
       resultValue:
         form.resultValue !== "" ? Number(form.resultValue) : undefined,
     };
-    if (editingExam) {
-      const examId = (editingExam as ExamWithMongoId)._id ?? editingExam.id;
-      await dispatch(
-        updateExam({ ...editingExam, ...payload, id: examId } as Exam & {
-          id: string;
-        }),
-      );
-    } else {
-      await dispatch(createExam(payload as Parameters<typeof createExam>[0]));
+    try {
+      if (editingExam) {
+        const examId = (editingExam as ExamWithMongoId)._id ?? editingExam.id;
+        await dispatch(
+          updateExam({ ...editingExam, ...payload, id: examId } as Exam & {
+            id: string;
+          }),
+        ).unwrap();
+        showToast(t("exams.update_success"));
+      } else {
+        await dispatch(createExam(payload as Parameters<typeof createExam>[0])).unwrap();
+        showToast(t("exams.add_success"));
+      }
+      onFinish();
+      setForm(emptyForm);
+    } catch {
+      showToast(t("exams.save_error"), "error");
     }
-    onFinish();
-    setForm(emptyForm);
   };
 
   return (
