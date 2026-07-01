@@ -84,7 +84,8 @@
     "version": "Version",
     "reset_onboarding": "Reset onboarding",
     "reset_onboarding_hint": "See the welcome tutorial again on next login",
-    "reset_onboarding_done": "Reset!"
+    "reset_onboarding_done": "Reset!",
+    "error_save_notif": "Failed to save notification preferences"
   },
   "exams": {
     "title": "My examinations",
