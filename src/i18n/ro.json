@@ -25,7 +25,14 @@
     "nutrition_title": "Jurnal calorii",
     "nutrition_desc": "Loghează mese și atinge obiectivul zilnic.",
     "calories_remaining": "{{n}} kcal rămase",
-    "calories_over": "Depășit cu {{n}} kcal"
+    "calories_over": "Depășit cu {{n}} kcal",
+    "weight_label": "Greutate",
+    "weight_latest": "Ultima înregistrare",
+    "weight_desc": "Loghează greutatea zilnic",
+    "activity_label": "Activitate",
+    "activity_burned": "Calorii arse azi",
+    "activity_desc": "Adaugă activități fizice",
+    "activity_count": "{{n}} activitate logată azi"
   },
   "settings": {
     "title": "Setări",

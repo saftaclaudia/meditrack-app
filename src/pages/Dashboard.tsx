@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
@@ -6,9 +6,11 @@ import { selectAuthUser } from "../features/auth/authSelectors";
 import { fetchDayLog } from "../features/calories/caloriesThunks";
 import { fetchActivities } from "../features/calories/activitiesThunks";
 import { fetchWater } from "../features/calories/waterSlice";
+import { fetchWeightHistory } from "../features/calories/weightSlice";
 import { fetchExams } from "../features/exams/examsThunks";
 import { selectExamsItems } from "../features/exams/examsSelectors";
-import { ClipboardList, Flame, ArrowRight, Droplets } from "lucide-react";
+import { ClipboardList, Flame, ArrowRight, Droplets, Scale, Zap } from "lucide-react";
+import { LineChart, Line, ResponsiveContainer } from "recharts";
 
 const todayStr = () => new Date().toISOString().split("T")[0];
 
@@ -22,6 +24,7 @@ export default function DashBoard() {
   const profile = useAppSelector((s) => s.profile.profile);
   const glasses = useAppSelector((s) => s.water.glasses);
   const exams = useAppSelector(selectExamsItems);
+  const weightEntries = useAppSelector((s) => s.weight.entries);
 
   const firstName = user?.name?.split(" ")[0] ?? "there";
 
@@ -39,6 +42,7 @@ export default function DashBoard() {
     dispatch(fetchActivities(today));
     dispatch(fetchWater(today));
     dispatch(fetchExams());
+    dispatch(fetchWeightHistory());
   }, [dispatch]);
 
   const nextExam = [...exams]
@@ -71,6 +75,15 @@ export default function DashBoard() {
   const circumference = 2 * Math.PI * radius;
   const strokeDash = (pct / 100) * circumference;
 
+  // Weight sparkline — last 7 entries sorted ascending
+  const sparkData = useMemo(() => {
+    return [...weightEntries]
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .slice(-7)
+      .map((e) => ({ weight: e.weight }));
+  }, [weightEntries]);
+  const latestWeight = sparkData[sparkData.length - 1]?.weight ?? null;
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -86,7 +99,7 @@ export default function DashBoard() {
         </p>
       </div>
 
-      {/* Cards */}
+      {/* Main cards */}
       <div className="grid gap-4 md:grid-cols-2">
 
         {/* Exams Card */}
@@ -198,6 +211,96 @@ export default function DashBoard() {
               </div>
               <span className="text-[10px] text-black/40">{glasses}/8</span>
             </div>
+          )}
+        </button>
+      </div>
+
+      {/* Secondary cards */}
+      <div className="grid gap-4 md:grid-cols-2">
+
+        {/* Weight Card */}
+        <button
+          onClick={() => navigate("/calories?tab=profile")}
+          className="group text-left rounded-3xl p-5 flex flex-col gap-3 transition-all duration-200 active:scale-[0.98] bg-surface-cardLight dark:bg-surface-cardDark border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-xl bg-primary-soft dark:bg-primary-softDark flex items-center justify-center">
+                <Scale size={16} className="text-primary" />
+              </div>
+              <p className="text-xs font-medium uppercase tracking-widest text-text-muted dark:text-text-darkMuted">
+                {t("dashboard.weight_label")}
+              </p>
+            </div>
+            <ArrowRight size={15} className="text-text-muted dark:text-text-darkMuted group-hover:text-primary group-hover:translate-x-1 transition-all" />
+          </div>
+
+          {latestWeight !== null ? (
+            <>
+              <div>
+                <p className="text-2xl font-light text-text-primary dark:text-text-darkPrimary">
+                  {latestWeight} <span className="text-sm text-text-muted dark:text-text-darkMuted">kg</span>
+                </p>
+                <p className="text-xs text-text-muted dark:text-text-darkMuted mt-0.5">
+                  {t("dashboard.weight_latest")}
+                </p>
+              </div>
+              {sparkData.length > 1 && (
+                <div className="h-10 w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={sparkData}>
+                      <Line
+                        type="monotone"
+                        dataKey="weight"
+                        stroke="#00AEBB"
+                        strokeWidth={2}
+                        dot={false}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
+            </>
+          ) : (
+            <p className="text-sm text-text-muted dark:text-text-darkMuted">
+              {t("dashboard.weight_desc")}
+            </p>
+          )}
+        </button>
+
+        {/* Activity Card */}
+        <button
+          onClick={() => navigate("/calories")}
+          className="group text-left rounded-3xl p-5 flex flex-col gap-3 transition-all duration-200 active:scale-[0.98] bg-surface-cardLight dark:bg-surface-cardDark border border-border-light dark:border-border-dark hover:border-primary dark:hover:border-primary"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-xl bg-primary-soft dark:bg-primary-softDark flex items-center justify-center">
+                <Zap size={16} className="text-primary" />
+              </div>
+              <p className="text-xs font-medium uppercase tracking-widest text-text-muted dark:text-text-darkMuted">
+                {t("dashboard.activity_label")}
+              </p>
+            </div>
+            <ArrowRight size={15} className="text-text-muted dark:text-text-darkMuted group-hover:text-primary group-hover:translate-x-1 transition-all" />
+          </div>
+
+          {activities.length > 0 ? (
+            <div className="space-y-1">
+              <p className="text-2xl font-light text-text-primary dark:text-text-darkPrimary">
+                {totalBurned} <span className="text-sm text-text-muted dark:text-text-darkMuted">kcal</span>
+              </p>
+              <p className="text-xs text-text-muted dark:text-text-darkMuted">
+                {t("dashboard.activity_burned")}
+              </p>
+              <p className="text-xs text-primary mt-1">
+                {t("dashboard.activity_count", { n: activities.length })}
+              </p>
+            </div>
+          ) : (
+            <p className="text-sm text-text-muted dark:text-text-darkMuted">
+              {t("dashboard.activity_desc")}
+            </p>
           )}
         </button>
       </div>
