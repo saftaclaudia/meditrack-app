@@ -400,6 +400,7 @@
   "notifications": {
     "title": "Notificări",
     "mark_all": "Marchează toate ca citite",
+    "mark_read": "Marchează ca citit",
     "empty": "Ești la zi cu totul",
     "loading": "Se încarcă..."
   },
