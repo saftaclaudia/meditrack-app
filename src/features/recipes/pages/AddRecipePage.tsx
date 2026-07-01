@@ -6,16 +6,8 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { createRecipe, updateRecipe } from "../recipesThunks";
 import { foodDatabase } from "../../calories/data/foodDatabase";
 import type { FoodItem } from "../../calories/data/foodDatabase";
+import { loadCustomFoods } from "../../calories/data/customFoods";
 import type { RecipeIngredient } from "../../../types/recipe";
-
-const CUSTOM_FOODS_KEY = "meditrack_custom_foods";
-const loadCustomFoods = (): FoodItem[] => {
-  try {
-    return JSON.parse(localStorage.getItem(CUSTOM_FOODS_KEY) ?? "[]");
-  } catch {
-    return [];
-  }
-};
 
 const normalize = (s: string) =>
   s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();

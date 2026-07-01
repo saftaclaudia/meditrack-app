@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { setNotificationPref, setNotificationPrefs } from "../settingsSlice";
 import type { NotificationPrefs } from "../settingsSlice";
 import { notificationsApi } from "../../../api/notificationsApi";
+import { useToast } from "../../../context/ToastContext";
 
 interface ToggleRowProps {
   label: string;
@@ -48,6 +49,7 @@ export function NotificationPreferences() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const prefs = useAppSelector((s) => s.settings.notificationPrefs);
+  const { showToast } = useToast();
 
   useEffect(() => {
     notificationsApi.getPrefs().then((serverPrefs) => {
@@ -57,7 +59,9 @@ export function NotificationPreferences() {
 
   const saveToServer = (updated: Partial<NotificationPrefs>) => {
     const merged = { ...prefs, ...updated };
-    notificationsApi.updatePrefs(merged as NotificationPrefs).catch(() => {});
+    notificationsApi.updatePrefs(merged as NotificationPrefs).catch(() => {
+      showToast(t("settings.error_save_notif"), "error");
+    });
   };
 
   const handleBoolPref = (key: keyof NotificationPrefs, value: boolean) => {

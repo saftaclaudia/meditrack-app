@@ -84,7 +84,8 @@
     "version": "Versiune",
     "reset_onboarding": "Resetează onboarding-ul",
     "reset_onboarding_hint": "Vei vedea din nou tutorialul la next login",
-    "reset_onboarding_done": "Resetat!"
+    "reset_onboarding_done": "Resetat!",
+    "error_save_notif": "Eroare la salvarea preferințelor"
   },
   "exams": {
     "title": "Analizele mele",

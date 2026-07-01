@@ -84,7 +84,8 @@
     "version": "Version",
     "reset_onboarding": "Onboarding zurücksetzen",
     "reset_onboarding_hint": "Beim nächsten Login wird das Tutorial erneut angezeigt",
-    "reset_onboarding_done": "Zurückgesetzt!"
+    "reset_onboarding_done": "Zurückgesetzt!",
+    "error_save_notif": "Benachrichtigungseinstellungen konnten nicht gespeichert werden"
   },
   "exams": {
     "title": "Meine Untersuchungen",
