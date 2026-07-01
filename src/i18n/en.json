@@ -400,6 +400,7 @@
   "notifications": {
     "title": "Notifications",
     "mark_all": "Mark all as read",
+    "mark_read": "Mark as read",
     "empty": "You're all caught up",
     "loading": "Loading..."
   },

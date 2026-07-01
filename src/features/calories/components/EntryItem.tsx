@@ -33,6 +33,7 @@ export default function EntryItem({ entry, onDelete }: EntryItemProps) {
         <button
           onClick={() => onDelete(entry._id)}
           className="p-1 rounded-lg hover:bg-danger/10 text-text-muted hover:text-danger transition"
+          aria-label={`Delete ${entry.name}`}
         >
           <Trash2 size={14} />
         </button>

@@ -400,6 +400,7 @@
   "notifications": {
     "title": "Benachrichtigungen",
     "mark_all": "Alle als gelesen markieren",
+    "mark_read": "Als gelesen markieren",
     "empty": "Du bist auf dem neuesten Stand",
     "loading": "Wird geladen..."
   },

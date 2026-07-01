@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import type { NotificationType } from "../../types/notification";
 
 interface NotificationItemProps {
@@ -23,6 +24,8 @@ export default function NotificationItem({
   onRead,
   onDelete,
 }: NotificationItemProps) {
+  const { t } = useTranslation();
+
   return (
     <div
       onClick={() => onRead(_id)}
@@ -57,7 +60,7 @@ export default function NotificationItem({
               }}
               className="text-[10px] text-primary hover:underline"
             >
-              Mark as read
+              {t("notifications.mark_read")}
             </button>
           )}
           <button
