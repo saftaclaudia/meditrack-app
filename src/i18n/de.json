@@ -190,6 +190,8 @@
     "form_result_unit": "Einheit",
     "form_result_unit_placeholder": "z.B. mg/dL",
     "result_value": "Ergebnis",
+    "export_csv": "CSV exportieren",
+    "print": "Drucken",
     "form_result_text": "Fazit / Ergebnis",
     "form_error_name_required": "Name der Untersuchung ist erforderlich",
     "add_success": "Untersuchung hinzugefügt",

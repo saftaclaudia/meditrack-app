@@ -190,6 +190,8 @@
     "form_result_unit": "Unit",
     "form_result_unit_placeholder": "e.g. mg/dL",
     "result_value": "Result",
+    "export_csv": "Export CSV",
+    "print": "Print",
     "form_result_text": "Conclusion / Result",
     "form_error_name_required": "Exam name is required",
     "add_success": "Exam added successfully",
