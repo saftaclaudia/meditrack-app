@@ -190,6 +190,8 @@
     "form_result_unit": "Unitate",
     "form_result_unit_placeholder": "ex. mg/dL",
     "result_value": "Rezultat",
+    "export_csv": "Exportă CSV",
+    "print": "Printează",
     "form_result_text": "Concluzie / Rezultat",
     "form_error_name_required": "Numele analizei este obligatoriu",
     "add_success": "Analiza a fost adăugată",

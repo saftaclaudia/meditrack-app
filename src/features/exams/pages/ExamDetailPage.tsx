@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../../app/hooks";
-import { ArrowLeft, Pencil } from "lucide-react";
+import { ArrowLeft, Pencil, Printer } from "lucide-react";
 import type { ExamWithMongoId } from "../../../types/exam";
 import { ExamStatusBadge } from "../components/ExamStatusBadge";
 import { getExamStatus } from "../utils/getExamStatus";
@@ -44,13 +44,22 @@ export function ExamDetailPage() {
           <ArrowLeft size={16} />
           {t("exams.back")}
         </button>
-        <button
-          onClick={() => navigate(`/exams/${examId}/edit`)}
-          className="flex items-center gap-1.5 text-sm text-primary hover:underline"
-        >
-          <Pencil size={14} />
-          {t("exams.edit")}
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => window.print()}
+            className="flex items-center gap-1.5 text-sm text-text-muted dark:text-text-darkMuted hover:text-primary transition-colors"
+          >
+            <Printer size={14} />
+            {t("exams.print")}
+          </button>
+          <button
+            onClick={() => navigate(`/exams/${examId}/edit`)}
+            className="flex items-center gap-1.5 text-sm text-primary hover:underline"
+          >
+            <Pencil size={14} />
+            {t("exams.edit")}
+          </button>
+        </div>
       </div>
 
       {/* Detail card */}

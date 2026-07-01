@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { FolderOpen, Search, ArrowUpDown } from "lucide-react";
+import { FolderOpen, Search, ArrowUpDown, Download } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { useToast } from "../../../context/ToastContext";
+import { exportExamsToCSV } from "../utils/exportExams";
 
 import { Button } from "../../../components/ui/Button";
 import { FabButton } from "../../../components/ui/FabButton";
@@ -110,6 +111,17 @@ export function ExamsPage() {
 
         {/* Header actions */}
         <div className="flex items-center gap-2">
+          {rawExams.length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => exportExamsToCSV(rawExams)}
+              title={t("exams.export_csv")}
+            >
+              <Download size={13} className="inline mr-1.5" />
+              {t("exams.export_csv")}
+            </Button>
+          )}
           <Button
             variant="outline"
             size="sm"
