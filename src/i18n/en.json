@@ -25,7 +25,14 @@
     "nutrition_title": "Calorie Log",
     "nutrition_desc": "Log meals and hit your daily goal.",
     "calories_remaining": "{{n}} kcal remaining",
-    "calories_over": "Over by {{n}} kcal"
+    "calories_over": "Over by {{n}} kcal",
+    "weight_label": "Weight",
+    "weight_latest": "Latest entry",
+    "weight_desc": "Log your weight daily",
+    "activity_label": "Activity",
+    "activity_burned": "Calories burned today",
+    "activity_desc": "Log physical activities",
+    "activity_count": "{{n}} activity logged today"
   },
   "settings": {
     "title": "Settings",

@@ -25,7 +25,14 @@
     "nutrition_title": "Kalorientagebuch",
     "nutrition_desc": "Mahlzeiten erfassen und Tagesziel erreichen.",
     "calories_remaining": "{{n}} kcal verbleibend",
-    "calories_over": "{{n}} kcal überschritten"
+    "calories_over": "{{n}} kcal überschritten",
+    "weight_label": "Gewicht",
+    "weight_latest": "Letzter Eintrag",
+    "weight_desc": "Gewicht täglich erfassen",
+    "activity_label": "Aktivität",
+    "activity_burned": "Heute verbrannte Kalorien",
+    "activity_desc": "Körperliche Aktivitäten erfassen",
+    "activity_count": "{{n}} Aktivität heute erfasst"
   },
   "settings": {
     "title": "Einstellungen",
