@@ -1,7 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "../../../components/ui/Button";
 
 export default function CheckEmailPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const email = (location.state as { email?: string } | null)?.email;
@@ -12,24 +14,24 @@ export default function CheckEmailPage() {
         <div className="text-5xl">📧</div>
         <div className="space-y-2">
           <h1 className="text-2xl font-semibold text-text-primary dark:text-text-darkPrimary">
-            Check your email
+            {t("auth.check_email_title")}
           </h1>
           <p className="text-sm text-text-secondary dark:text-text-darkSecondary">
-            We sent a verification link to{" "}
+            {t("auth.check_email_desc")}{" "}
             {email ? (
               <span className="font-medium text-text-primary dark:text-text-darkPrimary">{email}</span>
             ) : (
-              "your email address"
+              t("auth.check_email_desc_fallback")
             )}
-            . Click the link to activate your account.
+            {"."}
           </p>
           <p className="text-xs text-text-muted dark:text-text-darkMuted mt-2">
-            The link expires in 24 hours. Check your spam folder if you don't see it.
+            {t("auth.check_email_hint")}
           </p>
         </div>
 
         <Button variant="outline" fullWidth onClick={() => navigate("/login")}>
-          Back to sign in
+          {t("auth.check_email_back")}
         </Button>
       </div>
     </div>
