@@ -200,7 +200,11 @@
     "update_success": "Exam updated successfully",
     "delete_success": "Exam deleted",
     "save_error": "Failed to save exam",
-    "delete_error": "Failed to delete exam"
+    "delete_error": "Failed to delete exam",
+    "upload_pdf": "Upload PDF",
+    "uploaded_at": "Uploaded {{date}}",
+    "view": "View",
+    "remove": "Remove"
   },
   "nutrition": {
     "title": "Nutrition",

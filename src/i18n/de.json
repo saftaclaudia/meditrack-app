@@ -200,7 +200,11 @@
     "update_success": "Untersuchung aktualisiert",
     "delete_success": "Untersuchung gelöscht",
     "save_error": "Untersuchung konnte nicht gespeichert werden",
-    "delete_error": "Untersuchung konnte nicht gelöscht werden"
+    "delete_error": "Untersuchung konnte nicht gelöscht werden",
+    "upload_pdf": "PDF hochladen",
+    "uploaded_at": "Hochgeladen am {{date}}",
+    "view": "Ansehen",
+    "remove": "Entfernen"
   },
   "nutrition": {
     "title": "Ernährung",

@@ -45,15 +45,20 @@ export default function DashBoard() {
     dispatch(fetchWeightHistory());
   }, [dispatch]);
 
+  const todayMidnight = useMemo(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }, []);
   const nextExam = [...exams]
-    .filter((e) => e.nextDate && new Date(e.nextDate) > new Date())
+    .filter((e) => e.nextDate && new Date(e.nextDate.slice(0, 10) + "T00:00:00") >= todayMidnight)
     .sort((a, b) => a.nextDate.localeCompare(b.nextDate))[0] ?? null;
   const daysUntilNext = nextExam
-    ? Math.ceil((new Date(nextExam.nextDate).getTime() - Date.now()) / 86_400_000)
+    ? Math.round((new Date(nextExam.nextDate.slice(0, 10) + "T00:00:00").getTime() - todayMidnight.getTime()) / 86_400_000)
     : null;
   const overdueCount = exams.filter((e) => {
     if (!e.nextDate) return false;
-    return new Date(e.nextDate) < new Date() && e.lastDate !== e.nextDate;
+    return new Date(e.nextDate.slice(0, 10) + "T00:00:00") < todayMidnight && e.lastDate !== e.nextDate;
   }).length;
 
   const totalConsumed =
