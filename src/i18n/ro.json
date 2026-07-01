@@ -200,7 +200,11 @@
     "update_success": "Analiza a fost actualizată",
     "delete_success": "Analiza a fost ștearsă",
     "save_error": "Eroare la salvarea analizei",
-    "delete_error": "Eroare la ștergerea analizei"
+    "delete_error": "Eroare la ștergerea analizei",
+    "upload_pdf": "Încarcă PDF",
+    "uploaded_at": "Încărcat pe {{date}}",
+    "view": "Vizualizează",
+    "remove": "Elimină"
   },
   "nutrition": {
     "title": "Nutriție",

@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "./Button";
 import type { MedicalDocument } from "../../types/medicalDocument";
 import { v4 as uuidv4 } from "uuid";
@@ -15,6 +16,7 @@ export function FileUploadField({
   value,
   onChange,
 }: FileUploadFieldProps) {
+  const { t, i18n } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFiles = async (files: FileList | null) => {
@@ -65,7 +67,7 @@ export function FileUploadField({
 
       {/* Upload button */}
       <Button variant="secondary" onClick={() => inputRef.current?.click()}>
-        Upload PDF
+        {t("exams.upload_pdf")}
       </Button>
 
       {/* Documents list */}
@@ -82,7 +84,7 @@ export function FileUploadField({
                   {doc.name}
                 </p>
                 <p className="text-xs text-text-muted dark:text-text-darkMuted">
-                  Uploaded {new Date(doc.uploadedAt).toLocaleDateString()}
+                  {t("exams.uploaded_at", { date: new Date(doc.uploadedAt).toLocaleDateString(i18n.language, { day: "numeric", month: "short", year: "numeric" }) })}
                 </p>
               </div>
 
@@ -94,7 +96,7 @@ export function FileUploadField({
                   variant="outline"
                   onClick={() => viewPdf(doc.file)}
                 >
-                  View
+                  {t("exams.view")}
                 </Button>
 
                 {/* Remove */}
@@ -103,7 +105,7 @@ export function FileUploadField({
                   variant="danger"
                   onClick={() => removeFile(doc.id)}
                 >
-                  Remove
+                  {t("exams.remove")}
                 </Button>
               </div>
             </div>

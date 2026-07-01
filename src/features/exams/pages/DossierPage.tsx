@@ -17,23 +17,23 @@ interface DossierEntry {
   examName: string;
 }
 
-function formatDate(dateStr: string): string {
-  if (!dateStr) return "";
-  try {
-    return new Date(dateStr).toLocaleDateString(undefined, {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  } catch {
-    return dateStr;
-  }
-}
-
 export function DossierPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const formatDate = (dateStr: string): string => {
+    if (!dateStr) return "";
+    try {
+      return new Date(dateStr).toLocaleDateString(i18n.language, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
+    } catch {
+      return dateStr;
+    }
+  };
 
   const exams = useAppSelector(selectExamsItems);
   const loading = useAppSelector((state) => state.exams.loading);
