@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { verifyEmailRequest } from "../../../api/authApi";
 import { Button } from "../../../components/ui/Button";
 
 export default function VerifyEmailPage() {
+  const { t } = useTranslation();
   const { token } = useParams<{ token: string }>();
   const navigate = useNavigate();
 
@@ -13,7 +15,7 @@ export default function VerifyEmailPage() {
   useEffect(() => {
     if (!token) {
       setStatus("error");
-      setMessage("Invalid verification link.");
+      setMessage(t("auth.verify_invalid_link"));
       return;
     }
 
@@ -25,10 +27,10 @@ export default function VerifyEmailPage() {
       .catch((err) => {
         setStatus("error");
         setMessage(
-          err?.response?.data?.message || "Invalid or expired verification link."
+          err?.response?.data?.message || t("auth.verify_invalid_link")
         );
       });
-  }, [token]);
+  }, [token, t]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark px-4">
@@ -37,7 +39,7 @@ export default function VerifyEmailPage() {
           <>
             <div className="text-5xl animate-pulse">🔍</div>
             <p className="text-text-secondary dark:text-text-darkSecondary text-sm">
-              Verifying your email...
+              {t("auth.verify_loading")}
             </p>
           </>
         )}
@@ -47,12 +49,12 @@ export default function VerifyEmailPage() {
             <div className="text-5xl">✅</div>
             <div className="space-y-2">
               <h1 className="text-2xl font-semibold text-text-primary dark:text-text-darkPrimary">
-                Email verified!
+                {t("auth.verify_success_title")}
               </h1>
               <p className="text-sm text-text-secondary dark:text-text-darkSecondary">{message}</p>
             </div>
             <Button fullWidth onClick={() => navigate("/login")}>
-              Sign in
+              {t("auth.verify_sign_in")}
             </Button>
           </>
         )}
@@ -62,12 +64,12 @@ export default function VerifyEmailPage() {
             <div className="text-5xl">❌</div>
             <div className="space-y-2">
               <h1 className="text-2xl font-semibold text-text-primary dark:text-text-darkPrimary">
-                Verification failed
+                {t("auth.verify_error_title")}
               </h1>
               <p className="text-sm text-text-secondary dark:text-text-darkSecondary">{message}</p>
             </div>
             <Button variant="outline" fullWidth onClick={() => navigate("/register")}>
-              Register again
+              {t("auth.verify_register_again")}
             </Button>
           </>
         )}
