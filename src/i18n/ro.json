@@ -182,7 +182,9 @@
     "form_result_value_placeholder": "ex. 95",
     "form_result_unit": "Unitate",
     "form_result_unit_placeholder": "ex. mg/dL",
-    "result_value": "Rezultat"
+    "result_value": "Rezultat",
+    "form_result_text": "Concluzie / Rezultat",
+    "form_error_name_required": "Numele analizei este obligatoriu"
   },
   "nutrition": {
     "title": "Nutriție",

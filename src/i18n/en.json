@@ -182,7 +182,9 @@
     "form_result_value_placeholder": "e.g. 95",
     "form_result_unit": "Unit",
     "form_result_unit_placeholder": "e.g. mg/dL",
-    "result_value": "Result"
+    "result_value": "Result",
+    "form_result_text": "Conclusion / Result",
+    "form_error_name_required": "Exam name is required"
   },
   "nutrition": {
     "title": "Nutrition",
