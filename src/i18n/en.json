@@ -131,6 +131,7 @@
     "form_next_visit": "Next visit",
     "form_documents": "Documents (PDF)",
     "form_cancel": "Cancel",
+    "form_submitting": "Saving...",
     "form_add_btn": "Add exam",
     "form_update_btn": "Update exam",
     "delete_title": "Delete exam",

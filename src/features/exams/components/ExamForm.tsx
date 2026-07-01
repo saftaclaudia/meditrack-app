@@ -75,6 +75,7 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
 
   const [nextSuggestion, setNextSuggestion] = useState<string | null>(null);
   const [errors, setErrors] = useState<{ name?: string }>({});
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -102,6 +103,7 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
       return;
     }
     setErrors({});
+    setSubmitting(true);
 
     const payload = {
       ...form,
@@ -125,6 +127,8 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
       setForm(emptyForm);
     } catch {
       showToast(t("exams.save_error"), "error");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -243,11 +247,15 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
         />
 
         <div className="flex flex-col-reverse md:flex-row justify-end gap-2 md:col-span-2">
-          <Button variant="secondary" onClick={onFinish} fullWidth>
+          <Button variant="secondary" onClick={onFinish} disabled={submitting} fullWidth>
             {t("exams.form_cancel")}
           </Button>
-          <Button onClick={handleSubmit} fullWidth>
-            {editingExam ? t("exams.form_update_btn") : t("exams.form_add_btn")}
+          <Button onClick={handleSubmit} disabled={submitting} fullWidth>
+            {submitting
+              ? t("exams.form_submitting")
+              : editingExam
+                ? t("exams.form_update_btn")
+                : t("exams.form_add_btn")}
           </Button>
         </div>
       </div>
