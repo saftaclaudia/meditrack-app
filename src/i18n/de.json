@@ -184,7 +184,12 @@
     "form_result_unit_placeholder": "z.B. mg/dL",
     "result_value": "Ergebnis",
     "form_result_text": "Fazit / Ergebnis",
-    "form_error_name_required": "Name der Untersuchung ist erforderlich"
+    "form_error_name_required": "Name der Untersuchung ist erforderlich",
+    "add_success": "Untersuchung hinzugefügt",
+    "update_success": "Untersuchung aktualisiert",
+    "delete_success": "Untersuchung gelöscht",
+    "save_error": "Untersuchung konnte nicht gespeichert werden",
+    "delete_error": "Untersuchung konnte nicht gelöscht werden"
   },
   "nutrition": {
     "title": "Ernährung",

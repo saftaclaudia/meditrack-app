@@ -184,7 +184,12 @@
     "form_result_unit_placeholder": "ex. mg/dL",
     "result_value": "Rezultat",
     "form_result_text": "Concluzie / Rezultat",
-    "form_error_name_required": "Numele analizei este obligatoriu"
+    "form_error_name_required": "Numele analizei este obligatoriu",
+    "add_success": "Analiza a fost adăugată",
+    "update_success": "Analiza a fost actualizată",
+    "delete_success": "Analiza a fost ștearsă",
+    "save_error": "Eroare la salvarea analizei",
+    "delete_error": "Eroare la ștergerea analizei"
   },
   "nutrition": {
     "title": "Nutriție",
