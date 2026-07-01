@@ -3,7 +3,7 @@ import type { Exam } from "../../types/exam";
 import {
   createExamRequest,
   deleteExamRequest,
-  featchExamsRequest,
+  fetchExamsRequest,
   updateExamRequest,
 } from "../../api/examsApi";
 
@@ -14,7 +14,7 @@ export const fetchExams = createAsyncThunk<
   { rejectValue: string }
 >("exams/fetchExams", async (_, { rejectWithValue }) => {
   try {
-    const data = await featchExamsRequest();
+    const data = await fetchExamsRequest();
     return data;
   } catch (err: unknown) {
     const error = err as { response?: { data?: { message?: string } } };
