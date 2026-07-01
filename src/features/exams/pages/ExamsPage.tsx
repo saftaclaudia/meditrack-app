@@ -101,7 +101,7 @@ export function ExamsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-ex font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted mb-1">
+          <p className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted mb-1">
             {t("exams.subtitle")}
           </p>
           <h1 className="font-serif font-light text-3xl text-primary">
