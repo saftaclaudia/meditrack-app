@@ -16,8 +16,15 @@ interface ExamCardProps {
   onView?: (exam: Exam) => void;
 }
 
+function fmtDate(dateStr: string, lang: string): string {
+  if (!dateStr) return "";
+  const d = new Date(dateStr.slice(0, 10) + "T00:00:00");
+  if (isNaN(d.getTime())) return dateStr.slice(0, 10);
+  return d.toLocaleDateString(lang, { day: "numeric", month: "short", year: "numeric" });
+}
+
 export function ExamCard({ exam, onEdit, onDelete, onView }: ExamCardProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const status = getExamStatus(exam.nextDate, exam.lastDate) as StatusKey;
   const cfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.soon;
 
@@ -94,7 +101,7 @@ export function ExamCard({ exam, onEdit, onDelete, onView }: ExamCardProps) {
               <span className="text-xs font-light text-text-muted dark:text-text-darkMuted">
                 {t(`exams.date_label_${status}`)}:{" "}
                 <span className="text-text-secondary dark:text-text-darkSecondary">
-                  {exam.nextDate}
+                  {fmtDate(exam.nextDate, i18n.language)}
                 </span>
               </span>
             )}
@@ -126,7 +133,7 @@ export function ExamCard({ exam, onEdit, onDelete, onView }: ExamCardProps) {
                   {t("exams.last_visit")}
                 </span>
                 <span className="text-xs text-text-secondary dark:text-text-darkSecondary">
-                  {exam.lastDate}
+                  {fmtDate(exam.lastDate, i18n.language)}
                 </span>
               </div>
             )}

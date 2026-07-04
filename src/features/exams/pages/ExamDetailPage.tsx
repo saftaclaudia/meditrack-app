@@ -12,7 +12,13 @@ import { downloadPdf, viewPdf } from "../../../utils/documentActions";
 export function ExamDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const fmtDate = (d: string) => {
+    if (!d) return "";
+    const date = new Date(d.slice(0, 10) + "T00:00:00");
+    if (isNaN(date.getTime())) return d.slice(0, 10);
+    return date.toLocaleDateString(i18n.language, { day: "numeric", month: "short", year: "numeric" });
+  };
 
   const exam = useAppSelector((state) =>
     state.exams.items.find((item) => {
@@ -113,7 +119,7 @@ export function ExamDetailPage() {
                   {t("exams.last_visit")}
                 </span>
                 <span className="text-xs text-text-secondary dark:text-text-darkSecondary">
-                  {exam.lastDate}
+                  {fmtDate(exam.lastDate)}
                 </span>
               </div>
             )}
@@ -123,7 +129,7 @@ export function ExamDetailPage() {
                   {t(`exams.date_label_${status}`)}
                 </span>
                 <span className="text-xs text-text-secondary dark:text-text-darkSecondary">
-                  {exam.nextDate}
+                  {fmtDate(exam.nextDate)}
                 </span>
               </div>
             )}
