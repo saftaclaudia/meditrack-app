@@ -19,27 +19,29 @@ export function ExamSection({
   const { t } = useTranslation();
   return (
     <div className="space-y-3">
-      {/* Header */}
-      <div className="flex items-baseline justify-between">
-        <div>
-          <h2 className="font-serif text-2xl font-light text-text-primary dark:text-text-darkPrimary">
-            {title}
-          </h2>
-          {subtitle && (
-            <p className="text-xs font-light tracking-wide text-text-muted dark:text-text-darkMuted mt-0.5">
-              {subtitle}
-            </p>
-          )}
-        </div>
-        {count !== undefined && count > 0 && (
-          <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
-            {count} {t(count === 1 ? "exams.exam_one" : "exams.exam_other")}
-          </span>
-        )}
-      </div>
-
-      {/* Divider */}
-      <div className="h-px bg-border-light dark:bg-border-dark" />
+      {/* Header — only rendered when a title is provided */}
+      {title && (
+        <>
+          <div className="flex items-baseline justify-between">
+            <div>
+              <h2 className="font-serif text-2xl font-light text-text-primary dark:text-text-darkPrimary">
+                {title}
+              </h2>
+              {subtitle && (
+                <p className="text-xs font-light tracking-wide text-text-muted dark:text-text-darkMuted mt-0.5">
+                  {subtitle}
+                </p>
+              )}
+            </div>
+            {count !== undefined && count > 0 && (
+              <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
+                {count} {t(count === 1 ? "exams.exam_one" : "exams.exam_other")}
+              </span>
+            )}
+          </div>
+          <div className="h-px bg-border-light dark:bg-border-dark" />
+        </>
+      )}
 
       {/* Content */}
       {count === 0 ? (

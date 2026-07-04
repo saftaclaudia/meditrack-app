@@ -45,9 +45,9 @@ export function ExamsPage() {
 
   const loading = useAppSelector((state) => state.exams.loading);
 
-  // counts for filter bar
+  // counts for filter bar (excludes "all" — no chip shown for it)
   const counts: Record<ExamFilter, number> = {
-    all: exams.length,
+    all: 0,
     upcoming: summary.upcoming,
     due: dueExams.length,
     done: summary.done,
@@ -90,12 +90,14 @@ export function ExamsPage() {
 
   const sectionTitle =
     activeFilter === "all"
-      ? t("exams.filter_all")
+      ? ""
       : activeFilter === "upcoming"
         ? t("exams.filter_upcoming")
         : activeFilter === "overdue"
           ? t("exams.filter_overdue")
-          : t("exams.filter_done");
+          : activeFilter === "due"
+            ? t("exams.filter_due")
+            : t("exams.filter_done");
 
   if (loading)
     return (

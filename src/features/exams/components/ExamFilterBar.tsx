@@ -10,7 +10,6 @@ interface ExamFilterBarProps {
 }
 
 const FILTER_KEYS: { key: ExamFilter; tKey: string }[] = [
-  { key: "all", tKey: "exams.filter_all" },
   { key: "upcoming", tKey: "exams.filter_upcoming" },
   { key: "due", tKey: "exams.filter_due" },
   { key: "done", tKey: "exams.filter_done" },
@@ -29,7 +28,7 @@ export function ExamFilterBar({
       {FILTER_KEYS.map(({ key, tKey }) => (
         <button
           key={key}
-          onClick={() => onChange(key)}
+          onClick={() => onChange(active === key ? "all" : key)}
           className={clsx(
             "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-light tracking-widest uppercase transition-all duration-200 border",
             active === key
