@@ -326,7 +326,8 @@
     "templates_apply": "Aplică",
     "templates_save_as": "Salvează masa ca șablon",
     "templates_name_placeholder": "Numele șablonului",
-    "templates_save_btn": "Salvează"
+    "templates_save_btn": "Salvează",
+    "macros_optional": "Macronutrienți (opțional)"
   },
   "profile": {
     "title": "Profil de sănătate",

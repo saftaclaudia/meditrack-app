@@ -326,7 +326,8 @@
     "templates_apply": "Apply",
     "templates_save_as": "Save meal as template",
     "templates_name_placeholder": "Template name",
-    "templates_save_btn": "Save"
+    "templates_save_btn": "Save",
+    "macros_optional": "Macros (optional)"
   },
   "profile": {
     "title": "Health Profile",
