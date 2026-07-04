@@ -326,7 +326,8 @@
     "templates_apply": "Anwenden",
     "templates_save_as": "Mahlzeit als Vorlage speichern",
     "templates_name_placeholder": "Vorlagenname",
-    "templates_save_btn": "Speichern"
+    "templates_save_btn": "Speichern",
+    "macros_optional": "Makronährstoffe (optional)"
   },
   "profile": {
     "title": "Gesundheitsprofil",

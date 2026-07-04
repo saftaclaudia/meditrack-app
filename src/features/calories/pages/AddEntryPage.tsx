@@ -510,15 +510,15 @@ export function AddEntryPage() {
           className="flex items-center gap-1.5 text-xs text-text-muted dark:text-text-darkMuted hover:text-primary transition"
         >
           {showMacros ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
-          Macros (optional)
+          {t("nutrition.macros_optional")}
         </button>
 
         {showMacros && (
           <div className="grid grid-cols-3 gap-3">
             {[
-              { label: "Protein (g)", value: protein, set: setProtein },
-              { label: "Carbs (g)", value: carbs, set: setCarbs },
-              { label: "Fat (g)", value: fat, set: setFat },
+              { label: `${t("nutrition.macro_protein")} (g)`, value: protein, set: setProtein },
+              { label: `${t("nutrition.macro_carbs")} (g)`, value: carbs, set: setCarbs },
+              { label: `${t("nutrition.macro_fat")} (g)`, value: fat, set: setFat },
             ].map(({ label, value, set }) => (
               <div key={label} className="space-y-1.5">
                 <label className="text-xs font-light tracking-wider uppercase text-text-muted dark:text-text-darkMuted">
