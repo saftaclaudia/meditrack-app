@@ -26,7 +26,9 @@ export function RecommendedExamCard({ exam }: RecommendedExamCardProps) {
   return (
     <div className="relative overflow-hidden rounded-2xl bg-surface-cardLight dark:bg-surface-cardDark border border-border-light dark:border-border-dark px-5 py-4 flex items-center justify-between gap-4 transition-all duration-200 active:scale-[0.985]">
       {/* left accent */}
-      <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-danger" />
+      <div
+        className={`absolute left-0 top-0 bottom-0 w-0.5 ${exam.status === "approaching" ? "bg-warning" : "bg-danger"}`}
+      />
 
       {/* info */}
       <div className="flex flex-col gap-1 min-w-0">
@@ -43,6 +45,13 @@ export function RecommendedExamCard({ exam }: RecommendedExamCardProps) {
           {exam.monthsOverdue !== undefined && exam.monthsOverdue > 0 && (
             <span className="text-[10px] font-light tracking-widest uppercase text-danger">
               {t("exams.rec_overdue_months", { n: exam.monthsOverdue })}
+            </span>
+          )}
+          {exam.status === "approaching" && (
+            <span className="text-[10px] font-light tracking-widest uppercase text-warning">
+              {exam.monthsUntilDue != null && exam.monthsUntilDue > 0
+                ? t("exams.rec_due_in_months", { n: exam.monthsUntilDue })
+                : t("exams.rec_due_now")}
             </span>
           )}
         </div>

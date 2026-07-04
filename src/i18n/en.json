@@ -177,6 +177,8 @@
     "rec_freq_every_2_years": "Every 2 years",
     "rec_freq_every_n_months": "Every {{n}} months",
     "rec_overdue_months": "{{n}} month overdue",
+    "rec_due_in_months": "Due in {{n}} months",
+    "rec_due_now": "Due now",
     "rec_schedule": "Schedule",
     "search_placeholder": "Search by name, doctor, clinic...",
     "sort_next": "Next visit",

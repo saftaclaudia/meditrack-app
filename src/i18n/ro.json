@@ -177,6 +177,8 @@
     "rec_freq_every_2_years": "La fiecare 2 ani",
     "rec_freq_every_n_months": "La fiecare {{n}} luni",
     "rec_overdue_months": "{{n}} luni întârziere",
+    "rec_due_in_months": "Scadent în {{n}} luni",
+    "rec_due_now": "Scadent acum",
     "rec_schedule": "Programează",
     "search_placeholder": "Caută după nume, doctor, clinică...",
     "sort_next": "Vizita următoare",

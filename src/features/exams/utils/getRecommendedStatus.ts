@@ -4,32 +4,34 @@ import {
   type RecommendedExam,
 } from "../constants/recommendedExams";
 
-export type RecommendedStatus = "due" | "scheduled" | "ok";
+export type RecommendedStatus = "due" | "approaching" | "scheduled" | "ok";
 
 export interface RecommendedExamWithStatus extends RecommendedExam {
   status: RecommendedStatus;
   matchedExam?: Exam;
   monthsOverdue?: number;
+  monthsUntilDue?: number;
 }
 
 function normalizeName(name: string): string {
   return name
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[̀-ͯ]/g, "")
     .trim();
 }
 
 function matchesRecommended(exam: Exam, recommended: RecommendedExam): boolean {
   const examName = normalizeName(exam.name);
-  const recName = normalizeName(recommended.name);
-
-  return examName.includes(recName) || recName.includes(examName);
+  const allNames = [recommended.name, ...recommended.aliases].map(normalizeName);
+  return allNames.some(
+    (rec) => examName.includes(rec) || rec.includes(examName),
+  );
 }
 
 function monthsSince(dateStr: string): number {
   if (!dateStr) return Infinity;
-  const date = new Date(dateStr);
+  const date = new Date(dateStr.slice(0, 10) + "T00:00:00");
   const now = new Date();
   return (
     (now.getFullYear() - date.getFullYear()) * 12 +
@@ -39,7 +41,9 @@ function monthsSince(dateStr: string): number {
 
 function hasUpcomingDate(dateStr: string): boolean {
   if (!dateStr) return false;
-  return new Date(dateStr) > new Date();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return new Date(dateStr.slice(0, 10) + "T00:00:00") >= today;
 }
 
 export function getRecommendedExamsWithStatus(
@@ -61,6 +65,7 @@ export function getRecommendedExamsWithStatus(
     });
     const latest = sorted[0];
 
+    // Has a future scheduled appointment → not due
     if (hasUpcomingDate(latest.nextDate)) {
       return {
         ...recommended,
@@ -69,15 +74,27 @@ export function getRecommendedExamsWithStatus(
       };
     }
 
-    const monthsPassed = monthsSince(latest.lastDate || latest.nextDate);
-    const isOverdue = monthsPassed >= recommended.frequencyMonths;
+    const refDate = latest.lastDate || latest.nextDate;
+    const monthsPassed = monthsSince(refDate);
+    const monthsRemaining = recommended.frequencyMonths - monthsPassed;
 
-    if (isOverdue) {
+    // Past the recommended frequency → overdue
+    if (monthsPassed >= recommended.frequencyMonths) {
       return {
         ...recommended,
         status: "due" as RecommendedStatus,
         matchedExam: latest,
         monthsOverdue: Math.round(monthsPassed - recommended.frequencyMonths),
+      };
+    }
+
+    // Within 2 months of the recommended frequency → approaching
+    if (monthsRemaining <= 2) {
+      return {
+        ...recommended,
+        status: "approaching" as RecommendedStatus,
+        matchedExam: latest,
+        monthsUntilDue: Math.round(monthsRemaining),
       };
     }
 
@@ -91,7 +108,7 @@ export function getRecommendedExamsWithStatus(
 
 export function getDueExams(userExams: Exam[]): RecommendedExamWithStatus[] {
   return getRecommendedExamsWithStatus(userExams).filter(
-    (e) => e.status === "due",
+    (e) => e.status === "due" || e.status === "approaching",
   );
 }
 
