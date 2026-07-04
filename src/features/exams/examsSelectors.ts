@@ -15,7 +15,7 @@ export const selectExamsWithStatus = createSelector(
   (items: Exam[]) => {
     return items.map((exam) => ({
       ...exam,
-      status: getExamStatus(exam.nextDate) as ExamStatus,
+      status: getExamStatus(exam.nextDate, exam.lastDate) as ExamStatus,
     }));
   },
 );
