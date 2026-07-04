@@ -31,12 +31,13 @@ MediTrack is built specifically for women over 40, a life stage where preventive
 ### 🏥 Medical Exam Tracking
 
 - Add, edit, and delete exams — specialty, doctor, date, result (text or numeric).
-- Status badges: **Completed**, **Soon**, or **Upcoming**.
+- Status badges: **Completed**, **Soon**, **Upcoming**, or **Overdue**.
 - Upload and manage related documents (PDFs, images).
 - Recommended exams guide with completion tracking.
 - Exam dossier view for quick document access.
 - Search and sort exams; stats summary header.
 - Auto-computed next recommended exam date.
+- Export all exams to **CSV** and **print** individual exam details.
 
 ### 🥗 Nutrition Tracking
 
@@ -58,12 +59,14 @@ MediTrack is built specifically for women over 40, a life stage where preventive
 
 - Log weight entries over time.
 - Full weight history.
+- Dashboard sparkline showing last 7 weight entries.
 
 ### 🏃 Activity Tracking
 
 - Log physical activities: name, duration, and calories burned.
 - Built-in activity database with calorie estimates.
 - Edit and delete logged activities.
+- Dashboard card showing total calories burned today.
 
 ### 🍽️ Recipes
 
@@ -217,6 +220,8 @@ npm install
 
 ### Environment Variables
 
+A `.env.example` file is provided at the project root for the frontend variables.
+
 Create a `.env` file in the `meditrack-api/` directory:
 
 ```env
@@ -249,6 +254,8 @@ npm run dev
 ```bash
 npm run dev
 ```
+
+Copy `.env.example` to `.env` and set `VITE_API_URL` to your backend URL (defaults to `http://localhost:5001`).
 
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
