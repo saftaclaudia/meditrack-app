@@ -17,6 +17,8 @@ interface ExamFormProps {
   prefill?: { name?: string; speciality?: string } | null;
 }
 
+const FREQUENCY_OPTIONS = [3, 6, 12, 24, 36, 60] as const;
+
 const emptyForm: ExamFormData = {
   name: "",
   clinic: "",
@@ -24,6 +26,7 @@ const emptyForm: ExamFormData = {
   speciality: "",
   nextDate: "",
   lastDate: "",
+  recommendedFrequencyMonths: "",
   result: "",
   resultValue: "",
   resultUnit: "",
@@ -36,17 +39,25 @@ function normalizeName(s: string) {
   return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
 }
 
-function suggestNextDate(name: string, lastDate: string): string {
+function suggestNextDateFromExams(name: string, lastDate: string): string {
   if (!lastDate) return "";
   const norm = normalizeName(name);
-  const match = RECOMMENDED_EXAMS.find(
-    (r) =>
-      normalizeName(r.name).includes(norm) ||
-      norm.includes(normalizeName(r.name)),
+  const match = RECOMMENDED_EXAMS.find((r) =>
+    [r.name, ...r.aliases].some(
+      (alias) =>
+        normalizeName(alias).includes(norm) ||
+        norm.includes(normalizeName(alias)),
+    ),
   );
   if (!match) return "";
-  const d = new Date(lastDate);
+  const d = new Date(lastDate + "T00:00:00");
   d.setMonth(d.getMonth() + match.frequencyMonths);
+  return d.toISOString().split("T")[0];
+}
+
+function computeNextDate(lastDate: string, frequencyMonths: number): string {
+  const d = new Date(lastDate + "T00:00:00");
+  d.setMonth(d.getMonth() + frequencyMonths);
   return d.toISOString().split("T")[0];
 }
 
@@ -83,13 +94,31 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
     const { name, value } = e.target;
     setForm((prev) => {
       const updated = { ...prev, [name]: value };
-      // Auto-suggest nextDate when lastDate changes and nextDate is empty
       if (name === "lastDate" && value && !prev.nextDate) {
-        const suggestion = suggestNextDate(prev.name, value);
-        if (suggestion) setNextSuggestion(suggestion);
-        else setNextSuggestion(null);
+        const freqMonths = prev.recommendedFrequencyMonths
+          ? parseInt(prev.recommendedFrequencyMonths)
+          : null;
+        if (freqMonths) {
+          setNextSuggestion(computeNextDate(value, freqMonths));
+        } else {
+          const suggestion = suggestNextDateFromExams(prev.name, value);
+          setNextSuggestion(suggestion || null);
+        }
       }
       return updated;
+    });
+  };
+
+  const handleFrequencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setForm((prev) => {
+      if (value && prev.lastDate && !prev.nextDate) {
+        setNextSuggestion(computeNextDate(prev.lastDate, parseInt(value)));
+      } else if (!value && prev.lastDate && !prev.nextDate) {
+        const suggestion = suggestNextDateFromExams(prev.name, prev.lastDate);
+        setNextSuggestion(suggestion || null);
+      }
+      return { ...prev, recommendedFrequencyMonths: value };
     });
   };
 
@@ -109,6 +138,10 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
       ...form,
       resultValue:
         form.resultValue !== "" ? Number(form.resultValue) : undefined,
+      recommendedFrequencyMonths:
+        form.recommendedFrequencyMonths !== ""
+          ? Number(form.recommendedFrequencyMonths)
+          : undefined,
     };
     try {
       if (editingExam) {
@@ -178,6 +211,26 @@ export function ExamForm({ editingExam, onFinish, prefill }: ExamFormProps) {
             onChange={handleChange}
           />
         </div>
+
+        {/* Specialist-recommended frequency */}
+        <label className="flex flex-col gap-1 text-sm">
+          <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
+            {t("exams.form_recommended_frequency")}
+          </span>
+          <select
+            name="recommendedFrequencyMonths"
+            value={form.recommendedFrequencyMonths}
+            onChange={handleFrequencyChange}
+            className="rounded-2xl border border-border-light dark:border-border-dark bg-surface-cardLight dark:bg-surface-cardDark py-3 px-4 text-text-primary dark:text-text-darkPrimary focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary hover:border-primary/50 transition-colors duration-200 [color-scheme:light] dark:[color-scheme:dark]"
+          >
+            <option value="">{t("exams.form_freq_none")}</option>
+            {FREQUENCY_OPTIONS.map((months) => (
+              <option key={months} value={String(months)}>
+                {t(`exams.form_freq_${months}m`)}
+              </option>
+            ))}
+          </select>
+        </label>
 
         <div className="space-y-1">
           <Input

@@ -7,6 +7,7 @@ export interface ExamFormData {
   clinic: string;
   lastDate: string;
   nextDate: string;
+  recommendedFrequencyMonths: string;
   result: string;
   resultValue: string;
   resultUnit: string;

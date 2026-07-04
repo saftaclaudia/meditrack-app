@@ -7,8 +7,12 @@ export function examToFormData(exam: Exam): ExamFormData {
     doctor: exam.doctor ?? "",
     speciality: exam.speciality ?? "",
     clinic: exam.clinic ?? "",
-    lastDate: exam.lastDate ?? "",
-    nextDate: exam.nextDate ?? "",
+    lastDate: exam.lastDate ? exam.lastDate.slice(0, 10) : "",
+    nextDate: exam.nextDate ? exam.nextDate.slice(0, 10) : "",
+    recommendedFrequencyMonths:
+      exam.recommendedFrequencyMonths != null
+        ? String(exam.recommendedFrequencyMonths)
+        : "",
     result: exam.result ?? "",
     resultValue: exam.resultValue != null ? String(exam.resultValue) : "",
     resultUnit: exam.resultUnit ?? "",

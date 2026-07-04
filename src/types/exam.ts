@@ -8,6 +8,7 @@ export interface Exam {
   doctor?: string;
   lastDate: string;
   nextDate: string;
+  recommendedFrequencyMonths?: number;
   result?: string;
   resultValue?: number;
   resultUnit?: string;
