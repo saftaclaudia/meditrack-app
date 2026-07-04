@@ -76,19 +76,22 @@ export function getRecommendedExamsWithStatus(
 
     const refDate = latest.lastDate || latest.nextDate;
     const monthsPassed = monthsSince(refDate);
-    const monthsRemaining = recommended.frequencyMonths - monthsPassed;
+    // Respect the specialist's recorded frequency; fall back to default
+    const effectiveFrequency =
+      latest.recommendedFrequencyMonths ?? recommended.frequencyMonths;
+    const monthsRemaining = effectiveFrequency - monthsPassed;
 
-    // Past the recommended frequency → overdue
-    if (monthsPassed >= recommended.frequencyMonths) {
+    // Past the effective frequency → overdue
+    if (monthsPassed >= effectiveFrequency) {
       return {
         ...recommended,
         status: "due" as RecommendedStatus,
         matchedExam: latest,
-        monthsOverdue: Math.round(monthsPassed - recommended.frequencyMonths),
+        monthsOverdue: Math.round(monthsPassed - effectiveFrequency),
       };
     }
 
-    // Within 2 months of the recommended frequency → approaching
+    // Within 2 months of the effective frequency → approaching
     if (monthsRemaining <= 2) {
       return {
         ...recommended,

@@ -9,6 +9,10 @@ export function examToFormData(exam: Exam): ExamFormData {
     clinic: exam.clinic ?? "",
     lastDate: exam.lastDate ?? "",
     nextDate: exam.nextDate ?? "",
+    recommendedFrequencyMonths:
+      exam.recommendedFrequencyMonths != null
+        ? String(exam.recommendedFrequencyMonths)
+        : "",
     result: exam.result ?? "",
     resultValue: exam.resultValue != null ? String(exam.resultValue) : "",
     resultUnit: exam.resultUnit ?? "",

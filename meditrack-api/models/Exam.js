@@ -30,6 +30,8 @@ const examSchema = new mongoose.Schema(
       default: false,
     },
 
+    recommendedFrequencyMonths: { type: Number },
+
     result: { type: String, default: "" },
     resultValue: { type: Number },
     resultUnit: { type: String, default: "" },
