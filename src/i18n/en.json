@@ -56,6 +56,7 @@
     "error_password_length": "New password must be at least 6 characters",
     "error_save_account": "Failed to save account",
     "error_change_password": "Failed to change password",
+    "error_delete_account": "Failed to delete account",
     "password_weak": "Weak",
     "password_medium": "Medium",
     "password_strong": "Strong",

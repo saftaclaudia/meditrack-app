@@ -56,6 +56,7 @@
     "error_password_length": "Das neue Passwort muss mindestens 6 Zeichen lang sein",
     "error_save_account": "Konto konnte nicht gespeichert werden",
     "error_change_password": "Passwort konnte nicht geändert werden",
+    "error_delete_account": "Konto konnte nicht gelöscht werden",
     "password_weak": "Schwach",
     "password_medium": "Mittel",
     "password_strong": "Stark",

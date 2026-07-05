@@ -56,6 +56,7 @@
     "error_password_length": "Parola nouă trebuie să aibă cel puțin 6 caractere",
     "error_save_account": "Salvarea contului a eșuat",
     "error_change_password": "Schimbarea parolei a eșuat",
+    "error_delete_account": "Ștergerea contului a eșuat",
     "password_weak": "Slabă",
     "password_medium": "Medie",
     "password_strong": "Puternică",

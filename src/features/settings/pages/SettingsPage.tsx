@@ -65,7 +65,7 @@ export function SettingsPage() {
       dispatch(logout());
       navigate("/login");
     } else {
-      setDeleteError(result.payload as string ?? "Failed to delete account");
+      setDeleteError((result.payload as string) ?? t("settings.error_delete_account"));
     }
   };
 
