@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Scale, Trash2, TrendingDown, TrendingUp, Minus } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { fetchWeightHistory, logWeight, deleteWeightEntry } from "../weightSlice";
+import {
+  fetchWeightHistory,
+  logWeight,
+  deleteWeightEntry,
+} from "../weightSlice";
 import {
   ResponsiveContainer,
   LineChart,
@@ -35,14 +39,19 @@ export function WeightCard() {
 
   const sorted = [...entries].sort((a, b) => a.date.localeCompare(b.date));
   const recent = sorted.slice(-30);
-  const displayed = showAll ? [...entries].sort((a, b) => b.date.localeCompare(a.date)) : recent.slice(-7);
+  const displayed = showAll
+    ? [...entries].sort((a, b) => b.date.localeCompare(a.date))
+    : recent.slice(-7);
 
   const latest = sorted[sorted.length - 1];
   const prev = sorted[sorted.length - 2];
   const trend = latest && prev ? latest.weight - prev.weight : null;
 
   const chartData = recent.map((e) => ({
-    date: new Date(e.date).toLocaleDateString(i18n.language, { month: "short", day: "numeric" }),
+    date: new Date(e.date).toLocaleDateString(i18n.language, {
+      month: "short",
+      day: "numeric",
+    }),
     weight: e.weight,
   }));
 
@@ -50,7 +59,10 @@ export function WeightCard() {
     <div className="rounded-2xl border border-border-light dark:border-border-dark p-4 space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Scale size={15} className="text-text-muted dark:text-text-darkMuted" />
+          <Scale
+            size={15}
+            className="text-text-muted dark:text-text-darkMuted"
+          />
           <span className="text-xs font-light tracking-widest uppercase text-text-muted dark:text-text-darkMuted">
             {t("nutrition.weight_title")}
           </span>
@@ -61,9 +73,19 @@ export function WeightCard() {
               {latest.weight} kg
             </span>
             {trend !== null && (
-              <span className={`flex items-center gap-0.5 text-xs ${trend < 0 ? "text-success" : trend > 0 ? "text-danger" : "text-text-muted dark:text-text-darkMuted"}`}>
-                {trend < 0 ? <TrendingDown size={12} /> : trend > 0 ? <TrendingUp size={12} /> : <Minus size={12} />}
-                {trend !== 0 ? `${trend > 0 ? "+" : ""}${trend.toFixed(1)}` : ""}
+              <span
+                className={`flex items-center gap-0.5 text-xs ${trend < 0 ? "text-success" : trend > 0 ? "text-danger" : "text-text-muted dark:text-text-darkMuted"}`}
+              >
+                {trend < 0 ? (
+                  <TrendingDown size={12} />
+                ) : trend > 0 ? (
+                  <TrendingUp size={12} />
+                ) : (
+                  <Minus size={12} />
+                )}
+                {trend !== 0
+                  ? `${trend > 0 ? "+" : ""}${trend.toFixed(1)}`
+                  : ""}
               </span>
             )}
           </div>
@@ -95,8 +117,14 @@ export function WeightCard() {
       {chartData.length > 1 && (
         <div className="h-32">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData} margin={{ top: 4, right: 4, left: -28, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border-light)" />
+            <LineChart
+              data={chartData}
+              margin={{ top: 4, right: 4, left: -28, bottom: 0 }}
+            >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="var(--color-border-light)"
+              />
               <XAxis dataKey="date" tick={{ fontSize: 9 }} />
               <YAxis
                 domain={["auto", "auto"]}
@@ -105,9 +133,15 @@ export function WeightCard() {
               />
               <Tooltip
                 contentStyle={{ fontSize: 11, borderRadius: 8 }}
-                formatter={(v: number) => [`${v} kg`, ""]}
+                formatter={(v) => [`${v} kg`, ""]}
               />
-              <Line type="monotone" dataKey="weight" stroke="var(--color-primary)" strokeWidth={1.5} dot={false} />
+              <Line
+                type="monotone"
+                dataKey="weight"
+                stroke="var(--color-primary)"
+                strokeWidth={1.5}
+                dot={false}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -115,15 +149,25 @@ export function WeightCard() {
 
       {/* Recent entries */}
       {loading && !entries.length ? (
-        <p className="text-xs text-text-muted dark:text-text-darkMuted text-center">{t("nutrition.weight_loading")}</p>
+        <p className="text-xs text-text-muted dark:text-text-darkMuted text-center">
+          {t("nutrition.weight_loading")}
+        </p>
       ) : entries.length === 0 ? (
-        <p className="text-xs text-text-muted dark:text-text-darkMuted text-center">{t("nutrition.weight_empty")}</p>
+        <p className="text-xs text-text-muted dark:text-text-darkMuted text-center">
+          {t("nutrition.weight_empty")}
+        </p>
       ) : (
         <div className="space-y-1">
           {(showAll ? displayed : displayed.slice(-5)).map((e) => (
-            <div key={e._id} className="flex items-center justify-between group">
+            <div
+              key={e._id}
+              className="flex items-center justify-between group"
+            >
               <span className="text-xs text-text-muted dark:text-text-darkMuted">
-                {new Date(e.date).toLocaleDateString(i18n.language, { day: "numeric", month: "short" })}
+                {new Date(e.date).toLocaleDateString(i18n.language, {
+                  day: "numeric",
+                  month: "short",
+                })}
               </span>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-light text-text-secondary dark:text-text-darkSecondary">
@@ -143,7 +187,9 @@ export function WeightCard() {
               onClick={() => setShowAll((v) => !v)}
               className="text-[10px] text-primary hover:underline w-full text-center"
             >
-              {showAll ? t("nutrition.weight_show_less") : t("nutrition.weight_show_all", { n: entries.length })}
+              {showAll
+                ? t("nutrition.weight_show_less")
+                : t("nutrition.weight_show_all", { n: entries.length })}
             </button>
           )}
         </div>

@@ -84,7 +84,12 @@ export function FileUploadField({
                   {doc.name}
                 </p>
                 <p className="text-xs text-text-muted dark:text-text-darkMuted">
-                  {t("exams.uploaded_at", { date: new Date(doc.uploadedAt).toLocaleDateString(i18n.language, { day: "numeric", month: "short", year: "numeric" }) })}
+                  {t("exams.uploaded_at", {
+                    date: new Date(doc.uploadedAt).toLocaleDateString(
+                      i18n.language,
+                      { day: "numeric", month: "short", year: "numeric" },
+                    ),
+                  })}
                 </p>
               </div>
 
@@ -103,7 +108,7 @@ export function FileUploadField({
                 <Button
                   size="sm"
                   variant="danger"
-                  onClick={() => removeFile(doc.id)}
+                  onClick={() => doc.id && removeFile(doc.id)}
                 >
                   {t("exams.remove")}
                 </Button>

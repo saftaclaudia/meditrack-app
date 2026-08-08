@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Bell } from "lucide-react";
 import { useTranslation } from "react-i18next";
 

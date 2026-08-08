@@ -35,7 +35,6 @@ export function AccountSection() {
     name !== (authUser?.name ?? "") || email !== (authUser?.email ?? "");
 
   const handleSave = async () => {
-    setError(null);
     const payload: { name?: string; email?: string } = {};
     if (name !== authUser?.name) payload.name = name;
     if (email !== authUser?.email) payload.email = email;
@@ -43,15 +42,25 @@ export function AccountSection() {
 
     const result = await dispatch(updateProfile(payload));
     if (updateProfile.fulfilled.match(result)) {
-      dispatch(updateUser({ name: result.payload.name, email: result.payload.email }));
+      dispatch(
+        updateUser({ name: result.payload.name, email: result.payload.email }),
+      );
       showToast(t("settings.account_updated"));
     } else {
-      showToast((result.payload as string) ?? t("settings.error_save_account"), "error");
+      showToast(
+        (result.payload as string) ?? t("settings.error_save_account"),
+        "error",
+      );
     }
   };
 
   const initials = authUser?.name
-    ? authUser.name.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase()
+    ? authUser.name
+        .split(" ")
+        .map((n) => n[0])
+        .slice(0, 2)
+        .join("")
+        .toUpperCase()
     : "?";
 
   const inputClass =
@@ -99,7 +108,9 @@ export function AccountSection() {
         <input
           type="text"
           value={name}
-          onChange={(e) => { setName(e.target.value); }}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
           onKeyDown={(e) => e.key === "Enter" && emailRef.current?.focus()}
           placeholder={t("settings.name_placeholder")}
           className={inputClass}
@@ -115,14 +126,20 @@ export function AccountSection() {
           ref={emailRef}
           type="email"
           value={email}
-          onChange={(e) => { setEmail(e.target.value); }}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
           onKeyDown={(e) => e.key === "Enter" && hasChanges && handleSave()}
           placeholder="your@email.com"
           className={inputClass}
         />
       </div>
 
-      <Button fullWidth onClick={handleSave} disabled={profileLoading || !hasChanges}>
+      <Button
+        fullWidth
+        onClick={handleSave}
+        disabled={profileLoading || !hasChanges}
+      >
         {profileLoading ? t("settings.saving") : t("settings.save_account")}
       </Button>
     </div>
