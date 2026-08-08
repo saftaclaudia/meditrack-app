@@ -1,5 +1,7 @@
 # MediTrack 🩷
 
+# MediTrack 🩷
+
 ![React](https://img.shields.io/badge/React-19-blue?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-7-purple?logo=vite&logoColor=white)
@@ -7,8 +9,13 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-7-green?logo=mongodb&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-4-black?logo=express&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-pink)
+![Live](https://img.shields.io/badge/Live-meditrack--app--aps1.vercel.app-success?logo=vercel&logoColor=white)
 
 **MediTrack** is a full-stack web application designed for women 40+ to take control of their health — track recommended medical exams, manage appointments, monitor daily nutrition, log physical activity, and stay on top of hydration goals.
+
+🔗 **[Live Demo](https://meditrack-app-aps1.vercel.app/)**
+
+> ⚠️ The backend runs on Render's free tier, which spins down after periods of inactivity. If the app has been idle, the first request (e.g. login) may take 30–50 seconds while the server wakes up — this is expected, just give it a moment.
 
 ---
 
@@ -111,36 +118,44 @@ MediTrack is built specifically for women over 40, a life stage where preventive
 
 ### Frontend
 
-| Technology              | Purpose                        |
-| ----------------------- | ------------------------------ |
-| React 19 + TypeScript   | UI framework                   |
-| Vite 7                  | Build tool                     |
-| Redux Toolkit           | Global state management        |
-| Zustand                 | Lightweight local state        |
-| Axios                   | HTTP client / REST API calls   |
-| TailwindCSS             | Styling                        |
-| React Router v7         | Routing                        |
-| Lucide React            | Icons                          |
-| Recharts                | Charts & graphs                |
-| i18next + react-i18next | Internationalisation (RO/EN/DE)|
-| @react-oauth/google     | Google OAuth                   |
-| date-fns                | Date utilities                 |
+| Technology              | Purpose                         |
+| ----------------------- | ------------------------------- |
+| React 19 + TypeScript   | UI framework                    |
+| Vite 7                  | Build tool                      |
+| Redux Toolkit           | Global state management         |
+| Zustand                 | Lightweight local state         |
+| Axios                   | HTTP client / REST API calls    |
+| TailwindCSS             | Styling                         |
+| React Router v7         | Routing                         |
+| Lucide React            | Icons                           |
+| Recharts                | Charts & graphs                 |
+| i18next + react-i18next | Internationalisation (RO/EN/DE) |
+| @react-oauth/google     | Google OAuth                    |
+| date-fns                | Date utilities                  |
 
 ### Backend
 
-| Technology              | Purpose                        |
-| ----------------------- | ------------------------------ |
-| Node.js + Express 4     | REST API server                |
-| MongoDB + Mongoose 9    | Database & ODM                 |
-| JSON Web Tokens (JWT)   | Authentication                 |
-| bcryptjs                | Password hashing               |
-| nodemailer              | Email (verification, reset)    |
-| google-auth-library     | Google OAuth token verification|
-| node-cron               | Scheduled notification jobs    |
-| express-rate-limit      | Rate limiting                  |
-| express-validator       | Input validation               |
-| dotenv                  | Environment configuration      |
-| cors                    | Cross-origin resource sharing  |
+| Technology            | Purpose                         |
+| --------------------- | ------------------------------- |
+| Node.js + Express 4   | REST API server                 |
+| MongoDB + Mongoose 9  | Database & ODM                  |
+| JSON Web Tokens (JWT) | Authentication                  |
+| bcryptjs              | Password hashing                |
+| nodemailer            | Email (verification, reset)     |
+| google-auth-library   | Google OAuth token verification |
+| node-cron             | Scheduled notification jobs     |
+| express-rate-limit    | Rate limiting                   |
+| express-validator     | Input validation                |
+| dotenv                | Environment configuration       |
+| cors                  | Cross-origin resource sharing   |
+
+### Deployment
+
+| Service           | Role                                  |
+| ----------------- | ------------------------------------- |
+| **Vercel**        | Frontend hosting (React + Vite build) |
+| **Render**        | Backend hosting (Node.js/Express API) |
+| **MongoDB Atlas** | Cloud database                        |
 
 ---
 
@@ -156,24 +171,24 @@ meditrack/
 │   ├── features/                # Feature slices
 │   │   ├── auth/                # Login, register, email verify, password reset
 │   │   ├── calories/            # Calorie log, macros, water, weight, activities
-│   │   ├── exams/               # Exam tracking & dossier
+│   │   ├── exams/                # Exam tracking & dossier
 │   │   ├── notifications/       # Notification dropdown & state
-│   │   ├── profile/             # User profile & macro goals
-│   │   ├── recipes/             # Recipe book
-│   │   └── settings/            # Account, security, notification prefs
-│   ├── hooks/                   # Custom React hooks
-│   ├── i18n/                    # Translation files (ro.json, en.json, de.json)
-│   ├── pages/                   # Top-level pages (Dashboard, AppLayout…)
-│   ├── routes/                  # Protected & public route guards
-│   ├── types/                   # TypeScript interfaces
-│   └── utils/                   # Helper functions
+│   │   ├── profile/              # User profile & macro goals
+│   │   ├── recipes/              # Recipe book
+│   │   └── settings/             # Account, security, notification prefs
+│   ├── hooks/                    # Custom React hooks
+│   ├── i18n/                     # Translation files (ro.json, en.json, de.json)
+│   ├── pages/                    # Top-level pages (Dashboard, AppLayout…)
+│   ├── routes/                   # Protected & public route guards
+│   ├── types/                    # TypeScript interfaces
+│   └── utils/                    # Helper functions
 │
-└── meditrack-api/               # Node.js + Express API (backend)
-    ├── config/                  # DB connection
-    ├── controllers/             # Route handlers (one per resource)
-    ├── jobs/                    # Cron jobs (exam & nutrition notifications)
-    ├── middleware/              # Auth (JWT protect), input validation
-    ├── models/                  # Mongoose schemas
+└── meditrack-api/                # Node.js + Express API (backend)
+    ├── config/                   # DB connection
+    ├── controllers/              # Route handlers (one per resource)
+    ├── jobs/                     # Cron jobs (exam & nutrition notifications)
+    ├── middleware/               # Auth (JWT protect), input validation
+    ├── models/                   # Mongoose schemas
     │   ├── User.js
     │   ├── Exam.js
     │   ├── Notification.js
@@ -183,9 +198,9 @@ meditrack/
     │   ├── Activity.js
     │   ├── WaterLog.js
     │   └── WeightLog.js
-    ├── routes/                  # Express routers (one per resource)
-    ├── services/                # notificationService, sendEmail
-    └── server.js                # Entry point
+    ├── routes/                   # Express routers (one per resource)
+    ├── services/                 # notificationService, sendEmail
+    └── server.js                 # Entry point
 ```
 
 ---
@@ -240,6 +255,13 @@ EMAIL_FROM=noreply@meditrack.app
 GOOGLE_CLIENT_ID=your_google_client_id
 ```
 
+For the frontend, copy `.env.example` to `.env` and set:
+
+```env
+VITE_API_URL=http://localhost:5001
+VITE_GOOGLE_CLIENT_ID=your_google_client_id
+```
+
 ### Run in Development
 
 **Backend:**
@@ -255,9 +277,19 @@ npm run dev
 npm run dev
 ```
 
-Copy `.env.example` to `.env` and set `VITE_API_URL` to your backend URL (defaults to `http://localhost:5001`).
-
 Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+## ☁️ Deployment
+
+The project is deployed as two independent services:
+
+- **Frontend** → [Vercel](https://vercel.com), built from the project root with Vite. Requires `VITE_API_URL` and `VITE_GOOGLE_CLIENT_ID` set as environment variables (Production scope).
+- **Backend** → [Render](https://render.com), running as a Node.js Web Service from the `meditrack-api/` directory (`npm start`). Requires all variables from `.env` (see above) set as environment variables in the Render dashboard.
+- **Database** → [MongoDB Atlas](https://www.mongodb.com/atlas), with Network Access configured to allow connections from Render.
+
+Both platforms auto-deploy on every push to the `main` branch.
 
 ---
 
@@ -267,78 +299,78 @@ All protected routes require a `Bearer` token in the `Authorization` header.
 
 ### Auth
 
-| Method | Endpoint                      | Description                          |
-| ------ | ----------------------------- | ------------------------------------ |
-| POST   | `/auth/register`              | Register a new user                  |
-| GET    | `/auth/verify-email/:token`   | Verify email address                 |
-| POST   | `/auth/resend-verification`   | Resend email verification link       |
-| POST   | `/auth/login`                 | Login & receive JWT                  |
-| POST   | `/auth/google`                | Authenticate via Google OAuth        |
-| PUT    | `/auth/change-password`       | Change password (protected)          |
-| POST   | `/auth/forgot-password`       | Request password reset email         |
-| PUT    | `/auth/reset-password/:token` | Reset password with token            |
-| DELETE | `/auth/delete-account`        | Delete account (protected)           |
+| Method | Endpoint                      | Description                    |
+| ------ | ----------------------------- | ------------------------------ |
+| POST   | `/auth/register`              | Register a new user            |
+| GET    | `/auth/verify-email/:token`   | Verify email address           |
+| POST   | `/auth/resend-verification`   | Resend email verification link |
+| POST   | `/auth/login`                 | Login & receive JWT            |
+| POST   | `/auth/google`                | Authenticate via Google OAuth  |
+| PUT    | `/auth/change-password`       | Change password (protected)    |
+| POST   | `/auth/forgot-password`       | Request password reset email   |
+| PUT    | `/auth/reset-password/:token` | Reset password with token      |
+| DELETE | `/auth/delete-account`        | Delete account (protected)     |
 
 ### Exams
 
-| Method | Endpoint      | Description                      |
-| ------ | ------------- | -------------------------------- |
-| GET    | `/exams`      | Get all exams for logged-in user |
-| POST   | `/exams`      | Add a new exam                   |
-| PUT    | `/exams/:id`  | Update an exam                   |
-| DELETE | `/exams/:id`  | Delete an exam                   |
+| Method | Endpoint     | Description                      |
+| ------ | ------------ | -------------------------------- |
+| GET    | `/exams`     | Get all exams for logged-in user |
+| POST   | `/exams`     | Add a new exam                   |
+| PUT    | `/exams/:id` | Update an exam                   |
+| DELETE | `/exams/:id` | Delete an exam                   |
 
 ### Notifications
 
-| Method | Endpoint                  | Description              |
-| ------ | ------------------------- | ------------------------ |
-| GET    | `/notifications`          | Get all notifications    |
-| POST   | `/notifications`          | Create a notification    |
-| PATCH  | `/notifications/:id/read` | Mark one as read         |
-| PATCH  | `/notifications/read-all` | Mark all as read         |
+| Method | Endpoint                  | Description           |
+| ------ | ------------------------- | --------------------- |
+| GET    | `/notifications`          | Get all notifications |
+| POST   | `/notifications`          | Create a notification |
+| PATCH  | `/notifications/:id/read` | Mark one as read      |
+| PATCH  | `/notifications/read-all` | Mark all as read      |
 
 ### Calories
 
-| Method | Endpoint                                      | Description              |
-| ------ | --------------------------------------------- | ------------------------ |
-| GET    | `/calories`                                   | Get today's log          |
-| GET    | `/calories/history`                           | Get calorie history      |
-| POST   | `/calories`                                   | Add a food entry         |
-| PATCH  | `/calories/:date/goal`                        | Update daily calorie goal|
-| DELETE | `/calories/:date/meals/:mealType/entries/:id` | Delete a food entry      |
+| Method | Endpoint                                      | Description               |
+| ------ | --------------------------------------------- | ------------------------- |
+| GET    | `/calories`                                   | Get today's log           |
+| GET    | `/calories/history`                           | Get calorie history       |
+| POST   | `/calories`                                   | Add a food entry          |
+| PATCH  | `/calories/:date/goal`                        | Update daily calorie goal |
+| DELETE | `/calories/:date/meals/:mealType/entries/:id` | Delete a food entry       |
 
 ### Profile
 
-| Method | Endpoint                   | Description                  |
-| ------ | -------------------------- | ---------------------------- |
-| GET    | `/profile`                 | Get profile data             |
-| PATCH  | `/profile`                 | Update profile data          |
-| GET    | `/profile/macros`          | Get macro goals              |
-| PATCH  | `/profile/macros`          | Update macro goals           |
-| GET    | `/profile/favorites`       | Get favorite foods           |
-| POST   | `/profile/favorites`       | Add a favorite               |
-| DELETE | `/profile/favorites/:name` | Remove a favorite            |
+| Method | Endpoint                   | Description         |
+| ------ | -------------------------- | ------------------- |
+| GET    | `/profile`                 | Get profile data    |
+| PATCH  | `/profile`                 | Update profile data |
+| GET    | `/profile/macros`          | Get macro goals     |
+| PATCH  | `/profile/macros`          | Update macro goals  |
+| GET    | `/profile/favorites`       | Get favorite foods  |
+| POST   | `/profile/favorites`       | Add a favorite      |
+| DELETE | `/profile/favorites/:name` | Remove a favorite   |
 
 ### Other Resources
 
-| Method | Endpoint              | Description                    |
-| ------ | --------------------- | ------------------------------ |
-| GET    | `/recipes`            | Get all recipes                |
-| POST   | `/recipes`            | Create a recipe                |
-| PUT    | `/recipes/:id`        | Update a recipe                |
-| DELETE | `/recipes/:id`        | Delete a recipe                |
-| GET    | `/activities`         | Get logged activities          |
-| POST   | `/activities`         | Log an activity                |
-| PATCH  | `/activities/:id`     | Update a logged activity       |
-| DELETE | `/activities/:id`     | Delete a logged activity       |
-| GET    | `/water`              | Get today's water log          |
-| PUT    | `/water`              | Update water intake            |
-| GET    | `/weight`             | Get weight history             |
-| PUT    | `/weight`             | Log a weight entry             |
-| DELETE | `/weight/:id`         | Delete a weight entry          |
-| GET    | `/meal-templates`     | Get saved meal templates       |
-| POST   | `/meal-templates`     | Save a meal template           |
-| DELETE | `/meal-templates/:id` | Delete a meal template         |
+| Method | Endpoint              | Description              |
+| ------ | --------------------- | ------------------------ |
+| GET    | `/recipes`            | Get all recipes          |
+| POST   | `/recipes`            | Create a recipe          |
+| PUT    | `/recipes/:id`        | Update a recipe          |
+| DELETE | `/recipes/:id`        | Delete a recipe          |
+| GET    | `/activities`         | Get logged activities    |
+| POST   | `/activities`         | Log an activity          |
+| PATCH  | `/activities/:id`     | Update a logged activity |
+| DELETE | `/activities/:id`     | Delete a logged activity |
+| GET    | `/water`              | Get today's water log    |
+| PUT    | `/water`              | Update water intake      |
+| GET    | `/weight`             | Get weight history       |
+| PUT    | `/weight`             | Log a weight entry       |
+| DELETE | `/weight/:id`         | Delete a weight entry    |
+| GET    | `/meal-templates`     | Get saved meal templates |
+| POST   | `/meal-templates`     | Save a meal template     |
+| DELETE | `/meal-templates/:id` | Delete a meal template   |
 
 ---
 
@@ -346,15 +378,15 @@ All protected routes require a `Bearer` token in the `Authorization` header.
 
 MediTrack uses `node-cron` to automatically generate notifications:
 
-| Job                   | Schedule        | Description                                              |
-| --------------------- | --------------- | -------------------------------------------------------- |
-| Exam reminder         | Daily at 08:00  | Notifies users with appointments in the next 7 days      |
-| Overdue exam alert    | Daily at 08:00  | Notifies users when a recommended exam is past due       |
-| Calorie reminder      | Daily at 20:00  | Reminds users to log their daily nutrition               |
-| Calorie pacing alert  | Daily at 18:00  | Warns if less than 40% of daily calorie goal is logged   |
-| Water reminder (noon) | Daily at 12:00  | Alerts if fewer than 4 glasses logged by midday          |
-| Water reminder (eve)  | Daily at 19:00  | Alerts if fewer than 6 glasses logged by evening         |
-| Meal reminders        | Every 30 min    | Notifies users at their configured breakfast/lunch/dinner times |
+| Job                   | Schedule       | Description                                                     |
+| --------------------- | -------------- | --------------------------------------------------------------- |
+| Exam reminder         | Daily at 08:00 | Notifies users with appointments in the next 7 days             |
+| Overdue exam alert    | Daily at 08:00 | Notifies users when a recommended exam is past due              |
+| Calorie reminder      | Daily at 20:00 | Reminds users to log their daily nutrition                      |
+| Calorie pacing alert  | Daily at 18:00 | Warns if less than 40% of daily calorie goal is logged          |
+| Water reminder (noon) | Daily at 12:00 | Alerts if fewer than 4 glasses logged by midday                 |
+| Water reminder (eve)  | Daily at 19:00 | Alerts if fewer than 6 glasses logged by evening                |
+| Meal reminders        | Every 30 min   | Notifies users at their configured breakfast/lunch/dinner times |
 
 ---
 
