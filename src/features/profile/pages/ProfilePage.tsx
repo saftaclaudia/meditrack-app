@@ -10,6 +10,7 @@ import { fetchProfile, updateProfile } from "../profileThunks";
 import { Activity, Flame, Ruler, Target, User, Dumbbell } from "lucide-react";
 import { Button } from "../../../components/ui/Button";
 import { fetchMacroGoals, updateMacroGoals } from "../../calories/favoritesSlice";
+import { fetchWeightHistory } from "../../calories/weightSlice";
 
 export function ProfilePage() {
   const dispatch = useAppDispatch();
@@ -73,6 +74,7 @@ export function ProfilePage() {
         ...(macroCarbs && { carbs: Number(macroCarbs) }),
         ...(macroFat && { fat: Number(macroFat) }),
       }));
+      dispatch(fetchWeightHistory());
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     }

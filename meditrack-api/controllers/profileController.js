@@ -1,4 +1,7 @@
 const User = require("../models/User");
+const WeightLog = require("../models/WeightLog");
+
+const todayDate = () => new Date().toISOString().split("T")[0];
 
 const calculateRecommendedCalories = (user) => {
   const { age, sex, heightCm, weightKg, targetWeightKg, activityLevel } = user;
@@ -86,6 +89,14 @@ const updateProfile = async (req, res) => {
     if (activityLevel !== undefined) user.activityLevel = activityLevel;
 
     await user.save();
+
+    if (weightKg !== undefined) {
+      await WeightLog.findOneAndUpdate(
+        { user: user._id, date: todayDate() },
+        { weight: weightKg },
+        { upsert: true, new: true }
+      );
+    }
 
     const recommendedCalories = calculateRecommendedCalories(user);
 
